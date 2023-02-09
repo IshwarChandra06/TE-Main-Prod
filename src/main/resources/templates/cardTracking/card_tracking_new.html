@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="mataheader :: headfragment">
+</head>
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<div th:replace="matatopmenu :: topmenufragment"></div>
+		<div th:replace="mataleftmenu :: leftmenu"></div>
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<!-- Page Content -->
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row align-items-center">
+						<div class="col">
+							<h3 class="page-heaer">
+								<i class="las la-id-card"> <b><span th:text="${title}"></span></b></i>
+							</h3>
+							<br>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item">Card Management</li>
+								<li class="breadcrumb-item active"> <span th:text="${title}"></span></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<form action="#" th:action="@{/card-tracking/add}" th:object="${cardTracking}" method="POST">
+									
+									<input type="hidden" th:field="*{id}">
+									<input type="hidden" th:value="${title}" name="title">
+									<input type="hidden" th:value="${redirect}" name="redirectUrl">
+									
+									<div class="form-group">
+										<label><b>Employee Id:</b></label> 
+										<b><span th:text="${empId}"></span></b>
+									</div>
+									
+									<div class="form-group">
+										<label><b>Name:</b></label> 
+										<b><span th:text="${name}"></span></b>
+									</div>
+										 
+									<div class="form-group">
+										<label><b>Card Id<font color="red">*</font>:</b></label> 
+										<input type="text"
+											th:field="*{cardId}" placeholder="Enter Card Id" maxlength="50" class="form-control" required>
+									</div>
+									
+									<div class="form-group">
+										<label><b>Issue Date<font color="red">*</font>:</b></label>
+										<input class="form-control" type="date" th:if="${title} == 'Update Card Management'" th:field="*{issueDateStr}" readonly>
+										<input class="form-control" type="date" th:if="${title} == 'New Card Management'" th:field="*{issueDateStr}" required>
+										
+									</div>
+									<div class="form-group" style="display: none;">
+										<select  th:field="*{employee}" class="form-control">
+											<option th:value="${employee.id}">
+									</select>
+									</div>
+									
+									<div class="form-group">
+										<label><b> Status<font color="red">*</font>:</b></label> 
+										<select th:field="*{type}" class="form-control" required>
+											<option value="">Select Types</option>
+											<option value="Assign">Assign</option>
+<!-- 											<option value="Reassign">Reassign</option> -->
+<!-- 											<option value="Replace">Replace</option> -->
+											<option value="Lost">Lost</option>
+											<option value="Damage">Damage</option>
+											<option value="Return">Return</option>
+										</select>
+									</div>
+									
+									<div class="form-group">
+										<label> <b>Status Date<font color="red">*</font>:</b></label>
+										<input class="form-control" type="date"  th:field="*{dateStr}" required>
+										
+									</div>
+									
+									<div class="form-group">
+										<label><b>Reason:</b></label> 
+										<textarea th:field="*{reason}" class="form-control"></textarea>
+									</div>
+									
+									
+									<div class="text-right">
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<span id = "cancel">
+										</span>
+									    
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="matafooter :: footer"></div>
+	
+	<script src="/assets/js/app.js"></script> 
+	<!-- Datetimepicker JS -->
+	<script src="/assets/js/moment.min.js"></script>
+	<script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+	
+	<!-- Select2 JS -->
+	<script src="/assets/js/select2.min.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+		var empId = "[[${empId}]]";
+		var title = "[[${title}]]";
+		var url="";
+		if(title == 'Update Card Management'){
+			url = '<a class="btn btn-danger" title="Submit Btn" href="/card-tracking">Cancel</a>';
+		}else if(title == 'New Card Management'){
+			url = '<a class="btn btn-danger" title="Submit Btn" href="/employee-card-tracking-view/'+empId+'">Cancel</a>';
+		}
+			$("#cancel").html('').append(url);
+			
+		});
+	</script>
+</body>
+</html>

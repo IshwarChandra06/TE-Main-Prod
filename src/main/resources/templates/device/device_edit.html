@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="mataheader :: headfragment">
+</head>
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<div th:replace="matatopmenu :: topmenufragment"></div>
+		<div th:replace="mataleftmenu :: leftmenu"></div>
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<!-- Page Content -->
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row align-items-center">
+						<div class="col">
+							<h3 class="page-heaer">
+								<i class="las la-user-check"> <b><span th:text="${title}"></span></b></i>
+							</h3>
+							<br>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item">Device</li>
+								<li class="breadcrumb-item active"> <span th:text="${title}"></span></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<form action="#" th:action="@{/device/add}" th:object="${device}" method="POST">
+									
+									<input type="hidden" th:field="*{id}">
+									<input type="hidden" th:value="${title}" name="title">
+										 
+									<div class="form-group">
+										<label><b>Name:<font color="red">*</font></b></label> 
+										<input type="text" th:field="*{name}" placeholder="Enter Device Name" maxlength="50"
+											class="form-control">
+									</div>
+									
+									<div class="form-group">
+										<label><b>Serial No:</b></label> 
+										<p th:if="${#fields.hasErrors('serialNo')}" th:errors="*{serialNo}" class="alert alert-danger"></p> 
+										<input type="text" th:field="*{serialNo}" placeholder="Enter Serial No" maxlength="50"
+											class="form-control">
+									</div>
+									<div class="form-group">
+										<label><b>Ip Address:</b></label> 
+										<input type="text" th:field="*{ipAddress}" placeholder="Enter IP Address" class="form-control">
+									</div>
+									<div class="form-group">
+										<label><b>Access Level:</b></label> 
+										<select name="building" th:field="*{accessLevel}" class="form-control">
+											<option value="">Select Access Level</option>
+											<option th:each="accessLevel : ${listAccessLevel}"
+												th:value="${accessLevel.id}" th:text="${accessLevel.name}"></option>
+										</select>
+									</div>
+									
+									<div class="text-right">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									    <a class="btn btn-danger" title="Submit Btn"  th:href="@{/device}">Cancel</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="matafooter :: footer"></div>
+	<script src="/assets/js/app.js"></script> 
+</body>
+</html>

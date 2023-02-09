@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="mataheader :: headfragment">
+<link 
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+</head>
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<div th:replace="matatopmenu :: topmenufragment"></div>
+		<div th:replace="mataleftmenu :: leftmenu"></div>
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<!-- Page Content -->
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row align-items-center">
+						<div class="col">
+							<h3 class="page-heaer">
+								<i class="las la-user-minus"> <b><span th:text="${title}"></span></b></i>
+							</h3>
+							<br>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item">Suspension</li>
+								<li class="breadcrumb-item active"> <span th:text="${title}"></span></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-8">
+						<div class="card">
+							<div class="card-body">
+								<form  th:action="@{/employee-suspension/add}" method="POST" th:object="${blacklist}">
+								<input type="hidden" th:field="*{id}">
+								<input type="hidden" th:value="${redirect}" name="redirectUrl">
+									<select  th:field="*{employee}" class="form-control" style="display:none">
+											<option th:value="${employee.id}">
+									</select>
+								<table border="0" cellpadding="10">
+							  <tr>
+								<td>Employee Id:</td>
+								<td> 
+							   		<b><span th:text="${empId}"></span></b>
+								</td>
+								<td>Name:<td>  
+									<b><span th:text="${name}"></span></b>
+									<td>
+							</tr>
+						    <tr>
+								<td>Start Date<font color="red">*</font>:<td>
+							   		<input type="date" th:field="*{startDateStr}" class="form-control" required>
+								</td>
+								<td>End Date:</td>
+									<td>
+									<input type="date" th:field="*{endDateStr}" class="form-control">
+									<td>
+							</tr>
+							 <tr>
+								<td>Reason For Suspension:</td>
+								<td> 
+							   		<textarea type="text" th:field="*{reason}" class="form-control" placeholder="Enter valid reason for suspension"></textarea>
+								</td>
+								<td>Order By:<td>  
+									<input type="text" th:field="*{orderBy}" class="form-control"  placeholder="Enter Manager Name"></td>
+									<td>
+							</tr>
+							 <tr th:if="${title} == 'Update Suspension'">
+								<td>Whitelist Date:
+								<td> 
+							   		<input type="date" th:field="*{removalDate}" class="form-control" >
+								</td>
+								<td>Reason for Whitelist:</td>
+								<td> 
+							   		<textarea  th:field="*{reasonForRemoval}" class="form-control" placeholder="Enter valid reason for remove"></textarea>
+								</td>
+							</tr>
+							<tr>
+						
+								</table><br><br>	
+									<div class="text-right">
+									    <button type="submit" class="btn btn-primary">Submit</button>
+									    <span id="cancel">
+									    </span>
+									    
+									</div>
+								</form><br><br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="matafooter :: footer"></div>
+	<script src="/assets/js/app.js"></script> 
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+		var empId = "[[${empId}]]";
+		var title = "[[${title}]]";
+		var msg = "[[${alert}]]";
+		var url="";
+		if(title == 'Add Employee To Suspension' || title == 'Update Suspension'){
+			url = '<a class="btn btn-danger" title="Submit Btn" href="/employee-suspension-blacklist-view/'+empId+'">Cancel</a>';
+		}
+		if(msg.length>0)
+			alert(msg);
+		$("#cancel").html('').append(url);
+			
+			
+			
+			
+		});
+	</script>
+</body>
+</html>
