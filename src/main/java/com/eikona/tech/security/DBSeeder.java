@@ -106,6 +106,8 @@ public class DBSeeder implements CommandLineRunner {
 		Privilege deviceDelete = new Privilege("device_delete", false);
 		Privilege deviceExport = new Privilege("device_export", false);
 		
+		Privilege deviceHealthStatus = new Privilege("device_health_status", false);
+		
 		Privilege deviceDashboardView = new Privilege("device_dashboard_view", false);
 		
 		Privilege emailLogView = new Privilege("email_log_view", false);
@@ -163,7 +165,7 @@ public class DBSeeder implements CommandLineRunner {
 				lanyardTypeView,lanyardTypeCreate,lanyardTypeUpdate,lanyardTypeDelete,zoneView,zoneCreate,zoneUpdate,zoneDelete,plantView,plantCreate,plantUpdate,plantUpdate,plantDelete,
 				buildingView,buildingCreate,buildingUpdate,buildingDelete,employeeTypeView,employeeTypeCreate,employeeTypeUpdate,employeeTypeDelete,
 				metalExceptionUpdate,metalExceptionDelete,metalExceptionView,metalExceptionCreate,accessLevelView,accessLevelUpdate,accessLevelDelete,accessLevelExport,
-				activeEmployeeExport,activeEmployeeView,emailLogView,emailLogExport,workStatusReportView,workStatusReportExport,
+				activeEmployeeExport,activeEmployeeView,emailLogView,emailLogExport,workStatusReportView,workStatusReportExport,deviceHealthStatus,
 				lostCardView,lostCardExport,damageCardView,damageCardExport,inactiveEmployeeView,inactiveEmployeeExport,cardView,cardCreate,cardUpdate,cardExport,deviceDashboardView,
 				accessLogView,accessLogExport,blacklistView,blacklistUpdate,blacklistDelete,blacklistCreate,blacklistExport,suspensionView,suspensionExport,
 				lanyardView,lanyardCreate,lanyardUpdate,lanyardExport,employeeAccessLevelReportView,employeeAccessLevelReportExport

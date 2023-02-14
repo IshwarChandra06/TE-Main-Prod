@@ -30,6 +30,13 @@ public class CalendarUtil {
 		
 		return calender;
 	}
+	public Date getDateByAddingHour(Date date, int hr) {
+		Calendar  calender= Calendar.getInstance();
+		calender.setTime(date);
+		calender.add(Calendar.HOUR, hr);
+		
+		return calender.getTime();
+	}
 	
 	public Date getConvertedDate(Date date, int day, int hr, int min, int sec) {
 		Calendar calender = Calendar.getInstance();

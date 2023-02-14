@@ -13,40 +13,61 @@ import org.springframework.stereotype.Component;
 
 import com.eikona.tech.constants.ApplicationConstants;
 import com.eikona.tech.entity.Device;
+import com.eikona.tech.entity.DeviceHealthStatus;
+import com.eikona.tech.repository.DeviceHealthStatusRepository;
 import com.eikona.tech.repository.DeviceRepository;
 
 @Component
 @EnableScheduling
 public class PingDeviceIpUtil {
+	
 	@Autowired
 	private DeviceRepository deviceRepository;
 	
-	@Scheduled(cron = "0 0/13 * * * ?")
-	public void checkDevicePingStatus() throws UnknownHostException{
+	@Autowired
+	private DeviceHealthStatusRepository deviceHealthStatusRepository;
+
+	@Scheduled(cron = "0 0/30 * * * ?")
+	public void checkDevicePingStatus() throws UnknownHostException {
 		SimpleDateFormat format = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
 		try {
-			List<Device> deviceList=deviceRepository.findAllByIsDeletedFalse();
-			
-			for(Device device:deviceList) {
-			  InetAddress geek = InetAddress.getByName(device.getIpAddress());
-			  if (geek.isReachable(5000)) {
-				  System.out.println(device.getName()+" is reachable");
-				  String dateStr=format.format(new Date());
-				  device.setLastOnline(format.parse(dateStr));
-				  device.setStatus("Active");
-			  }
-			  else {
-				  System.out.println("Sorry ! We can't reach to "+device.getName());
-				  device.setStatus("Inactive");
-			  }
-				  
-			  
-			  deviceRepository.save(device);
-			    
+			List<Device> deviceList = deviceRepository.findAllByIsDeletedFalse();
+
+			for (Device device : deviceList) {
+				DeviceHealthStatus deviceHealthStatus = new DeviceHealthStatus();
+				String dateStr = format.format(new Date());
+
+				InetAddress geek = InetAddress.getByName(device.getIpAddress());
+
+				if (geek.isReachable(5000)) {
+					System.out.println(device.getName() + " is reachable");
+
+					device.setLastOnline(format.parse(dateStr));
+					device.setStatus("Active");
+
+					deviceHealthStatus.setDevice(device);
+					deviceHealthStatus.setDate(format.parse(dateStr));
+					deviceHealthStatus.setTimeStr(dateStr);
+					deviceHealthStatus.setStatus(1);
+
+				} else {
+					System.out.println("Sorry ! We can't reach to " + device.getName());
+					device.setStatus("Inactive");
+
+					deviceHealthStatus.setDevice(device);
+					deviceHealthStatus.setDate(format.parse(dateStr));
+					deviceHealthStatus.setTimeStr(dateStr);
+					deviceHealthStatus.setStatus(0);
+
+				}
+
+				deviceRepository.save(device);
+				deviceHealthStatusRepository.save(deviceHealthStatus);
+
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		}
+
+	}
 }
