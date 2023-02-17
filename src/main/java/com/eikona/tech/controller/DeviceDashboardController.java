@@ -41,7 +41,7 @@ public class DeviceDashboardController {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
-	@GetMapping("/home")
+	@GetMapping({"/home","/"})
 	public String dashboard(Model model) {
 		try {
 			CountDto countDto = new CountDto();
@@ -173,6 +173,7 @@ public class DeviceDashboardController {
 					.findUnregisterCountByDateAndDeviceCustom(format.format(new Date()), device.getName());
 			deviceDto.setCapacity(10000);
 			deviceDto.setDevice(device.getName());
+			deviceDto.setSerialNo(device.getSerialNo());
 			if(null!=device.getAccessLevel()) {
 				if(null!=device.getAccessLevel().getBuilding()) {
 					deviceDto.setBuilding(device.getAccessLevel().getBuilding().getName());

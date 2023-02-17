@@ -44,7 +44,7 @@
 						<div class="form-group form-focus select-focus">
 							<label><b>Add Filter:</b></label> <select id="people"
 								name="people" multiple>
-								<option value="date" >Date</option>
+								<option value="date" >Month</option>
 								<option value="employeeId">Employee Id</option>
 								<option value="employeeName">Employee Name</option>
 								<option value="department">Department</option>
@@ -129,7 +129,7 @@
 							var oldInput = document.getElementById(selectedvalue[i]);
 							if(oldInput == null){
 								inputText += '<div class="col-md-3" id="remove-element-'+selectedvalue[i]+'"><div class="form-group">'+
-									'<label><b>'+'Date'+':</b></label> '+
+									'<label><b>'+'Month'+':</b></label> '+
 									'<input type="month" placeholder="Enter Date" id="'+selectedvalue[i]+'" class="form-control">'+
 								'</div></div>';
 							}

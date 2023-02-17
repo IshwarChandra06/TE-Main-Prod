@@ -94,7 +94,7 @@ public class EmployeeController {
 	@Autowired
 	private ImageProcessingUtil imageProcessingUtil;
 	
-	@GetMapping(value={"/employee","/"})
+	@GetMapping(value="/employee")
 	@PreAuthorize("hasAuthority('employee_view')")
 	public String employeeList(Model model) {
 		model.addAttribute("listLanyard", lanyardTypeRepository.findAllNameCustom());

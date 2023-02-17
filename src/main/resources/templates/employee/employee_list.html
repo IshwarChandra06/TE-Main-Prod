@@ -277,14 +277,18 @@
 			function uncheckedRemove(){
 				var matches = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
 				for(var i=0; i< matches.length; i++) {
-					 var oldInput = document.getElementById(matches[i].value);
-					 if(oldInput != null){
-						  if(matches[i].value=="date"){
-						 	document.getElementById('startDate').remove();
+					
+					if(matches[i].value == "date"){
+						var oldInput = document.getElementById("startDate");
+						if(oldInput != null){
+							document.getElementById('startDate').remove();
 						 	document.getElementById('endDate').remove();
-						 }else
-						 	oldInput.remove();
-					 }
+						}
+					}else{
+						var oldInput = document.getElementById(matches[i].value);
+						 if(oldInput != null)
+							 oldInput.remove();
+					}
 	     	    }
 			}
 			
@@ -767,10 +771,10 @@
 	            var status = document.getElementById('status').value;
 	            uncheckedRemove();
                 if("excel" == type){
-                	$("#excel-button").html('').append('<button  value ="excel" type="button" class="btn btn-primary" disabled><i class="las la-download"></i> Export To Excel  <span class="spinner-border spinner-border-sm"></span></button>');
+                	$("#excel-button").html('').append('<button  value ="excel" type="button" class="btn add-btn" disabled><i class="las la-download"></i> Export To Excel  <span class="spinner-border spinner-border-sm"></span></button>');
                 	exportData(sDate,eDate,firstName,lastName,employeeId,designation,department,employeeType,cardNo,lanyard,status,"export-data-by-search","xlsx");
                 }else if("me-excel" == type){
-                	$("#me-excel").html('').append('<button  value ="me-excel" type="button" class="btn btn-primary" disabled><i class="las la-download"></i> Metal Exception Export  <span class="spinner-border spinner-border-sm"></span></button>');
+                	$("#me-excel").html('').append('<button  value ="me-excel" type="button" class="btn add-btn" disabled><i class="las la-download"></i> Metal Exception Export  <span class="spinner-border spinner-border-sm"></span></button>');
                 	exportMetalData(sDate,eDate,firstName,lastName,employeeId,designation,department,employeeType,cardNo,lanyard,status,"export-data-by-search","xlsx");
                 }
 			})

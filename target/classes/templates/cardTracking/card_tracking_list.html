@@ -146,7 +146,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						var oldInput = document.getElementById(selectedvalue[i]);
 						if(oldInput == null){
 							 if(selectedvalue[i]=="type") {
-								inputText += '<div class="col-md-3"><div class="form-group">'+
+								inputText += '<div class="col-md-3" id="remove-element-'+selectedvalue[i]+'"><div class="form-group">'+
 									'<label><b>'+'Card Status:'+'</b></label> '+
 									'<select class="form-control" id="'+selectedvalue[i]+'">'+
 											'<option value="" >Select Card Status</option>'+
@@ -180,21 +180,23 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					 }
 			});
 			
-			
 			function uncheckedRemove(){
 				var matches = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
 				for(var i=0; i< matches.length; i++) {
-					 var oldInput = document.getElementById(matches[i].value);
-					 if(oldInput != null){
-						  if(matches[i].value=="date"){
-						 	document.getElementById('startDate').remove();
+					
+					if(matches[i].value == "date"){
+						var oldInput = document.getElementById("startDate");
+						if(oldInput != null){
+							document.getElementById('startDate').remove();
 						 	document.getElementById('endDate').remove();
-						 }else
-						 	oldInput.remove();
-					 }
+						}
+					}else{
+						var oldInput = document.getElementById(matches[i].value);
+						 if(oldInput != null)
+							 oldInput.remove();
+					}
 	     	    }
 			}
-			
 			function uncheckedAppend(){
 				var matches = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
 	     	    var unchecked ='';

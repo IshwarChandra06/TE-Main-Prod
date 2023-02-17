@@ -116,7 +116,7 @@ public class SecurityConfig {
 		                .and()
 		            .formLogin()
 		                .loginPage("/login")
-		                .defaultSuccessUrl("/employee")
+		                .defaultSuccessUrl("/home")
 		                .failureUrl("/login?error")
 		                .permitAll()
 		                .and()

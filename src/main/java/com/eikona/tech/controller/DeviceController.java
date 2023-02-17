@@ -89,6 +89,7 @@ public class DeviceController {
 				}
 				device.setCreatedBy(deviceObj.getCreatedBy());
 				device.setCreatedDate(deviceObj.getCreatedDate());
+				device.setLastOnline(deviceObj.getLastOnline());
 				deviceService.save(device);
 			}
 			return "redirect:/device";
