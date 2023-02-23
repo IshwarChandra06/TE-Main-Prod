@@ -80,7 +80,7 @@
 								<option value="employeeId" >Employee Id</option>
 								<option value="employeeName" >Employee Name</option>
 								<option value="department" >Department</option>
-								<option value="designation" >Designation</option>
+								<option value="function" >Function</option>
 								<option value="employeeType">Employee Type</option>
 								<option value="workHour">Work Hour</option>
 					        </select>
@@ -330,7 +330,7 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var department = document.getElementById('department').value;
-                var designation = document.getElementById('designation').value;
+                var designation = document.getElementById('function').value;
                 var employeeType = document.getElementById('employeeType').value;
                 var workHour = document.getElementById('workHour').value;
 				checkDate();
@@ -350,7 +350,7 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var department = document.getElementById('department').value;
-                var designation = document.getElementById('designation').value;
+                var designation = document.getElementById('function').value;
                 var employeeType = document.getElementById('employeeType').value;
 				 var workHour = document.getElementById('workHour').value;
 				checkDate();
@@ -366,7 +366,7 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var department = document.getElementById('department').value;
-                var designation = document.getElementById('designation').value;
+                var designation = document.getElementById('function').value;
                 var employeeType = document.getElementById('employeeType').value;
 				 var workHour = document.getElementById('workHour').value;
 				checkDate();
@@ -462,7 +462,7 @@
 		   			'</th><th>'+	
 	   					'<button  value="'+result.page_number+'-department-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Department</b></button>'+
 		   			'</th><th>'+
-	   				  	'<button  value="'+result.page_number+'-designation-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Designation</b></button>'+
+	   				  	'<button  value="'+result.page_number+'-function-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Designation</b></button>'+
 	   				'</th><th>'+
 	   					'<button  value="'+result.page_number+'-employeeType-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Employee Type</b></button>'+
 		   			'</th><th>'+
@@ -488,7 +488,7 @@
 	            	'<td>' + customer.empId + '</td>' +
 	            	'<td>' + ((null != customer.employeeName)?customer.employeeName.toLocaleUpperCase():'')+'</td>'+
 	            	'<td>' + ((null != customer.department)?customer.department:'')+ '</td>'+
-               		'<td>' + ((null != customer.designation)?customer.designation:'')+ '</td>' +
+               		'<td>' + ((null != customer.function)?customer.function:'')+ '</td>' +
                		'<td>' + ((null != customer.employeeType)?customer.employeeType:'')+ '</td>' +
                		'<td>' + ((null != customer.lessThanTwo)?customer.lessThanTwo:'')+ '</td>' +
                		'<td>' + ((null != customer.lessThanFour)?customer.lessThanFour:'')+ '</td>' +
@@ -655,7 +655,7 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var department = document.getElementById('department').value;
-                var designation = document.getElementById('designation').value;
+                var designation = document.getElementById('function').value;
                 var employeeType = document.getElementById('employeeType').value;
 				var workHour = document.getElementById('workHour').value;
 				uncheckedRemove();
