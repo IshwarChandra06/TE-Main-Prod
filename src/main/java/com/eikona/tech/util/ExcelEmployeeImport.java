@@ -118,9 +118,9 @@ public class ExcelEmployeeImport {
 		String str="";
 		currentCell.setCellType(CellType.STRING);
 		if (currentCell.getCellType() == CellType.NUMERIC) {
-			str=String.valueOf(currentCell.getNumericCellValue());
+			str=String.valueOf(currentCell.getNumericCellValue()).trim();
 		} else if (currentCell.getCellType() == CellType.STRING) {
-			str=currentCell.getStringCellValue();
+			str=currentCell.getStringCellValue().trim();
 		}
 		return str;
 	}
@@ -161,12 +161,12 @@ public class ExcelEmployeeImport {
 					//emp.setDepartment(employee.getDepartment());
 					employeeList.add(emp);
 				}
-				 else {
-					employeeList.add(employee);
-				}
+//				 else {
+//					employeeList.add(employee);
+//				}
 					
 				
-				if(rowNumber%NumberConstants.HUNDRED==NumberConstants.ZERO) {
+				if(rowNumber%NumberConstants.FIVE_HUNDRED==NumberConstants.ZERO) {
 					employeeRepository.saveAll(employeeList);
 					employeeList.clear();
 				}
@@ -219,11 +219,19 @@ public class ExcelEmployeeImport {
 					employeeList.add(employee);
 				else if(null!=employeeObj) {
 					employeeObj.setCardId(employee.getCardId());
+					if(null==employeeObj.getFirstName() || employeeObj.getFirstName().isEmpty())
+						employeeObj.setFirstName(employee.getFirstName());
+					if(null==employeeObj.getLastName() || employeeObj.getLastName().isEmpty())
+						employeeObj.setLastName(employee.getLastName());
+					if(null==employeeObj.getContactNo() || employeeObj.getContactNo().isEmpty())
+						employeeObj.setContactNo(employee.getContactNo());
+					if(null==employeeObj.getEmailId() || employeeObj.getEmailId().isEmpty())
+						employeeObj.setEmailId(employee.getEmailId());
 					employeeList.add(employeeObj);
 				}
 					
 				
-				if(rowNumber%NumberConstants.HUNDRED==NumberConstants.ZERO) {
+				if(rowNumber%NumberConstants.FIVE_HUNDRED==NumberConstants.ZERO) {
 					employeeRepository.saveAll(employeeList);
 					employeeList.clear();
 				}
@@ -262,6 +270,7 @@ public class ExcelEmployeeImport {
 				String str=setString(currentCell);
 				employeeObj.setEmployeeId(str);
 				employeeObj.setStatus("Active");
+				employeeObj.setSource("Excel");
 			} 
 			else if (cellIndex == NumberConstants.ONE) {
 				String str=setString(currentCell);

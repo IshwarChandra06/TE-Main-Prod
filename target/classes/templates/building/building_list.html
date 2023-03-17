@@ -113,6 +113,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				var selectedText = $("#people").text();
 	     	    var matches = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
 	     	   for(var i=0; i< matches.length; i++) {
+	     		   
 					var oldInput = document.getElementById(matches[i].value);
 					if(oldInput != null)
 						document.getElementById("remove-element-"+matches[i].value).remove();

@@ -16,7 +16,9 @@ public class BioSecurityConstants {
 						+ "  \"cardNo\": \"%s\",\n"
 						+ "  \"accLevelIds\": \"%s\",\n"
 						+ "  \"hireDate\": \"%s\",\n"
-                        + "  \"lastName\": \"%s\"\n"
+                        + "  \"lastName\": \"%s\",\n"
+                        + "  \"mobilePhone\": \"%s\",\n"
+                        + "  \"email\": \"%s\"\n"
 						+ "}";
 	
 	public static final String  PERSON_ACCESS_TIME_JSON ="{\n"
@@ -24,7 +26,9 @@ public class BioSecurityConstants {
 						+ "  \"accStartTime\": \"%s\",\n"
 						+ "  \"accLevelIds\": \"%s\",\n"
 						+ "  \"cardNo\": \"%s\",\n"
-						+ "  \"pin\":  \"%s\"\n"
+						+ "  \"pin\":  \"%s\",\n"
+						+ "  \"name\": \"%s\",\n"
+						+ "  \"lastName\": \"%s\"\n"
 						+ "}";
 
 	

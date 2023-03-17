@@ -21,7 +21,7 @@ public interface EmployeeRepository extends DataTablesRepository<Employee, Long>
 	@Query("select e from com.eikona.tech.entity.Employee e where e.department like 'HR%' or e.department like 'IT%'")
 	List<Employee> getHundredEmployee();
 	
-	@Query("select e from com.eikona.tech.entity.Employee e")
+	@Query("select e from com.eikona.tech.entity.Employee e where NOT(e.accessLevel IS EMPTY)")
 	Page<Employee> getAllByLimit(Pageable pageable);
 
     Employee findByEmployeeId(String empId);

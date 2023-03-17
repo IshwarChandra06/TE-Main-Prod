@@ -27,7 +27,7 @@ public class PingDeviceIpUtil {
 	@Autowired
 	private DeviceHealthStatusRepository deviceHealthStatusRepository;
 
-	@Scheduled(cron = "0 0/30 * * * ?")
+//	@Scheduled(cron = "0 0/30 * * * ?")
 	public void checkDevicePingStatus() throws UnknownHostException {
 		SimpleDateFormat format = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
 		try {

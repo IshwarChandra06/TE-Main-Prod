@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -79,12 +78,18 @@ public class BioSecurityServerUtil {
 		try {
 			String accessLevelIds="";
 			String cardId="";
+			String firstName="";
+			String lastName="";
 			if(null!=employee.getAccesslevelIds()&&!employee.getAccesslevelIds().isEmpty()) 
 				accessLevelIds=employee.getAccesslevelIds();
 			if(null!=employee.getCardId()) 
 				cardId=employee.getCardId();
+			if(null!=employee.getFirstName()) 
+				firstName=employee.getFirstName();
+			if(null!=employee.getLastName()) 
+				lastName=employee.getLastName();
 			
-			String myjson = BioSecurityConstants.PERSON_ACCESS_TIME_JSON.formatted(accEndTime,accStartTime,accessLevelIds,cardId, employee.getEmployeeId());
+			String myjson = BioSecurityConstants.PERSON_ACCESS_TIME_JSON.formatted(accEndTime,accStartTime,accessLevelIds,cardId, employee.getEmployeeId(),firstName,lastName);
 			System.out.println(myjson);
 			String myurl = ApplicationConstants.HTTP_COLON_DOUBLE_SLASH + host + ApplicationConstants.DELIMITER_COLON
 					+ serverPort + BioSecurityConstants.API_ADD_PERSON + ApplicationConstants.DELIMITER_QUESTION_MARK
@@ -112,6 +117,8 @@ public class BioSecurityServerUtil {
 			String cardId="";
 			String firstName="";
 			String lastName="";
+			String contactNo="";
+			String email="";
 			if(null!=employee.getJoinDate()) 
 				joinDate=dateFormat.format(employee.getJoinDate());
 			if(null!=employee.getAccesslevelIds()&&!employee.getAccesslevelIds().isEmpty()) 
@@ -122,8 +129,12 @@ public class BioSecurityServerUtil {
 				firstName=employee.getFirstName();
 			if(null!=employee.getLastName()) 
 				lastName=employee.getLastName();
+			if(null!=employee.getContactNo()) 
+				contactNo=employee.getContactNo();
+			if(null!=employee.getEmailId()) 
+				email=employee.getEmailId();
 			String myjson = BioSecurityConstants.PERSON_ADD_JSON.formatted(firstName, employee.getEmployeeId(),cardId,accessLevelIds,
-						joinDate,lastName);
+						joinDate,lastName,contactNo,email);
 			
 			System.out.println(myjson);
 			String myurl = ApplicationConstants.HTTP_COLON_DOUBLE_SLASH + host + ApplicationConstants.DELIMITER_COLON

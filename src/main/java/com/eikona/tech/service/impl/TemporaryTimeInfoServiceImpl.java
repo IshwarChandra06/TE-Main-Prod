@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -105,9 +104,22 @@ public class TemporaryTimeInfoServiceImpl {
 	public void saveTemporaryTimeInfoInDbFromSap(List<TemporaryTimeInfo> tempTimeInfo) {
 		List<TemporaryTimeInfo> savingList = new ArrayList<TemporaryTimeInfo>();
 		for (TemporaryTimeInfo temporaryTime : tempTimeInfo) {
-			 TemporaryTimeInfo tempShift = temporaryTimeInfoRepository.findByEmployeeIdAndDateStrCustom(temporaryTime.getEmployee().getEmployeeId(), temporaryTime.getDateStr());
-			if (null == tempShift)
+			TemporaryTimeInfo tempShift = temporaryTimeInfoRepository.findByEmployeeIdAndDateStrCustom(temporaryTime.getEmployee().getEmployeeId(), temporaryTime.getDateStr());
+			if (null==tempShift)
 				savingList.add(temporaryTime);
+			else {
+				tempShift.setDate(temporaryTime.getDate());
+				tempShift.setDay(temporaryTime.getDay());
+				tempShift.setDateStr(temporaryTime.getDateStr());
+				tempShift.setDayModel(temporaryTime.getDayModel());
+				tempShift.setEndTime(temporaryTime.getEndTime());
+				tempShift.setShift(temporaryTime.getShift());
+				tempShift.setStartTime(temporaryTime.getStartTime());
+				tempShift.setHoliday(temporaryTime.isHoliday());
+				tempShift.setWorkScheduleExternalCode(temporaryTime.getWorkScheduleExternalCode());
+				savingList.add(tempShift);
+			}
+				
 		}
 		 temporaryTimeInfoRepository.saveAll(savingList);
 
@@ -118,22 +130,20 @@ public class TemporaryTimeInfoServiceImpl {
 		List<EmployeeShiftInfo> savingList = new ArrayList<EmployeeShiftInfo>();
 		for (TemporaryTimeInfo temporaryTime : tempTimeInfo) {
 			EmployeeShiftInfo empShift = employeeShiftInfoRepository.findByEmployeeIdAndDateStrCustom(temporaryTime.getEmployee().getEmployeeId(), temporaryTime.getDateStr());
+				if(null==empShift) {
+					empShift= new EmployeeShiftInfo();
+				}
+				empShift.setDate(temporaryTime.getDate());
+				empShift.setDateStr(temporaryTime.getDateStr());
+				empShift.setDayModel(temporaryTime.getDayModel());
+				empShift.setEmployee(temporaryTime.getEmployee());
+				empShift.setEndTime(temporaryTime.getEndTime());
+				empShift.setShift(temporaryTime.getShift());
+				empShift.setStartTime(temporaryTime.getStartTime());
+				empShift.setHoliday(temporaryTime.isHoliday());
+				empShift.setWorkScheduleExternalCode(temporaryTime.getWorkScheduleExternalCode());
+				savingList.add(empShift);
 			
-			if (null == empShift) {
-				empShift = new EmployeeShiftInfo();
-			}
-			
-			empShift.setDate(temporaryTime.getDate());
-			empShift.setDateStr(temporaryTime.getDateStr());
-			empShift.setDay(temporaryTime.getDay());
-			empShift.setDayModel(temporaryTime.getDayModel());
-			empShift.setEmployee(temporaryTime.getEmployee());
-			empShift.setEndTime(temporaryTime.getEndTime());
-			empShift.setShift(temporaryTime.getShift());
-			empShift.setStartTime(temporaryTime.getStartTime());
-			empShift.setHoliday(temporaryTime.isHoliday());
-			empShift.setWorkScheduleExternalCode(temporaryTime.getWorkScheduleExternalCode());
-			savingList.add(empShift);
 		}
 		employeeShiftInfoRepository.saveAll(savingList);
 
@@ -210,11 +220,14 @@ public class TemporaryTimeInfoServiceImpl {
 			tempTimeInfo.setDay((String) dayWiseCurrentObj.get(SAPServerConstants.DAY));
 			tempTimeInfo.setDayModel((String) dayWiseCurrentObj.get(SAPServerConstants.DAY_MODEL));
 
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.DAY_OF_YEAR, Integer.valueOf(tempTimeInfo.getDay()));
-			tempTimeInfo.setDate(dateFormat.parse(dateFormat.format(calendar.getTime())));
-			tempTimeInfo.setDateStr(dateFormat.format(calendar.getTime()));
-			
+
+			String dateStr = (String) currentObj.get(SAPServerConstants.START_DATE);
+			if(null!=dateStr) {
+				Date date = new Date(Long.valueOf(dateStr.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
+				tempTimeInfo.setDate(dateFormat.parse(dateFormat.format(date)));
+				tempTimeInfo.setDateStr(dateFormat.format(date));
+			}
+			 
 
 			tempTimeInfo.setShift((String) dayModelNavObj.get(SAPServerConstants.EXTERNAL_NAME_DEFAULT_VALUE));
 			
@@ -249,10 +262,12 @@ public class TemporaryTimeInfoServiceImpl {
 			tempTimeInfo.setDay((String) dayWiseCurrentObj.get(SAPServerConstants.DAY));
 			tempTimeInfo.setDayModel((String) dayWiseCurrentObj.get(SAPServerConstants.DAY_MODEL));
 
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.DAY_OF_YEAR, Integer.valueOf(tempTimeInfo.getDay()));
-			tempTimeInfo.setDate(dateFormat.parse(dateFormat.format(calendar.getTime())));
-			tempTimeInfo.setDateStr(dateFormat.format(calendar.getTime()));
+			String dateStr = (String) currentObj.get(SAPServerConstants.START_DATE);
+			if(null!=dateStr) {
+				Date date = new Date(Long.valueOf(dateStr.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
+				tempTimeInfo.setDate(dateFormat.parse(dateFormat.format(date)));
+				tempTimeInfo.setDateStr(dateFormat.format(date));
+			}
 			tempTimeInfo.setHoliday(true);
 			temporaryTimeInfoList.add(tempTimeInfo);
 		}
@@ -260,15 +275,9 @@ public class TemporaryTimeInfoServiceImpl {
 	}
 
 	private JSONArray getTemporaryTimeInfoResponseFromSap(int top, int skip) throws Exception {
-		LastSyncStatus lastSyncStatus=lastSyncStatusRepository.findByActivity("SF Temporary Time Info Sync");
 		SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US_SEPARATED_BY_T);
 		String startTime=null;
 		String endTime=null;
-		if(null!=lastSyncStatus) {
-			startTime=dateFormat.format(lastSyncStatus.getLastSyncTime())+"Z";
-			endTime=dateFormat.format(new Date())+"Z";
-		}
-		else {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			String dateStr = format.format(new Date());
 			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
@@ -276,7 +285,8 @@ public class TemporaryTimeInfoServiceImpl {
 			
 			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr), 23, 59, 59);
 			endTime=dateFormat.format(endDate)+"Z";
-		}
+//		String startTime="2023-03-12T00:00:00.000Z";
+//		String endTime="2023-03-18T23:59:59.000Z";
 		
 		JSONArray resultsArray = new JSONArray();
 		

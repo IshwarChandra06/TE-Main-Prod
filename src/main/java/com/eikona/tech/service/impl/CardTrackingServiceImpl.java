@@ -58,6 +58,7 @@ public class CardTrackingServiceImpl implements CardTrackingService {
 		if (null == cardTracking.getId()) {
 			try {
 				cardTracking.setIssueDate(dateFormat.parse(cardTracking.getIssueDateStr()));
+				employee.setCardIssueDate(cardTracking.getIssueDate());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -74,6 +75,7 @@ public class CardTrackingServiceImpl implements CardTrackingService {
 			List<AccessLevel> accessLevelList = new ArrayList<>();
 			
 			employee.setCardId(null);
+			employee.setCardIssueDate(null);
 			employee.setAccessLevel(accessLevelList);
 			
 			employeeRepository.save(employee);
@@ -81,6 +83,7 @@ public class CardTrackingServiceImpl implements CardTrackingService {
 		}
 		if("Return".equalsIgnoreCase(cardTracking.getType())) {
 			employee.setCardId(null);
+			employee.setCardIssueDate(null);
 			employeeRepository.save(employee);
 			
 		}

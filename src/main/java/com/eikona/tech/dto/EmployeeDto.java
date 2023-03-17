@@ -2,6 +2,8 @@ package com.eikona.tech.dto;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+
 public class EmployeeDto {
 
 	private Long id;
@@ -16,7 +18,7 @@ public class EmployeeDto {
 
 	private String department;
 
-	private String designation;
+	private String function;
 
 	private Date joinDate;
 
@@ -26,9 +28,21 @@ public class EmployeeDto {
 
 	private String payGrade;
 	
+	private String managerId;
+	
+	private String managerName;
+	
+	private String building;
+	
 	private String accessLevel;
 	
+	private String userState;
+	
+	private String lanyardColor;
+	
 	private String cardId;
+	
+	private Date cardIssueDate;
 	
 
 	public Long getId() {
@@ -79,12 +93,12 @@ public class EmployeeDto {
 		this.department = department;
 	}
 
-	public String getDesignation() {
-		return designation;
+	public String getFunction() {
+		return function;
 	}
 
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setFunction(String function) {
+		this.function = function;
 	}
 
 	public Date getJoinDate() {
@@ -133,6 +147,54 @@ public class EmployeeDto {
 
 	public void setCardId(String cardId) {
 		this.cardId = cardId;
+	}
+
+	public String getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+
+	public String getUserState() {
+		return userState;
+	}
+
+	public void setUserState(String userState) {
+		this.userState = userState;
+	}
+
+	public String getLanyardColor() {
+		return lanyardColor;
+	}
+
+	public void setLanyardColor(String lanyardColor) {
+		this.lanyardColor = lanyardColor;
+	}
+
+	public Date getCardIssueDate() {
+		return cardIssueDate;
+	}
+
+	public void setCardIssueDate(Date cardIssueDate) {
+		this.cardIssueDate = cardIssueDate;
 	}
 
 	

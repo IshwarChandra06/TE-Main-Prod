@@ -342,13 +342,19 @@ public class EmployeeController {
 				employeeDto.setLastName(employee.getLastName());
 				employeeDto.setEmployeeId(employee.getEmployeeId());
 				employeeDto.setDepartment(employee.getDepartment());
-				employeeDto.setDesignation(employee.getDesignation());
+				employeeDto.setFunction(employee.getDesignation());
 				employeeDto.setJoinDate(employee.getJoinDate());
 				employeeDto.setEndDate(employee.getEndDate());
 				employeeDto.setCadre(employee.getCadre());
 				employeeDto.setPayGrade(employee.getPayGrade());
+				employeeDto.setManagerId(employee.getManagerId());
+				employeeDto.setManagerName(employee.getManagerName());
 				employeeDto.setCardId(employee.getEmployeeId());
+				employeeDto.setCardIssueDate(null);
+				employeeDto.setBuilding(ApplicationConstants.DELIMITER_EMPTY);
 				employeeDto.setAccessLevel(employee.getAccesslevels());
+				employeeDto.setUserState(employee.getStatus());
+				employeeDto.setLanyardColor(employee.getLanyardColor());
 				
 
 				employeeDtoList.add(employeeDto);

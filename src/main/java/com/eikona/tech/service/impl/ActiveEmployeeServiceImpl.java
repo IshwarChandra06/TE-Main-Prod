@@ -72,9 +72,10 @@ public class ActiveEmployeeServiceImpl {
 		Specification<Employee> designationSpc = generalSpecificationEmployee.stringSpecification(designation, EmployeeConstants.DESIGNATION);
 		Specification<Employee> employeeTypSpc = generalSpecificationEmployee.foreignKeyStringSpecification(employeeType, EmployeeConstants.EMPLOYEE_TYPE,ApplicationConstants.NAME);
 		Specification<Employee> CardSpc = generalSpecificationEmployee.stringSpecification(cardNo, EmployeeConstants.CARD_ID);
-		Specification<Employee> statusSpc = generalSpecificationEmployee.stringEqualSpecification("Active", EmployeeConstants.STATUS);
+		Specification<Employee> activeSpc = generalSpecificationEmployee.stringEqualSpecification("Active", EmployeeConstants.STATUS);
+		Specification<Employee> transferSpc = generalSpecificationEmployee.stringEqualSpecification("Transfer", EmployeeConstants.STATUS);
 		
-    	Page<Employee> page = employeeRepository.findAll(CardSpc.and(CardSpc).and(empIdSpc).and(deptSpec).and(designationSpc).and(statusSpc).and(isDeletedFalse).and(employeeTypSpc).and(firstNameSpc).and(lastNameSpc), pageable);
+    	Page<Employee> page = employeeRepository.findAll(CardSpc.and(CardSpc).and(empIdSpc).and(deptSpec).and(designationSpc).and(activeSpc.or(transferSpc)).and(isDeletedFalse).and(employeeTypSpc).and(firstNameSpc).and(lastNameSpc), pageable);
 		return page;
 	
 	}
@@ -104,9 +105,10 @@ public class ActiveEmployeeServiceImpl {
 		Specification<Employee> designationSpc = generalSpecificationEmployee.stringSpecification(designation, EmployeeConstants.DESIGNATION);
 		Specification<Employee> employeeTypSpc = generalSpecificationEmployee.foreignKeyStringSpecification(employeeType, EmployeeConstants.EMPLOYEE_TYPE,ApplicationConstants.NAME);
 		Specification<Employee> CardSpc = generalSpecificationEmployee.stringSpecification(cardNo, EmployeeConstants.CARD_ID);
-		Specification<Employee> statusSpc = generalSpecificationEmployee.stringEqualSpecification("Active", EmployeeConstants.STATUS);
+		Specification<Employee> activeSpc = generalSpecificationEmployee.stringEqualSpecification("Active", EmployeeConstants.STATUS);
+		Specification<Employee> transferSpc = generalSpecificationEmployee.stringEqualSpecification("Transfer", EmployeeConstants.STATUS);
 		
-		List<Employee> employeeList = employeeRepository.findAll(CardSpc.and(CardSpc).and(empIdSpc).and(deptSpec).and(designationSpc).and(isDeletedFalse).and(employeeTypSpc).and(statusSpc).and(firstNameSpc).and(lastNameSpc));
+		List<Employee> employeeList = employeeRepository.findAll(CardSpc.and(CardSpc).and(empIdSpc).and(deptSpec).and(designationSpc).and(isDeletedFalse).and(employeeTypSpc).and(activeSpc.or(transferSpc)).and(firstNameSpc).and(lastNameSpc));
 		return employeeList;
 	}
 }

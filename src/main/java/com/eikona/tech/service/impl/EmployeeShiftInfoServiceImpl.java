@@ -130,7 +130,7 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 		Date currentDate= new Date();
 		while (true) {
 
-			JSONArray resultsArray = updateEmployeeShiftInfoResponseFromSap(top, skip);
+			JSONArray resultsArray = getEmployeeShiftInfoResponseFromSap(top, skip);
 
 			if (null != resultsArray && !resultsArray.isEmpty()) {
 

@@ -108,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee save(Employee employee) {
 		employee.setDeleted(false);
 		employee.setStatus("Active");
+		employee.setSource("Manual");
 		return this.employeeRepository.save(employee);
 
 	}
@@ -155,7 +156,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 						JSONObject currentObj = (JSONObject) resultsArray.get(i);
 						Employee employee = new Employee();
 						setEmployeeDetails(currentObj, employee);
-						employee.setStatus("Active");
+						employee.setSource("SF");
 						employeeList.add(employee);
 
 					}
@@ -172,7 +173,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.printStackTrace();
 		}
 	}
-	@Scheduled(cron = "0 0 0/4 * * ?")
+	@Scheduled(cron = "0 0 0/6 * * ?")
 	public void updateEmployeeListFromSapByDateTime() {
 		try {
 			int top = NumberConstants.HUNDRED;
@@ -190,7 +191,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 						JSONObject currentObj = (JSONObject) resultsArray.get(i);
 						Employee employee = new Employee();
 						setEmployeeDetails(currentObj, employee);
-						employee.setStatus("Active");
+						employee.setSource("SF");
 						employeeList.add(employee);
 
 					}
@@ -223,45 +224,125 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private void setEmployeeDetails(JSONObject currentObj, Employee employee) throws ParseException {
 		
-			SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
-			String hiredate = (String) currentObj.get(SAPServerConstants.HIRE_DATE);
-			String enddate = (String) currentObj.get(SAPServerConstants.END_DATE);
+			setHireDateAndEndDate(currentObj, employee);
 
-			employee.setEmployeeId((String) currentObj.get(SAPServerConstants.USER_ID));
-			if (null != hiredate) {
-				Date joinDate = new Date(Long.valueOf(hiredate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
-				employee.setJoinDate(dateFormat.parse(dateFormat.format(joinDate)));
-			}
-
-			if (null != enddate) {
-				Date endDate =null;
-				try {
-					endDate = new Date(Long.valueOf(enddate.substring(NumberConstants.SIX, NumberConstants.TWENTY_ONE)));
-				}catch (Exception e) {
-					endDate = new Date(Long.valueOf(enddate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
-				}
-				employee.setEndDate(dateFormat.parse(dateFormat.format(endDate)));
-			}
-			employee.setDesignation((String) currentObj.get(SAPServerConstants.CUSTOM_STRING_2));
-			employee.setCadre((String) currentObj.get(SAPServerConstants.CUSTOM_STRING_7));
-			employee.setPayGrade((String) currentObj.get(SAPServerConstants.PAY_GRADE));
-
-			JSONObject departmentObj = (JSONObject) currentObj.get(SAPServerConstants.DEPARTMENT_NAV);
-			if (null != departmentObj)
-				employee.setDepartment((String) departmentObj.get(SAPServerConstants.NAME));
-
-			JSONObject employeementObj = (JSONObject) currentObj.get(SAPServerConstants.EMPLOYEEMENT_NAV);
-			JSONObject personObj = (JSONObject) employeementObj.get(SAPServerConstants.PERSON_NAV);
-			JSONObject personalInfoObj = (JSONObject) personObj.get(SAPServerConstants.PERSONAL_INFO_NAV);
-
-			JSONArray results = (JSONArray) personalInfoObj.get(SAPServerConstants.RESULTS);
-			if (results.size() != 0) {
-				JSONObject personalObj = (JSONObject) results.get(0);
-				employee.setFirstName((String) personalObj.get(SAPServerConstants.FIRST_NAME));
-				employee.setLastName((String) personalObj.get(SAPServerConstants.LAST_NAME));
-			}	
+			setEmployeeStatus(currentObj, employee);	
+			
+			setManagerDetails(currentObj, employee);
+			
+			setHostelDetails(currentObj, employee);
+				
+			setEmployeeBasicInfo(currentObj, employee);	
 		
 
+	}
+
+	private void setHireDateAndEndDate(JSONObject currentObj, Employee employee) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
+		String hiredate = (String) currentObj.get(SAPServerConstants.HIRE_DATE);
+		String enddate = (String) currentObj.get(SAPServerConstants.END_DATE);
+		
+		if (null != hiredate) {
+			Date joinDate = new Date(Long.valueOf(hiredate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
+			employee.setJoinDate(dateFormat.parse(dateFormat.format(joinDate)));
+		}
+
+		if (null != enddate) {
+			Date endDate =null;
+			try {
+				endDate = new Date(Long.valueOf(enddate.substring(NumberConstants.SIX, NumberConstants.TWENTY_ONE)));
+			}catch (Exception e) {
+				endDate = new Date(Long.valueOf(enddate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
+			}
+			employee.setEndDate(dateFormat.parse(dateFormat.format(endDate)));
+		}
+	}
+
+	private void setEmployeeBasicInfo(JSONObject currentObj, Employee employee) {
+		JSONObject employeementObj = (JSONObject) currentObj.get(SAPServerConstants.EMPLOYEEMENT_NAV);
+		JSONObject personObj = (JSONObject) employeementObj.get(SAPServerConstants.PERSON_NAV);
+		JSONObject personalInfoObj = (JSONObject) personObj.get(SAPServerConstants.PERSONAL_INFO_NAV);
+		JSONObject departmentObj = (JSONObject) currentObj.get(SAPServerConstants.DEPARTMENT_NAV);
+		if (null != departmentObj)
+			employee.setDepartment((String) departmentObj.get(SAPServerConstants.NAME));
+		
+		employee.setEmployeeId((String) currentObj.get(SAPServerConstants.USER_ID));
+		employee.setManagerId((String) currentObj.get(SAPServerConstants.MANAGER_ID));
+		employee.setDesignation((String) currentObj.get(SAPServerConstants.CUSTOM_STRING_2));
+		employee.setCadre((String) currentObj.get(SAPServerConstants.CUSTOM_STRING_7));
+		employee.setPayGrade((String) currentObj.get(SAPServerConstants.PAY_GRADE));
+		
+		JSONArray results = (JSONArray) personalInfoObj.get(SAPServerConstants.RESULTS);
+		if (results.size() != 0) {
+			JSONObject personalObj = (JSONObject) results.get(0);
+			employee.setFirstName((String) personalObj.get(SAPServerConstants.FIRST_NAME));
+			employee.setLastName((String) personalObj.get(SAPServerConstants.LAST_NAME));
+		}
+	}
+
+	private void setEmployeeStatus(JSONObject currentObj, Employee employee) {
+		JSONObject employeeStatusNav = (JSONObject) currentObj.get(SAPServerConstants.EMPLOYEE_STATUS_NAV);
+		JSONObject pickLabelList = (JSONObject) employeeStatusNav.get(SAPServerConstants.PICK_LIST_LABEL);
+		JSONArray statusResults = (JSONArray) pickLabelList.get(SAPServerConstants.RESULTS);
+		if (statusResults.size() != 0) {
+			JSONObject statusObj = (JSONObject) statusResults.get(0);
+			employee.setStatus((String) statusObj.get(SAPServerConstants.LABEL));
+		}
+	}
+
+	private void setHostelDetails(JSONObject currentObj, Employee employee) {
+		JSONObject userNav = (JSONObject) currentObj.get(SAPServerConstants.USER_NAV);
+		if(null!=userNav) {
+			JSONObject hostelFacilityObj = (JSONObject) userNav.get(SAPServerConstants.HOSTEL_FACILITY_NAV);
+			if(null!=hostelFacilityObj) {
+				JSONArray hostelResults = (JSONArray) hostelFacilityObj.get(SAPServerConstants.RESULTS);
+				if (hostelResults.size() != 0) {
+					JSONObject hostelObj = (JSONObject) hostelResults.get(0);
+					employee.setHostelName((String) hostelObj.get(SAPServerConstants.HOSTEL_NAME));
+					employee.setHostelWardenName((String) hostelObj.get(SAPServerConstants.WARDEN_NAME));
+					employee.setHostelWardenEmail((String) hostelObj.get(SAPServerConstants.WARDEN_EMAIL));
+					employee.setHostelWardenMobile((String) hostelObj.get(SAPServerConstants.WARDEN_MOBILE_NO));
+				}
+			}
+				
+		}
+	}
+
+	private void setManagerDetails(JSONObject currentObj, Employee employee) {
+		JSONObject managerNav = (JSONObject) currentObj.get(SAPServerConstants.MANAGER_EMPLOYMENT_NAV);
+		if(null!=managerNav) {
+			JSONObject managerPersonObj = (JSONObject) managerNav.get(SAPServerConstants.PERSON_NAV);
+			JSONObject managerPersonalInfoObj = (JSONObject) managerPersonObj.get(SAPServerConstants.PERSONAL_INFO_NAV);
+			JSONArray managerPersonalResults = (JSONArray) managerPersonalInfoObj.get(SAPServerConstants.RESULTS);
+			if (managerPersonalResults.size() != 0) {
+				JSONObject managerPersonalObj = (JSONObject) managerPersonalResults.get(0);
+				String firstName=(String) managerPersonalObj.get(SAPServerConstants.FIRST_NAME);
+				String middleName=(String) managerPersonalObj.get(SAPServerConstants.MIDDLE_NAME);
+				String lastName=(String) managerPersonalObj.get(SAPServerConstants.LAST_NAME);
+				String name="";
+				if(null!=firstName)
+					name+=firstName;
+				if(null!=middleName)
+					name+=" "+middleName;
+				if(null!=lastName)
+					name+=" "+lastName;
+				employee.setManagerName(name);
+			}
+			JSONObject managerEmailObj = (JSONObject) managerPersonObj.get(SAPServerConstants.EMAIL_NAV);
+			if(null!=managerEmailObj) {
+				JSONArray emailResults = (JSONArray) managerEmailObj.get(SAPServerConstants.RESULTS);
+				for(int i=0;i<emailResults.size();i++) {
+					JSONObject emailObj = (JSONObject) emailResults.get(i);
+					String email= (String) emailObj.get(SAPServerConstants.EMAIL_ADDRESS);
+					if(email.contains("tataelectronics")) {
+						employee.setManagerEmail(email);
+						break;
+					}
+				}
+			}
+			}
+			
+			
 	}
 
 	public void enrollEmployeeInMataFromSap(List<Employee> employeeList) {
@@ -280,6 +361,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 				emp.setFirstName(employee.getFirstName());
 				emp.setLastName(employee.getLastName());
 				emp.setPayGrade(employee.getPayGrade());
+				emp.setManagerId(employee.getManagerId());
+				emp.setManagerName(employee.getManagerName());
+				emp.setManagerEmail(employee.getManagerEmail());
+				emp.setHostelName(employee.getHostelName());
+				emp.setHostelWardenName(employee.getHostelWardenName());
+				emp.setHostelWardenEmail(employee.getHostelWardenEmail());
+				emp.setHostelWardenMobile(employee.getHostelWardenMobile());
 				savingList.add(emp);
 			}
 		}
@@ -305,6 +393,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 				existingEmployee.setJoinDate(employee.getJoinDate());
 				existingEmployee.setLastName(employee.getLastName());
 				existingEmployee.setPayGrade(employee.getPayGrade());
+				existingEmployee.setManagerId(employee.getManagerId());
+				existingEmployee.setManagerName(employee.getManagerName());
+				existingEmployee.setManagerEmail(employee.getManagerEmail());
+				existingEmployee.setHostelName(employee.getHostelName());
+				existingEmployee.setHostelWardenName(employee.getHostelWardenName());
+				existingEmployee.setHostelWardenEmail(employee.getHostelWardenEmail());
+				existingEmployee.setHostelWardenMobile(employee.getHostelWardenMobile());
 				savingList.add(existingEmployee);
 			}
 		}
@@ -412,7 +507,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 				page.getNumber() + NumberConstants.ONE, page.getSize(), page.getTotalElements(), page.getTotalElements(), sortDir, ApplicationConstants.SUCCESS, ApplicationConstants.MSG_TYPE_S);
 		return dtoList;
 	}
-	@SuppressWarnings(ApplicationConstants.UNUSED)
 	private byte[] searchEmployeeImage(long id) {
 		Employee emp = new Employee();
 		emp.setId(id);
@@ -678,14 +772,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			
 			int limit=NumberConstants.HUNDRED;
 			int offset=0;
-			
 			while(true) {
 				Pageable pageable = PageRequest.of(offset, limit,Sort.by("id").ascending());
 				Page<Employee> employeePage=employeeRepository.getAllByLimit(pageable);
 				List<Employee> employeeList=employeePage.getContent();
 				if(0!=employeeList.size()) {
 					for(Employee employee:employeeList) {
-						bioSecurityServerUtil.addEmployeeToBioSecurity(employee);
+							 bioSecurityServerUtil.addEmployeeToBioSecurity(employee);
 					}
 				}
 				else
@@ -776,7 +869,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.printStackTrace();
 		}
 	}
-	@Scheduled(cron = "0 0 0/24 * * ?")
+//	@Scheduled(cron = "0 0 0/24 * * ?")
 	public void pullSFUpdatedEmployeeFromBiosecurityAPI(){
 		try {
 			LastSyncStatus lastSyncStatus =lastSyncStatusRepository.findByActivity("BS Employee Pull");

@@ -77,6 +77,9 @@ public class Employee extends Auditable<String> implements Serializable {
 	@Column(name = "card_id")
 	private String cardId;
 	
+	@Column(name = "card_issue_date")
+	private Date cardIssueDate;
+	
 	@Column(name = "manager_id")
 	private String managerId;
 	
@@ -148,6 +151,9 @@ public class Employee extends Auditable<String> implements Serializable {
 	
 	@Column(name = "crop_image")
 	private byte[] cropImage;
+	
+	@Column(name = "source")
+	private String source;
 	
 	
 	@Column(name = "is_deleted")
@@ -509,6 +515,22 @@ public String getEndDateStr() {
 
 public void setEndDateStr(String endDateStr) {
 	this.endDateStr = endDateStr;
+}
+
+public Date getCardIssueDate() {
+	return cardIssueDate;
+}
+
+public void setCardIssueDate(Date cardIssueDate) {
+	this.cardIssueDate = cardIssueDate;
+}
+
+public String getSource() {
+	return source;
+}
+
+public void setSource(String source) {
+	this.source = source;
 }
 
 
