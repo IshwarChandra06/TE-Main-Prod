@@ -140,7 +140,7 @@ public class ExcelEmployeeImport {
 			int rowNumber = NumberConstants.ZERO;
 			
 			Map<String, AccessLevel> accMap = entityObjectMap.getAccessLevelByName();
-			Map<String, Employee> employeeMap = entityObjectMap.getEmployeeByEmpId();
+			Map<String, Employee> employeeMap = entityObjectMap.getActiveEmployeeByEmpId();
 			while (rows.hasNext()) {
 				Row currentRow = rows.next();
 
@@ -223,10 +223,6 @@ public class ExcelEmployeeImport {
 						employeeObj.setFirstName(employee.getFirstName());
 					if(null==employeeObj.getLastName() || employeeObj.getLastName().isEmpty())
 						employeeObj.setLastName(employee.getLastName());
-					if(null==employeeObj.getContactNo() || employeeObj.getContactNo().isEmpty())
-						employeeObj.setContactNo(employee.getContactNo());
-					if(null==employeeObj.getEmailId() || employeeObj.getEmailId().isEmpty())
-						employeeObj.setEmailId(employee.getEmailId());
 					employeeList.add(employeeObj);
 				}
 					
@@ -363,7 +359,7 @@ public class ExcelEmployeeImport {
 			}
 			else if (cellIndex == NumberConstants.TWENTY_THREE) {
 				String str=setString(currentCell);
-				employeeObj.setEetoName(str);
+				employeeObj.setRelUserId(str);
 			}
 			
 		}

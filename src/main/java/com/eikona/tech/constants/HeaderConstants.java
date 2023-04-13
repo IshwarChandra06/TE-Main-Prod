@@ -73,4 +73,5 @@ public final class HeaderConstants {
 	public static final String ACCESS_LEVEL = "Access Level";
 	public static final String IP_ADDRESS = "IP Address";
 	public static final String TIME = "Time";
+	public static final String DEPARTMENT_HOD = "Department HOD";
 }

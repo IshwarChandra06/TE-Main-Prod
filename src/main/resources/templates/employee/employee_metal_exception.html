@@ -40,14 +40,14 @@
 											<table class="table">
 												<thead>
 													<tr>
-														<th>Select</th>
-														<th>Metal Exception</th>
+														<th >Select</th>
+														<th style="width:50%">Metal Name</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr th:each="metalException : ${listMetalException}">
-														<td><input type="checkbox" th:field="*{metalExceptions}" th:value="${metalException.id}"></td>
-														<td th:text="${metalException.name}" th:field="*{metalExceptions}" th:value="${metalException.id}"></td>
+														<td style="width:60%"  ><input type="checkbox" th:field="*{metalExceptions}" th:value="${metalException.id}"></td>
+														<td  class="text-center" th:text="${metalException.name}" th:field="*{metalExceptions}" th:value="${metalException.id}"></td>
 													</tr>
 												</tbody>
 											</table>

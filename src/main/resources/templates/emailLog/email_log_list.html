@@ -71,7 +71,7 @@
 					        <select id="people" name="people" multiple>
 								<option value="date" >Date</option>
 								<option value="mailId" >Mail Id</option>
-								<option value="type" >Type</option>
+								<option value="subject" >Subject</option>
 					        </select>
 						</div>
 					</div>
@@ -117,7 +117,7 @@
 	<div th:replace="matafooter :: footer"></div>
 	
 	<script type="text/javascript" src="/assets/js/jquery.spring-friendly.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="/assets/js/moment.min.js"></script>
 	<script src="/assets/js/app.js"></script> 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -269,7 +269,7 @@
 				var sDate = document.getElementById('startDate').value;
 	            var eDate = document.getElementById('endDate').value;
 	            var mailId= document.getElementById('mailId').value;
-				var type= document.getElementById('type').value;
+				var type= document.getElementById('subject').value;
 				checkDate();
 				uncheckedRemove();
 				ajaxCall(sDate,eDate, mailId,type, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
@@ -285,7 +285,7 @@
 				var sDate = document.getElementById('startDate').value;
 	            var eDate = document.getElementById('endDate').value;
 	            var mailId= document.getElementById('mailId').value;
-				var type= document.getElementById('type').value;
+				var type= document.getElementById('subject').value;
 				checkDate();
 				uncheckedRemove();
 				ajaxCall(sDate,eDate, mailId,type, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
@@ -297,7 +297,7 @@
         		var sDate = document.getElementById('startDate').value;
 	            var eDate = document.getElementById('endDate').value;
 	            var mailId= document.getElementById('mailId').value;
-				var type= document.getElementById('type').value;
+				var type= document.getElementById('subject').value;
 				checkDate();
 				uncheckedRemove();
 				ajaxCall(sDate,eDate, mailId,type, "sortBySearchField", "nextPage", 1,"id","desc");
@@ -360,7 +360,7 @@
 					table_header = '<th><b>Id</b></th>'+
 					   '<th><b>Date</b></th>'+
 					    '<th><b>Mail Id</b></th>'+
-						'<th><b>Type</b></th>';
+						'<th><b>Subject</b></th>';
 				}else {
 					table_header = '<th><button  value="'+result.page_number+'-id-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Id</b></button>'+
 		   			'</th><th>'+		
@@ -368,7 +368,7 @@
 					'</th><th>'+
 		   			'<button  value="'+result.page_number+'-managerEmailId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Mail Id</b></button>'+
 		   			'</th><th>'+
-		   			'<button  value="'+result.page_number+'-type-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Type</b></button>'+
+		   			'<button  value="'+result.page_number+'-type-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Subject</b></button>'+
 		   			'</th>';
 				}
 				return table_header;
@@ -553,7 +553,7 @@
 				var sDate = document.getElementById('startDate').value;
 	            var eDate = document.getElementById('endDate').value;
 	            var mailId= document.getElementById('mailId').value;
-				var type= document.getElementById('type').value;
+				var type= document.getElementById('subject').value;
 				uncheckedRemove();
 				$("#excel-button").html('').append('<button  value ="excel" type="button" class="btn add-btn" disabled><i class="las la-download"></i> Export To Excel  <span class="spinner-border spinner-border-sm"></span></button>');
 				 exportData(sDate,eDate,mailId, type,"export-data-by-search", "xlsx");

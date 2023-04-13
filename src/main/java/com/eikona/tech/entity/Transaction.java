@@ -115,14 +115,6 @@ public class Transaction implements Serializable{
 	@Column
 	private String eventId;
 	
-	@Column
-	private String appearanceId;
-	
-	@Column
-	private Double poiConfidence;
-	
-	@Column
-	private String poiId;
 	
 	@Column
 	private String maskStatus;
@@ -438,30 +430,6 @@ public class Transaction implements Serializable{
 		this.eventId = eventId;
 	}
 
-	public String getAppearanceId() {
-		return appearanceId;
-	}
-
-	public void setAppearanceId(String appearanceId) {
-		this.appearanceId = appearanceId;
-	}
-
-
-	public String getPoiId() {
-		return poiId;
-	}
-
-	public void setPoiId(String poiId) {
-		this.poiId = poiId;
-	}
-
-	public Double getPoiConfidence() {
-		return poiConfidence;
-	}
-
-	public void setPoiConfidence(Double poiConfidence) {
-		this.poiConfidence = poiConfidence;
-	}
 
 	public Double getMaskedScore() {
 		return maskedScore;
@@ -526,6 +494,7 @@ public class Transaction implements Serializable{
 	public void setCropImageByte(byte[] cropImageByte) {
 		this.cropImageByte = cropImageByte;
 	}
+	
 
 	public Transaction() {
 		super();

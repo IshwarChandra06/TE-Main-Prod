@@ -39,6 +39,7 @@ import com.eikona.tech.constants.NumberConstants;
 import com.eikona.tech.constants.SAPServerConstants;
 import com.eikona.tech.dto.PaginationDto;
 import com.eikona.tech.dto.SearchRequestDto;
+import com.eikona.tech.entity.AccessLevel;
 import com.eikona.tech.entity.Employee;
 import com.eikona.tech.entity.Image;
 import com.eikona.tech.entity.LastSyncStatus;
@@ -107,7 +108,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee save(Employee employee) {
 		employee.setDeleted(false);
-		employee.setStatus("Active");
 		employee.setSource("Manual");
 		return this.employeeRepository.save(employee);
 
@@ -224,27 +224,49 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private void setEmployeeDetails(JSONObject currentObj, Employee employee) throws ParseException {
 		
+		    setEmployeeBasicInfo(currentObj, employee);	
+		    
 			setHireDateAndEndDate(currentObj, employee);
 
 			setEmployeeStatus(currentObj, employee);	
 			
 			setManagerDetails(currentObj, employee);
-			
-			setHostelDetails(currentObj, employee);
 				
-			setEmployeeBasicInfo(currentObj, employee);	
+			JSONObject userNav = (JSONObject) currentObj.get(SAPServerConstants.USER_NAV);
+			if(null!=userNav) {
+				setHostelDetails(userNav, employee);
+				setBusDetails( userNav,employee);
+			}
 		
 
+	}
+
+	private void setBusDetails(JSONObject userNav,Employee employee) {
+		JSONObject busServiceObj = (JSONObject) userNav.get(SAPServerConstants.BUS_SERVICE_NAV);
+		if(null!=busServiceObj) {
+			JSONArray busResults = (JSONArray) busServiceObj.get(SAPServerConstants.RESULTS);
+			if (busResults.size() != 0) {
+				JSONObject busObj = (JSONObject) busResults.get(0);
+				employee.setNodalPoint((String) busObj.get(SAPServerConstants.NODAL_POINT));
+				employee.setBusNo((String) busObj.get(SAPServerConstants.BUS_NO));
+			}
+		}
 	}
 
 	private void setHireDateAndEndDate(JSONObject currentObj, Employee employee) throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
 		String hiredate = (String) currentObj.get(SAPServerConstants.HIRE_DATE);
 		String enddate = (String) currentObj.get(SAPServerConstants.END_DATE);
+		String startdate = (String) currentObj.get(SAPServerConstants.START_DATE);
 		
 		if (null != hiredate) {
 			Date joinDate = new Date(Long.valueOf(hiredate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
 			employee.setJoinDate(dateFormat.parse(dateFormat.format(joinDate)));
+		}
+		
+		if (null != startdate) {
+			Date startDate = new Date(Long.valueOf(startdate.substring(NumberConstants.SIX, NumberConstants.NINETEEN)));
+			employee.setStartDate(dateFormat.parse(dateFormat.format(startDate)));
 		}
 
 		if (null != enddate) {
@@ -260,8 +282,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private void setEmployeeBasicInfo(JSONObject currentObj, Employee employee) {
 		JSONObject employeementObj = (JSONObject) currentObj.get(SAPServerConstants.EMPLOYEEMENT_NAV);
+		JSONObject employeeJobRelationshipObj = (JSONObject) employeementObj.get(SAPServerConstants.EMPLOYEE_JOB_RELATIONSHIP_NAV);
 		JSONObject personObj = (JSONObject) employeementObj.get(SAPServerConstants.PERSON_NAV);
 		JSONObject personalInfoObj = (JSONObject) personObj.get(SAPServerConstants.PERSONAL_INFO_NAV);
+		JSONObject phoneInfoObj = (JSONObject) personObj.get(SAPServerConstants.PHONE_NAV);
+		JSONObject emailInfoObj = (JSONObject) personObj.get(SAPServerConstants.EMAIL_NAV);
 		JSONObject departmentObj = (JSONObject) currentObj.get(SAPServerConstants.DEPARTMENT_NAV);
 		if (null != departmentObj)
 			employee.setDepartment((String) departmentObj.get(SAPServerConstants.NAME));
@@ -278,6 +303,50 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setFirstName((String) personalObj.get(SAPServerConstants.FIRST_NAME));
 			employee.setLastName((String) personalObj.get(SAPServerConstants.LAST_NAME));
 		}
+		
+		setEmployeeContactInfo(employee, phoneInfoObj, emailInfoObj);
+		
+		setDepartmentHodUserId(employee, employeeJobRelationshipObj);
+	}
+
+	private void setDepartmentHodUserId(Employee employee, JSONObject employeeJobRelationshipObj) {
+		JSONArray deptHodResults = (JSONArray) employeeJobRelationshipObj.get(SAPServerConstants.RESULTS);
+		if (deptHodResults.size() != 0) {
+			String relUserId="";
+			for(int i=0;i<deptHodResults.size();i++) {
+				JSONObject deptHodObj = (JSONObject) deptHodResults.get(i);
+				String hodUserId= (String) deptHodObj.get(SAPServerConstants.REL_USER_ID);
+				JSONObject relnTypeNav= (JSONObject) deptHodObj.get(SAPServerConstants.RELATIONSHIP_TYPE_NAV);
+				String externalCode= (String) relnTypeNav.get(SAPServerConstants.EXTERNAL_CODE);
+				if(relUserId.isEmpty())
+					relUserId=hodUserId+" - "+externalCode;
+				else
+					relUserId=relUserId+","+hodUserId+" - "+externalCode;
+			}
+			employee.setRelUserId(relUserId);
+		}
+	}
+
+	private void setEmployeeContactInfo(Employee employee, JSONObject phoneInfoObj, JSONObject emailInfoObj) {
+		JSONArray phoneResults = (JSONArray) phoneInfoObj.get(SAPServerConstants.RESULTS);
+		if (phoneResults.size() != 0) {
+			JSONObject phoneObj = (JSONObject) phoneResults.get(0);
+			employee.setContactNo((String) phoneObj.get(SAPServerConstants.PHONE_NO));
+		}
+		
+		JSONArray emailResults = (JSONArray) emailInfoObj.get(SAPServerConstants.RESULTS);
+		if (emailResults.size() != 0) {
+			String emailId="";
+			for(int i=0;i<emailResults.size();i++) {
+				JSONObject emailObj = (JSONObject) emailResults.get(i);
+				String email= (String) emailObj.get(SAPServerConstants.EMAIL_ADDRESS);
+				if(emailId.isEmpty())
+					emailId=email;
+				else
+					emailId=emailId+","+email;
+			}
+			employee.setEmailId(emailId);
+		}
 	}
 
 	private void setEmployeeStatus(JSONObject currentObj, Employee employee) {
@@ -286,13 +355,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		JSONArray statusResults = (JSONArray) pickLabelList.get(SAPServerConstants.RESULTS);
 		if (statusResults.size() != 0) {
 			JSONObject statusObj = (JSONObject) statusResults.get(0);
-			employee.setStatus((String) statusObj.get(SAPServerConstants.LABEL));
+			if("Separated".equalsIgnoreCase((String) statusObj.get(SAPServerConstants.LABEL)))
+				 employee.setStatus("Inactive");
+			else
+			     employee.setStatus((String) statusObj.get(SAPServerConstants.LABEL));
 		}
 	}
 
-	private void setHostelDetails(JSONObject currentObj, Employee employee) {
-		JSONObject userNav = (JSONObject) currentObj.get(SAPServerConstants.USER_NAV);
-		if(null!=userNav) {
+	private void setHostelDetails(JSONObject userNav, Employee employee) {
 			JSONObject hostelFacilityObj = (JSONObject) userNav.get(SAPServerConstants.HOSTEL_FACILITY_NAV);
 			if(null!=hostelFacilityObj) {
 				JSONArray hostelResults = (JSONArray) hostelFacilityObj.get(SAPServerConstants.RESULTS);
@@ -303,8 +373,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employee.setHostelWardenEmail((String) hostelObj.get(SAPServerConstants.WARDEN_EMAIL));
 					employee.setHostelWardenMobile((String) hostelObj.get(SAPServerConstants.WARDEN_MOBILE_NO));
 				}
-			}
-				
 		}
 	}
 
@@ -331,18 +399,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 			JSONObject managerEmailObj = (JSONObject) managerPersonObj.get(SAPServerConstants.EMAIL_NAV);
 			if(null!=managerEmailObj) {
 				JSONArray emailResults = (JSONArray) managerEmailObj.get(SAPServerConstants.RESULTS);
+				String emailId="";
 				for(int i=0;i<emailResults.size();i++) {
 					JSONObject emailObj = (JSONObject) emailResults.get(i);
 					String email= (String) emailObj.get(SAPServerConstants.EMAIL_ADDRESS);
-					if(email.contains("tataelectronics")) {
-						employee.setManagerEmail(email);
-						break;
-					}
+					if(emailId.isEmpty())
+						emailId=email;
+					else
+						emailId=emailId+","+email;
 				}
+				employee.setManagerEmail(emailId);
 			}
 			}
-			
-			
 	}
 
 	public void enrollEmployeeInMataFromSap(List<Employee> employeeList) {
@@ -353,13 +421,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 			if (null == emp)
 				savingList.add(employee);
 			else {
-				emp.setCadre(employee.getCadre());
-				emp.setDepartment(employee.getDepartment());
-				emp.setDesignation(employee.getDesignation());
-				emp.setJoinDate(employee.getJoinDate());
-				emp.setEndDate(employee.getEndDate());
 				emp.setFirstName(employee.getFirstName());
 				emp.setLastName(employee.getLastName());
+				emp.setCreatedBy(employee.getCreatedBy());
+				emp.setCreatedDate(employee.getCreatedDate());
+				emp.setCadre(employee.getCadre());
+				emp.setCardId(employee.getCardId());
+				emp.setDepartment(employee.getDepartment());
+				emp.setDesignation(employee.getDesignation());
+				emp.setEndDate(employee.getEndDate());
+				emp.setJoinDate(employee.getJoinDate());
+				emp.setStartDate(employee.getStartDate());
 				emp.setPayGrade(employee.getPayGrade());
 				emp.setManagerId(employee.getManagerId());
 				emp.setManagerName(employee.getManagerName());
@@ -368,6 +440,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 				emp.setHostelWardenName(employee.getHostelWardenName());
 				emp.setHostelWardenEmail(employee.getHostelWardenEmail());
 				emp.setHostelWardenMobile(employee.getHostelWardenMobile());
+				emp.setBusNo(employee.getBusNo());
+				emp.setNodalPoint(employee.getNodalPoint());
+				emp.setContactNo(employee.getContactNo());
+				emp.setEmailId(employee.getEmailId());
+				emp.setRelUserId(employee.getRelUserId());
 				savingList.add(emp);
 			}
 		}
@@ -378,29 +455,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Map<String, Employee> employeeMap = employeeObjectMap.getEmployeeByEmpId();
 		List<Employee> savingList = new ArrayList<Employee>();
 		for (Employee employee : employeeList) {
-			Employee existingEmployee = employeeMap.get(employee.getEmployeeId());
-			if (null == existingEmployee)
+			Employee emp = employeeMap.get(employee.getEmployeeId());
+			if (null == emp)
 				savingList.add(employee);
 			else {
-				existingEmployee.setFirstName(employee.getFirstName());
-				existingEmployee.setCreatedBy(employee.getCreatedBy());
-				existingEmployee.setCreatedDate(employee.getCreatedDate());
-				existingEmployee.setCadre(employee.getCadre());
-				existingEmployee.setCardId(employee.getCardId());
-				existingEmployee.setDepartment(employee.getDepartment());
-				existingEmployee.setDesignation(employee.getDesignation());
-				existingEmployee.setEndDate(employee.getEndDate());
-				existingEmployee.setJoinDate(employee.getJoinDate());
-				existingEmployee.setLastName(employee.getLastName());
-				existingEmployee.setPayGrade(employee.getPayGrade());
-				existingEmployee.setManagerId(employee.getManagerId());
-				existingEmployee.setManagerName(employee.getManagerName());
-				existingEmployee.setManagerEmail(employee.getManagerEmail());
-				existingEmployee.setHostelName(employee.getHostelName());
-				existingEmployee.setHostelWardenName(employee.getHostelWardenName());
-				existingEmployee.setHostelWardenEmail(employee.getHostelWardenEmail());
-				existingEmployee.setHostelWardenMobile(employee.getHostelWardenMobile());
-				savingList.add(existingEmployee);
+				emp.setFirstName(employee.getFirstName());
+				emp.setLastName(employee.getLastName());
+				emp.setCreatedBy(employee.getCreatedBy());
+				emp.setCreatedDate(employee.getCreatedDate());
+				emp.setCadre(employee.getCadre());
+				emp.setCardId(employee.getCardId());
+				emp.setDepartment(employee.getDepartment());
+				emp.setDesignation(employee.getDesignation());
+				emp.setEndDate(employee.getEndDate());
+				emp.setJoinDate(employee.getJoinDate());
+				emp.setStartDate(employee.getStartDate());
+				emp.setPayGrade(employee.getPayGrade());
+				emp.setManagerId(employee.getManagerId());
+				emp.setManagerName(employee.getManagerName());
+				emp.setManagerEmail(employee.getManagerEmail());
+				emp.setHostelName(employee.getHostelName());
+				emp.setHostelWardenName(employee.getHostelWardenName());
+				emp.setHostelWardenEmail(employee.getHostelWardenEmail());
+				emp.setHostelWardenMobile(employee.getHostelWardenMobile());
+				emp.setBusNo(employee.getBusNo());
+				emp.setNodalPoint(employee.getNodalPoint());
+				emp.setContactNo(employee.getContactNo());
+				emp.setEmailId(employee.getEmailId());
+				emp.setRelUserId(employee.getRelUserId());
+				savingList.add(emp);
 			}
 		}
 		employeeRepository.saveAll(savingList);
@@ -912,6 +995,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	
 	}
-
+	//@Scheduled(cron = "0 30 1 * * ?")
+	public void removeAccessLevelFromSeparatedEmployee() {
+		List<Employee> employeeList=employeeRepository.findAllByStatus("Inactive");
+		List<AccessLevel> accLevel=new ArrayList<AccessLevel>();
+		for(Employee employee:employeeList) {
+			employee.setAccessLevel(accLevel);
+			employeeRepository.save(employee);
+			try {
+				 bioSecurityServerUtil.addEmployeeToBioSecurity(employee);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
 	
 }

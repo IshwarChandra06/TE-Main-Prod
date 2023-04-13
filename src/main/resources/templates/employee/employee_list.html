@@ -58,7 +58,7 @@
 								</ul>
 							</div>
 							<div class="col-auto float-right ml-auto" sec:authorize="hasAuthority('employee_import')">
-							 <a th:href="@{/import/employee-accesslevel-list}" class="btn add-btn"><i class="las la-file-import"></i>Import Access Zone Excel</a>
+							 <a th:href="@{/import/employee-accesslevel-list}" class="btn add-btn"><i class="las la-file-import"></i>Import Access Level Excel</a>
 							</div>
 							<div class="col-auto float-right ml-auto" sec:authorize="hasAuthority('employee_import')">
 							 <a th:href="@{/import/employee-master-list}" class="btn add-btn"><i class="las la-file-import"></i>Import Employee Excel </a>
@@ -247,7 +247,7 @@
 										'<option value="Active">Active</option>'+
 										'<option value="Inactive">Inactive</option>'+
 										'<option value="Blacklisted">Blacklisted</option>'+
-										'<option value="Suspended">Suspended</option>'+
+										'<option value="Suspended">Suspended</option>'
 							        '</select>'+
 								'</div></div>';
 							}else{

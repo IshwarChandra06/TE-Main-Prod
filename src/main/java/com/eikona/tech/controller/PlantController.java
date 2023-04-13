@@ -27,13 +27,13 @@ public class PlantController {
 	
 	@GetMapping(value={"/plant"})
 	@PreAuthorize("hasAuthority('plant_view')")
-	public String employeeList(Model model) {
+	public String plantList(Model model) {
 		return "plant/plant_list";
 	}
 	
 	@GetMapping("/plant/new")
 	@PreAuthorize("hasAuthority('plant_create')")
-	public String newArea(Model model) {
+	public String newPlant(Model model) {
 		model.addAttribute("plant", new Plant());
 		model.addAttribute("title", "New Plant");
 		return "plant/plant_new";
@@ -41,7 +41,7 @@ public class PlantController {
 	
 	@PostMapping("/plant/add")
 	@PreAuthorize("hasAnyAuthority('plant_create','plant_update')")
-	public String saveArea(@ModelAttribute("plant") Plant plant, @Valid Plant ar, Errors errors, String title,
+	public String savePlant(@ModelAttribute("plant") Plant plant, @Valid Plant ar, Errors errors, String title,
 			Model model) {
 		if (errors.hasErrors()) {
 			model.addAttribute("plant", plant);
@@ -63,7 +63,7 @@ public class PlantController {
 	
 	@GetMapping("/plant/edit/{id}")
 	@PreAuthorize("hasAuthority('plant_update')")
-	public String updateArea(@PathVariable(value = "id") long id, Model model) {
+	public String updatePlant(@PathVariable(value = "id") long id, Model model) {
 		Plant plant = plantService.getById(id);
 		model.addAttribute("plant", plant);
 		model.addAttribute("title", "Update Plant");
@@ -72,7 +72,7 @@ public class PlantController {
 
 	@GetMapping("/plant/delete/{id}")
 	@PreAuthorize("hasAuthority('plant_delete')")
-	public String deleteArea(@PathVariable(value = "id") long id) {
+	public String deletePlant(@PathVariable(value = "id") long id) {
 
 		this.plantService.deletedById(id);
 		return "redirect:/plant";

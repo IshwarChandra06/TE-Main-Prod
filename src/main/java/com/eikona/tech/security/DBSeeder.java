@@ -158,13 +158,18 @@ public class DBSeeder implements CommandLineRunner {
 		
 		Privilege employeeAccessLevelReportView = new Privilege("employee_access_level_report_view", false);
 		Privilege employeeAccessLevelReportExport = new Privilege("employee_access_level_report_export", false);
+		
+		Privilege emailSetupView = new Privilege("email_setup_view", false);
+		Privilege emailSetupCreate = new Privilege("email_setup_create", false);
+		Privilege emailSetupUpdate = new Privilege("email_setup_update", false);
+		Privilege emailSetupDelete = new Privilege("email_setup_delete", false);
 
 		List<Privilege> privileges = Arrays.asList(
 				userView, userCreate, userUpdate, userDelete,roleView, roleCreate, roleUpdate, roleDelete,privilegeView,privilegeUpdate,privilegeDelete,
 				employeeView, employeeCreate, employeeUpdate, employeeDelete,employeeImport,employeeExport,employeeRosterView,employeeRosterExport,deviceView,deviceUpdate,deviceDelete,deviceExport,
 				lanyardTypeView,lanyardTypeCreate,lanyardTypeUpdate,lanyardTypeDelete,zoneView,zoneCreate,zoneUpdate,zoneDelete,plantView,plantCreate,plantUpdate,plantUpdate,plantDelete,
-				buildingView,buildingCreate,buildingUpdate,buildingDelete,employeeTypeView,employeeTypeCreate,employeeTypeUpdate,employeeTypeDelete,
-				metalExceptionUpdate,metalExceptionDelete,metalExceptionView,metalExceptionCreate,accessLevelView,accessLevelUpdate,accessLevelDelete,accessLevelExport,
+				buildingView,buildingCreate,buildingUpdate,buildingDelete,employeeTypeView,employeeTypeCreate,employeeTypeUpdate,employeeTypeDelete,emailSetupView,emailSetupCreate,emailSetupUpdate,
+				metalExceptionUpdate,metalExceptionDelete,metalExceptionView,metalExceptionCreate,accessLevelView,accessLevelUpdate,accessLevelDelete,accessLevelExport,emailSetupDelete,
 				activeEmployeeExport,activeEmployeeView,emailLogView,emailLogExport,workStatusReportView,workStatusReportExport,deviceHealthStatus,
 				lostCardView,lostCardExport,damageCardView,damageCardExport,inactiveEmployeeView,inactiveEmployeeExport,cardView,cardCreate,cardUpdate,cardExport,deviceDashboardView,
 				accessLogView,accessLogExport,blacklistView,blacklistUpdate,blacklistDelete,blacklistCreate,blacklistExport,suspensionView,suspensionExport,

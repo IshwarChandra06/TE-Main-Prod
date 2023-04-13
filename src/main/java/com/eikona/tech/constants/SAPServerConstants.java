@@ -7,10 +7,14 @@ public class SAPServerConstants {
 	public static final String  LABEL="label";
 	public static final String  USER_NAV="userNav";
 	public static final String  HOSTEL_FACILITY_NAV="externalCodeOfcust_HostelFacilityNav";
+	public static final String  BUS_SERVICE_NAV="externalCodeOfcust_Bus_ServiceNav";
 	public static final String  DEPARTMENT_NAV="departmentNav";
 	public static final String  EMPLOYEEMENT_NAV="employmentNav";
+	public static final String  EMPLOYEE_JOB_RELATIONSHIP_NAV="empJobRelationshipNav";
+	public static final String  RELATIONSHIP_TYPE_NAV="relationshipTypeNav";
 	public static final String  EMPLOYEE_STATUS_NAV="emplStatusNav";
 	public static final String  PERSON_NAV="personNav";
+	public static final String  PHONE_NAV="phoneNav";
 	public static final String  MANAGER_EMPLOYMENT_NAV="managerEmploymentNav";
 	public static final String  PERSONAL_INFO_NAV="personalInfoNav";
 	public static final String  WORK_SCHEDULE_CODE_NAV="workscheduleCodeNav";
@@ -29,12 +33,15 @@ public class SAPServerConstants {
 	public static final String  EXTERNAL_NAME_DEFAULT_VALUE="externalName_defaultValue";
 	public static final String  SEGMENTS="segments";
 	public static final String  USER_ID="userId";
+	public static final String  PHONE_NO="phoneNumber";
 	public static final String  MANAGER_ID="managerId";
 	public static final String  EMAIL_ADDRESS="emailAddress";
 	public static final String  CUSTOM_STRING_2="customString2";
 	public static final String  CUSTOM_STRING_7="customString7";
 	public static final String  PAY_GRADE="payGrade";
+	public static final String  REL_USER_ID="relUserId";
 	public static final String  DAY="day";
+	public static final String  EXTERNAL_CODE="externalCode";
 	public static final String  DAY_MODEL="dayModel";
 	public static final String  NAME="name";
 	public static final String  HOSTEL_NAME="cust_HostelName";
@@ -44,6 +51,8 @@ public class SAPServerConstants {
 	public static final String  FIRST_NAME="firstName";
 	public static final String  MIDDLE_NAME="middleName";
 	public static final String  LAST_NAME="lastName";
+	public static final String  BUS_NO="cust_Route_Number";
+	public static final String  NODAL_POINT="cust_Nodal_Point";
 	public static final String  WORK_SCHEDULE_EXTERNAL_CODE="WorkSchedule_externalCode";
 	public static final String  SCHEDULED_WORKING_TIME="SCHEDULED_WORKING_TIME";
 	public static final String  OFF="OFF";
@@ -55,37 +64,37 @@ public class SAPServerConstants {
 			+ "workScheduleDayModels/category,workScheduleDayModels/dayModel,workScheduleDayModels/day&$expand=workScheduleDayModels/dayModelNav/segments"
 			+ "&$format=json&$filter=externalCode in 'First_shift_Pattern','Second_shift_Pattern','Third_shift_Pattern','IND_GenShift','Flexi_General_Pattern'";
 	
-	public static final String  EMPLOYEE_MASTER_DATA_API="https://api44.sapsf.com/odata/v2/EmpJob?$select=managerId,employmentNav/empJobRelationshipNav/relUserNav/firstName,employmentNav/empJobRelationshipNav/relationshipTypeNav/externalCode,"
-			+ "managerEmploymentNav/personNav/emailNav/emailAddress,managerEmploymentNav/personNav/personalInfoNav/firstName,managerEmploymentNav/personNav/personalInfoNav/lastName,"
-			+ "managerEmploymentNav/personNav/personalInfoNav/middleName,seqNumber,startDate,userId,userNav/externalCodeOfcust_Bus_ServiceNav/cust_Nodal_Point,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_HostelName,departmentNav/name,emplStatusNav/picklistLabels/label, "
-			+ "employmentNav/personNav/personalInfoNav/firstName,employmentNav/personNav/personalInfoNav/lastName,endDate,event, eventNav/picklistLabels/label,"
-			+ "eventReason,eventReasonNav/name,lastModifiedDateTime,seqNumber,startDate,userId, customString7,payGrade,hireDate,customString2,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_Name,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_email_id,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_warden_Mobile_number&$expand=departmentNav,emplStatusNav/picklistLabels,"
-			+ " employmentNav/personNav/personalInfoNav,eventNav/picklistLabels,eventReasonNav,employmentNav/empJobRelationshipNav/relUserNav,"
-			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav,managerEmploymentNav/personNav/emailNav,managerEmploymentNav/personNav/personalInfoNav,"
-			+ "userNav/externalCodeOfcust_Bus_ServiceNav,userNav/externalCodeOfcust_HostelFacilityNav&$format=json&$top=%s&$skip=%s";
+	public static final String  EMPLOYEE_MASTER_DATA_API="https://api44.sapsf.com/odata/v2/EmpJob?$select=managerId,employmentNav/empJobRelationshipNav/relUserNav/firstName,"
+			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav/externalCode,managerEmploymentNav/personNav/emailNav/emailAddress,managerEmploymentNav/personNav/personalInfoNav/firstName,"
+			+ "managerEmploymentNav/personNav/personalInfoNav/lastName,managerEmploymentNav/personNav/personalInfoNav/middleName,seqNumber,startDate,userId,userNav/externalCodeOfcust_Bus_ServiceNav/cust_Nodal_Point,"
+			+ "userNav/externalCodeOfcust_Bus_ServiceNav/cust_Route_Number,userNav/externalCodeOfcust_HostelFacilityNav/cust_HostelName,departmentNav/name,emplStatusNav/picklistLabels/label, employmentNav/personNav/personalInfoNav/firstName,"
+			+ "employmentNav/personNav/personalInfoNav/lastName,endDate,event, employmentNav/empJobRelationshipNav/relUserId,employmentNav/personNav/emailNav/emailAddress,"
+			+ "employmentNav/personNav/phoneNav/phoneNumber,eventNav/picklistLabels/label,eventReason,eventReasonNav/name,lastModifiedDateTime,seqNumber,startDate,userId,"
+			+ "customString7,payGrade,hireDate,customString2,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_Name,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_email_id,"
+			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_warden_Mobile_number&$expand=departmentNav,emplStatusNav/picklistLabels, employmentNav/personNav/personalInfoNav,"
+			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav,employmentNav/personNav/emailNav,employmentNav/personNav/phoneNav,eventNav/picklistLabels,eventReasonNav,"
+			+ "employmentNav/empJobRelationshipNav/relUserNav,employmentNav/empJobRelationshipNav/relationshipTypeNav,managerEmploymentNav/personNav/emailNav,managerEmploymentNav/personNav/personalInfoNav,"
+			+ "userNav/externalCodeOfcust_Bus_ServiceNav,userNav/externalCodeOfcust_HostelFacilityNav&$filter=emplStatusNav/externalCode in 'A','T'&$format=json&$top=%s&$skip=%s";
 	
 	public static final String  EMPLOYEE_SHIFT_INFO_API="https://api44.sapsf.com/odata/v2/EmpJob?$format=json&$select=userId,workscheduleCode,"
 			+ "workscheduleCodeNav/workScheduleDayModels,workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$expand=workscheduleCodeNav/workScheduleDayModels,"
-			+ "workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$format=json&$top=%s&$skip=%s";
+			+ "workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$filter=emplStatusNav/externalCode in 'A','T'&$format=json&$top=%s&$skip=%s";
 	
 	public static final String  EMPLOYEE_SHIFT_INFO_BY_DATE_API="https://api44.sapsf.com/odata/v2/EmpJob?$format=json&$select=userId,workscheduleCode,"
 			+ "workscheduleCodeNav/workScheduleDayModels,workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$expand=workscheduleCodeNav/workScheduleDayModels,"
-			+ "workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$filter=lastModifiedDateTime ge '%s' and lastModifiedDateTime le '%s' and emplStatusNav/externalCode eq 'A'&$format=json&$top=%s&$skip=%s";
+			+ "workscheduleCodeNav/workScheduleDayModels/dayModelNav/segments&$filter=lastModifiedDateTime ge '%s' and lastModifiedDateTime le '%s' and emplStatusNav/externalCode in 'A','T'&$format=json&$top=%s&$skip=%s";
 	
-	public static final String EMPLOYEE_MASTER_DATA_BY_DATE_API = "https://api44.sapsf.com/odata/v2/EmpJob?$select=managerId,employmentNav/empJobRelationshipNav/relUserNav/firstName,employmentNav/empJobRelationshipNav/relationshipTypeNav/externalCode,"
-			+ "managerEmploymentNav/personNav/emailNav/emailAddress,managerEmploymentNav/personNav/personalInfoNav/firstName,managerEmploymentNav/personNav/personalInfoNav/lastName,"
-			+ "managerEmploymentNav/personNav/personalInfoNav/middleName,seqNumber,startDate,userId,userNav/externalCodeOfcust_Bus_ServiceNav/cust_Nodal_Point,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_HostelName,departmentNav/name,emplStatusNav/picklistLabels/label, "
-			+ "employmentNav/personNav/personalInfoNav/firstName,employmentNav/personNav/personalInfoNav/lastName,endDate,event, eventNav/picklistLabels/label,"
-			+ "eventReason,eventReasonNav/name,lastModifiedDateTime,seqNumber,startDate,userId, customString7,payGrade,hireDate,customString2,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_Name,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_email_id,"
-			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_warden_Mobile_number&$expand=departmentNav,emplStatusNav/picklistLabels,"
-			+ " employmentNav/personNav/personalInfoNav,eventNav/picklistLabels,eventReasonNav,employmentNav/empJobRelationshipNav/relUserNav,"
-			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav,managerEmploymentNav/personNav/emailNav,managerEmploymentNav/personNav/personalInfoNav,"
-			+ "userNav/externalCodeOfcust_Bus_ServiceNav,userNav/externalCodeOfcust_HostelFacilityNav&$filter=lastModifiedDateTime ge '%s' and lastModifiedDateTime le '%s'&$format=json&$top=%s&$skip=%s";
+	public static final String EMPLOYEE_MASTER_DATA_BY_DATE_API = "https://api44.sapsf.com/odata/v2/EmpJob?$select=managerId,employmentNav/empJobRelationshipNav/relUserNav/firstName,"
+			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav/externalCode,managerEmploymentNav/personNav/emailNav/emailAddress,managerEmploymentNav/personNav/personalInfoNav/firstName,"
+			+ "managerEmploymentNav/personNav/personalInfoNav/lastName,managerEmploymentNav/personNav/personalInfoNav/middleName,seqNumber,startDate,userId,userNav/externalCodeOfcust_Bus_ServiceNav/cust_Nodal_Point,"
+			+ "userNav/externalCodeOfcust_Bus_ServiceNav/cust_Route_Number,userNav/externalCodeOfcust_HostelFacilityNav/cust_HostelName,departmentNav/name,emplStatusNav/picklistLabels/label, employmentNav/personNav/personalInfoNav/firstName,"
+			+ "employmentNav/personNav/personalInfoNav/lastName,endDate,event, employmentNav/empJobRelationshipNav/relUserId,employmentNav/personNav/emailNav/emailAddress,"
+			+ "employmentNav/personNav/phoneNav/phoneNumber,eventNav/picklistLabels/label,eventReason,eventReasonNav/name,lastModifiedDateTime,seqNumber,startDate,userId,"
+			+ "customString7,payGrade,hireDate,customString2,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_Name,userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_Warden_email_id,"
+			+ "userNav/externalCodeOfcust_HostelFacilityNav/cust_Hostel_warden_Mobile_number&$expand=departmentNav,emplStatusNav/picklistLabels, employmentNav/personNav/personalInfoNav,"
+			+ "employmentNav/empJobRelationshipNav/relationshipTypeNav,employmentNav/personNav/emailNav,employmentNav/personNav/phoneNav,eventNav/picklistLabels,eventReasonNav,"
+			+ "employmentNav/empJobRelationshipNav/relUserNav,employmentNav/empJobRelationshipNav/relationshipTypeNav,managerEmploymentNav/personNav/emailNav,managerEmploymentNav/personNav/personalInfoNav,"
+			+ "userNav/externalCodeOfcust_Bus_ServiceNav,userNav/externalCodeOfcust_HostelFacilityNav&$filter=lastModifiedDateTime ge '%s' and lastModifiedDateTime le '%s'&$filter=emplStatusNav/externalCode in 'A','T'&$format=json&$top=%s&$skip=%s";
 	
 	public static final String TEMPORARY_TIME_INFO_API = "https://api44.sapsf.com/odata/v2/TemporaryTimeInformation?$format=json&$expand=workScheduleNav,"
 			+ "workScheduleNav/workScheduleDayModels,workScheduleNav/workScheduleDayModels/dayModelNav,workScheduleNav/workScheduleDayModels/dayModelNav/segments&$select=startDate,"

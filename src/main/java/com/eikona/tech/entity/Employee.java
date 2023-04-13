@@ -62,6 +62,9 @@ public class Employee extends Auditable<String> implements Serializable {
 	@Column(name = "end_date")
 	private Date endDate;
 	
+	@Column(name = "start_date")
+	private Date startDate;
+	
 	@Column
 	private String joinDateStr;
 
@@ -109,6 +112,9 @@ public class Employee extends Auditable<String> implements Serializable {
 	
 	@Column(name = "eeto_name")
 	private String eetoName;
+	
+	@Column(name = "rel_user_id")
+	private String relUserId;
 	
 	@Column
 	private String palntStr;
@@ -531,6 +537,22 @@ public String getSource() {
 
 public void setSource(String source) {
 	this.source = source;
+}
+
+public Date getStartDate() {
+	return startDate;
+}
+
+public void setStartDate(Date startDate) {
+	this.startDate = startDate;
+}
+
+public String getRelUserId() {
+	return relUserId;
+}
+
+public void setRelUserId(String relUserId) {
+	this.relUserId = relUserId;
 }
 
 

@@ -93,6 +93,9 @@
 							<li id="lanyard_type_menu" >
 								<a class="" th:href="@{/lanyard-type}" sec:authorize="hasAuthority('lanyard_type_view')"><i class="las la-biohazard"></i><span>Lanyard Type</span></a>
 							</li>
+							<li id="email_setup_menu" >
+								<a class="" th:href="@{/email-setup}" sec:authorize="hasAuthority('email_setup_view')"><i class="las la-mail-bulk"></i><span>Email Setup</span></a>
+							</li>
 							<li class="menu-title" sec:authorize="hasAuthority('user_view')"> 
 								<span>Administration</span>
 							</li>

@@ -55,7 +55,7 @@ import com.eikona.tech.util.CalendarUtil;
 
 @Service
 @EnableScheduling
-public class ShiftReportServiceImpl {
+public class EmailShiftReportServiceImpl {
 	
 	@Autowired
 	private EmployeeShiftInfoRepository employeeShiftInfoRepository;
@@ -76,7 +76,7 @@ public class ShiftReportServiceImpl {
 	private  String password;
 	
 //	@Scheduled(fixedDelay = 50000)
-	@Scheduled(cron="0 15 * * 6 *")
+//	@Scheduled(cron="0 15 * * 6 *")
 	public void sendEmailToManager() throws ParseException {
 		
 		DateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_FORMAT_OF_US);
@@ -94,7 +94,7 @@ public class ShiftReportServiceImpl {
 		
 		emailLogsRepository.saveAll(emailLogList);
 	}
-	@Scheduled(cron="30 15 * * 6 *")
+//	@Scheduled(cron="30 15 * * 6 *")
 	public void sendEmailToWarden() throws ParseException {
 		
 		DateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_FORMAT_OF_US);

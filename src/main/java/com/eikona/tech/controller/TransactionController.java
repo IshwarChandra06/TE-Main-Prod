@@ -44,16 +44,16 @@ public class TransactionController {
 	@RequestMapping(value = "/search/transaction", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('access_log_view')")
 	public @ResponseBody PaginationDto<Transaction> searchVehicleLog(String sDate,String eDate, String employeeId, String employeeName, String employeeType,
-			int pageno, String sortField, String sortDir) {
+			String department, String designation, String device,int pageno, String sortField, String sortDir) {
 		
-		PaginationDto<Transaction> dtoList = transactionService.searchByField(sDate, eDate, employeeId, employeeName, employeeType.trim(), pageno, sortField, sortDir);
+		PaginationDto<Transaction> dtoList = transactionService.searchByField(sDate, eDate, employeeId, employeeName, employeeType.trim(),department,designation,device, pageno, sortField, sortDir);
 		
 		return dtoList;
 	}
 	
 	@RequestMapping(value = "access-logs/export-to-excel", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('access_log_export')")
-	public void exportToFile(HttpServletResponse response, String sDate,String eDate, String employeeId,  String employeeName,String employeeType,String flag) {
+	public void exportToFile(HttpServletResponse response, String sDate,String eDate, String employeeId,  String employeeName,String employeeType,String department, String designation, String device,String flag) {
 		response.setContentType("application/octet-stream");
 		DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
 		String currentDateTime = dateFormat.format(new Date());
@@ -61,7 +61,7 @@ public class TransactionController {
 		String headerValue = "attachment; filename=Event_Report_" + currentDateTime + "." + flag;
 		response.setHeader(headerKey, headerValue);
 		try {
-			exportAccessLogReport.fileExportBySearchValue(response,sDate,eDate, employeeId, employeeName,employeeType.trim(),flag);
+			exportAccessLogReport.fileExportBySearchValue(response,sDate,eDate, employeeId, employeeName,employeeType.trim(),department,designation,device,flag);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,5 +5,5 @@ import com.eikona.tech.entity.Transaction;
 
 public interface TransactionService {
 	PaginationDto<Transaction> searchByField(String sDate, String eDate, String employeeId,
-			String employeeName, String employeeType, int pageno,String sortField, String sortDir);
+			String employeeName, String employeeType, String department, String designation, String device, int pageno,String sortField, String sortDir);
 }

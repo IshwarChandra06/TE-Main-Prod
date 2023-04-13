@@ -214,6 +214,10 @@ public class ExportEmployeeMasterData {
 			cell.setCellStyle(cellStyle);
 			
 			cell = row.createCell(columnCount++);
+			cell.setCellValue(employee.getRelUserId());
+			cell.setCellStyle(cellStyle);
+			
+			cell = row.createCell(columnCount++);
 			cell.setCellValue(employee.getHostelName());
 			cell.setCellStyle(cellStyle);
 			
@@ -235,10 +239,6 @@ public class ExportEmployeeMasterData {
 			
 			cell = row.createCell(columnCount++);
 			cell.setCellValue(employee.getNodalPoint());
-			cell.setCellStyle(cellStyle);
-			
-			cell = row.createCell(columnCount++);
-			cell.setCellValue(employee.getEetoName());
 			cell.setCellStyle(cellStyle);
 			
 			cell = row.createCell(columnCount++);
@@ -345,6 +345,10 @@ public class ExportEmployeeMasterData {
 		cell.setCellValue(HeaderConstants.MANAGER_EMAIL);
 		cell.setCellStyle(cellStyle);
 		
+		cell = row.createCell(NumberConstants.SEVENTEEN);
+		cell.setCellValue(HeaderConstants.DEPARTMENT_HOD);
+		cell.setCellStyle(cellStyle);
+		
 		cell = row.createCell(NumberConstants.EIGHTEEN);
 		cell.setCellValue(HeaderConstants.HOSTEL_NAME);
 		cell.setCellStyle(cellStyle);
@@ -367,10 +371,6 @@ public class ExportEmployeeMasterData {
 		
 		cell = row.createCell(NumberConstants.TWENTY_THREE);
 		cell.setCellValue(HeaderConstants.NODAL_POINT);
-		cell.setCellStyle(cellStyle);
-		
-		cell = row.createCell(NumberConstants.TWENTY_FOUR);
-		cell.setCellValue(HeaderConstants.EETO_NAME);
 		cell.setCellStyle(cellStyle);
 		
 		cell = row.createCell(NumberConstants.TWENTY_FIVE);

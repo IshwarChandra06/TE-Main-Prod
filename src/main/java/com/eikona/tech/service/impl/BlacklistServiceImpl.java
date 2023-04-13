@@ -1,9 +1,6 @@
 package com.eikona.tech.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.ApplicationConstants;
@@ -23,28 +19,15 @@ import com.eikona.tech.entity.AccessLevel;
 import com.eikona.tech.entity.Blacklist;
 import com.eikona.tech.entity.Employee;
 import com.eikona.tech.repository.BlacklistRepository;
-import com.eikona.tech.repository.EmployeeRepository;
-import com.eikona.tech.repository.TransactionRepository;
 import com.eikona.tech.service.BlacklistService;
 import com.eikona.tech.service.EmployeeService;
-import com.eikona.tech.util.CalendarUtil;
 import com.eikona.tech.util.GeneralSpecificationUtil;
 
 @Service
-@EnableScheduling
 public class BlacklistServiceImpl implements BlacklistService {
 	
 	@Autowired
 	private BlacklistRepository blacklistRepository;
-	
-	@Autowired
-	private EmployeeRepository employeeRepository;
-	
-	@Autowired
-	private TransactionRepository transactionRepository;
-	
-	@Autowired
-	private CalendarUtil calendarUtil;
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -83,25 +66,6 @@ public class BlacklistServiceImpl implements BlacklistService {
  		return dtoList;
 	}
 	
-//	@Scheduled(cron="0 0 5 * * *")
-//	@Scheduled(fixedDelay = 5000)
-	public void setEmployeeStatusInactive() throws ParseException {
-		List<Employee> employeeList=employeeRepository.findAllByStatus("Active");
-		SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_FORMAT_OF_US);
-		String today=dateFormat.format(new Date());
-		Date fromDate=calendarUtil.getNextOrPreviousDate(dateFormat.parse(today), -30, 0, 0, 0);
-		Date toDate=calendarUtil.getConvertedDate(dateFormat.parse(today), 23, 00, 00);
-		for(Employee employee:employeeList) {
-			Long count=transactionRepository.findByDateAndEmpIdCustom(fromDate,toDate,employee.getEmployeeId());
-			if(count==0){
-				List<AccessLevel> accLevelList= new ArrayList<>();
-				employee.setStatus("Inactive");
-				employee.setAccessLevel(accLevelList);
-				employeeRepository.save(employee);
-				}
-			}
-	}
-
 	@Override
 	public Blacklist save(Blacklist blacklist) {
 		

@@ -39,7 +39,7 @@
 					<div class="col-md-8">
 						<div class="card">
 							<div class="card-body">
-								<form  th:action="@{/employee-blacklist/add}" method="POST" th:object="${blacklist}">
+								<form  th:action="@{/employee-suspension/add}" method="POST" th:object="${blacklist}">
 								<input type="hidden" th:field="*{id}">
 								<input type="hidden" th:value="${redirect}" name="redirectUrl">
 									<select  th:field="*{employee}" class="form-control" style="display:none">

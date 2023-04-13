@@ -85,14 +85,6 @@
 					        </select>
 						</div>
 					</div>
-					
-					<div class="col-sm-6 col-md-2" id="access-level-id"> 
-						<div class="form-group form-focus select-focus">
-						 	<label ><b>Access Levels:</b></label>
-					        <select id="people" name="people" multiple>
-					        </select>
-						</div>
-					</div>
 					<div class="col-sm-6 col-md-2"> 
 						<div class="form-group">
 						 	<label ><b>Zone:</b></label>
@@ -100,6 +92,13 @@
 					        <option value="">--Select--</option>
 										<option th:each="zone : ${listZone}"
 											th:value="${zone.name}" th:text="${zone.name}">	
+					        </select>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2" id="access-level-id"> 
+						<div class="form-group form-focus select-focus">
+						 	<label ><b>Access Levels:</b></label>
+					        <select id="people" name="people" multiple>
 					        </select>
 						</div>
 					</div>

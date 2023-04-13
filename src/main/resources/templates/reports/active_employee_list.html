@@ -355,7 +355,7 @@
 			function tableHeader(result, flag) {
 				var table_header ='';
 				if(result.data.length == 0) {
-					table_header = '<th><b>Id</b></th>'+
+					table_header =
 					   	'<th><b>Employee Id</b></th>'+
 					    '<th><b>First Name</b></th>'+
 						'<th><b>Last Name</b></th>'+
@@ -368,8 +368,7 @@
 						'<th><b>Email Id</b></th>'+
 						'<th><b>Status</b></th>';
 				}else {
-					table_header = '<th><button  value="'+result.page_number+'-id-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Id</b></button>'+
-		   			'</th><th>'+		
+					table_header = '<th>'+		
 						'<button  value="'+result.page_number+'-employeeId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Employee Id</b></button>'+	
 					'</th><th>'+
 		   				'<button  value="'+result.page_number+'-firstName-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>First Name</b></button>'+
@@ -400,8 +399,7 @@
 				
 				var table_data ='';
            		$.each(result.data, function(i, customer) {
-           			table_data +='<tr>' +
-               	 		'<td>' + customer.id + '</td>';
+           			table_data +='<tr>' ;
                	 		
            			if(null != customer.employeeId){
               	 		table_data += '<td>' + customer.employeeId + '</td>';

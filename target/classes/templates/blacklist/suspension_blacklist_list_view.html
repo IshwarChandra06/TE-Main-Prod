@@ -84,7 +84,7 @@
 	<script src="/assets/js/app.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery.multi-select.js"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+		src="/assets/js/moment.min.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -252,7 +252,7 @@
                   	   else
                   		table_data +='<td>' +' '+ '</td>' ;
              		
-             		if(showUpdate && customer.status=='Suspended')
+             		if(showUpdate && customer.status=='Suspended' && null==customer.removalDate)
              		    table_data +='<td><a href="/employee-suspension-view-edit/'+customer.id+'" class="btn btn-primary"><i class="las la-edit"></i></a></td></tr>';
              		 else
                    		table_data +='<td>' +' '+ '</td></tr>' ;

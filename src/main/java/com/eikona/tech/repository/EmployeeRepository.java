@@ -16,12 +16,12 @@ import com.eikona.tech.entity.Employee;
 @Repository
 public interface EmployeeRepository extends DataTablesRepository<Employee, Long> {
 
-	public List<Employee> findAllByIsDeletedFalse();
+	List<Employee> findAllByIsDeletedFalse();
 
 	@Query("select e from com.eikona.tech.entity.Employee e where e.department like 'HR%' or e.department like 'IT%'")
 	List<Employee> getHundredEmployee();
 	
-	@Query("select e from com.eikona.tech.entity.Employee e where NOT(e.accessLevel IS EMPTY)")
+	@Query("select e from com.eikona.tech.entity.Employee e where e.status='Active' and NOT(e.accessLevel IS EMPTY)")
 	Page<Employee> getAllByLimit(Pageable pageable);
 
     Employee findByEmployeeId(String empId);
@@ -38,12 +38,14 @@ public interface EmployeeRepository extends DataTablesRepository<Employee, Long>
     @Query("select distinct(e.hostelWardenEmail) from com.eikona.tech.entity.Employee e where e.hostelWardenEmail is not null")
     List<String> findDistinctByHostelWardenEmailCustom();
 
-	public Employee findByEmployeeIdAndIsDeletedFalse(String empId);
+	Employee findByEmployeeIdAndIsDeletedFalse(String empId);
 
-	public List<Employee> findAllByStatus(String string);
+	List<Employee> findAllByStatus(String string);
 	
 	@Query("select emp.employeeId from com.eikona.tech.entity.Employee as emp where emp.isDeleted=false")
 	List<String> getEmpIdAndIsDeletedFalseCustom();
+
+	List<Employee> findAllByIsDeletedFalseAndStatus(String status);
 
 	 
 

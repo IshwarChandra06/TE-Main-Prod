@@ -41,6 +41,16 @@ public class EntityMap {
 		return employeeMap;
 	}
 	
+	public Map<String, Employee> getActiveEmployeeByEmpId() {
+		List<Employee> employeeList = employeeRepository.findAllByIsDeletedFalseAndStatus("Active");
+		Map<String, Employee> employeeMap = new HashMap<String, Employee>();
+
+		for (Employee employee : employeeList) {
+			employeeMap.put(employee.getEmployeeId(), employee);
+		}
+		return employeeMap;
+	}
+	
 	public Map<String, Device> getDoorByDoorId() {
 		List<Device> doorList = (List<Device>) doorRepository.findAll();
 		Map<String, Device> doorMap = new HashMap<String, Device>();

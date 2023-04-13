@@ -77,6 +77,9 @@
 								<option value="employeeId" >Employee Id</option>
 								<option value="employeeName" >Employee Name</option>
 								<option value="employeeType" >Employee Type</option>
+								<option value="department" >Department</option>
+								<option value="function" >Function</option>
+								<option value="device" >Device</option>
 					        </select>
 						</div>
 					</div>
@@ -270,7 +273,7 @@
                 //new Date().toISOString().slice(0, 10);
 //                 var sDate = new Date().toISOString().slice(0, 10);
                 
-				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType, "sortByField", "previousPage", valueList[0],valueList[1],valueList[2]);
+				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType,"","","", "sortByField", "previousPage", valueList[0],valueList[1],valueList[2]);
 				
         	})
         	//end sort 
@@ -301,7 +304,7 @@
                 //new Date().toISOString().slice(0, 10);
 //                 var sDate = new Date().toISOString().slice(0, 10);
                 
-				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType, "sortByField", "previousPage", 1,"id","desc");
+				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType,"","","", "sortByField", "previousPage", 1,"id","desc");
 			}
         	
 			$(document).on('click', '.previousPage', function(e) {
@@ -315,7 +318,7 @@
                 var sDate = "";
 //                 var sDate = new Date().toISOString().slice(0, 10);
 				
-				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType, "sortByField", "previousPage", valueList[0],valueList[1],valueList[2]);
+				ajaxCall(sDate, sDate, employeeId, employeeName, employeeType,"","","", "sortByField", "previousPage", valueList[0],valueList[1],valueList[2]);
         	})
 			
 			//start search and sort field
@@ -329,9 +332,12 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var employeeType = document.getElementById('employeeType').value;
+                var department= document.getElementById('department').value;
+                var designation = document.getElementById('function').value;
+                var device = document.getElementById('device').value;
                 checkDate();
                 uncheckedRemove();
-                ajaxCall(sDate, eDate, employeeId, employeeName, employeeType, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
+                ajaxCall(sDate, eDate, employeeId, employeeName, employeeType,department,designation,device, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
 				
         	})
         	//end search and sort field
@@ -346,9 +352,12 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var employeeType = document.getElementById('employeeType').value;
+                var department= document.getElementById('department').value;
+                var designation = document.getElementById('function').value;
+                var device = document.getElementById('device').value;
                 checkDate();
                 uncheckedRemove();
-                ajaxCall(sDate, eDate, employeeId, employeeName,employeeType, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
+                ajaxCall(sDate, eDate, employeeId, employeeName,employeeType,department,designation,device, "sortBySearchField", "nextPage", valueList[0],valueList[1],valueList[2]);
         	})
 			
         	$(document).on('click', '.searchButtonField', function(e) {
@@ -363,9 +372,12 @@
                     var employeeId= document.getElementById('employeeId').value;
                     var employeeName = document.getElementById('employeeName').value;
                     var employeeType = document.getElementById('employeeType').value;
+                    var department= document.getElementById('department').value;
+                    var designation = document.getElementById('function').value;
+                    var device = document.getElementById('device').value;
                     checkDate();
                     uncheckedRemove();
-                    ajaxCall(sDate, eDate, employeeId, employeeName,employeeType,"sortBySearchField", "nextPage", 1,"id","desc");
+                    ajaxCall(sDate, eDate, employeeId, employeeName,employeeType,department,designation,device,"sortBySearchField", "nextPage", 1,"id","desc");
         		}
         	})
         	
@@ -389,13 +401,16 @@
 				}
 		}
 	        	
-	        function ajaxCall(sDate, eDate, employeeId, employeeName,employeeType, headFlag, pageFlag, pageno, sortField,sortDir) {
+	        function ajaxCall(sDate, eDate, employeeId, employeeName,employeeType,department,designation,device, headFlag, pageFlag, pageno, sortField,sortDir) {
 				var data = {
 	           		"sDate":sDate,
 	           		"eDate":eDate,
 	           		"employeeId":employeeId,
 	           		"employeeName":employeeName,
 	           		"employeeType":employeeType,
+	           		"department":department,
+	           		"designation":designation,
+	           		"device":device,
 	           		"pageno":pageno,
 	           		"sortField":sortField,
 	           		"sortDir":sortDir
@@ -674,11 +689,14 @@
                 var employeeId= document.getElementById('employeeId').value;
                 var employeeName = document.getElementById('employeeName').value;
                 var employeeType = document.getElementById('employeeType').value;
+                var department= document.getElementById('department').value;
+                var designation = document.getElementById('function').value;
+                var device = document.getElementById('device').value;
                 uncheckedRemove();
                 
                 if("excel" == type){
                 	$("#excel-button").html('').append('<button  value ="excel" type="button" class="btn add-btn" disabled><i class="las la-download"></i> Export To Excel  <span class="spinner-border spinner-border-sm"></span></button>');
-                	exportData(sDate,eDate,employeeId,employeeName,employeeType,"export-data-by-search","xlsx");
+                	exportData(sDate,eDate,employeeId,employeeName,employeeType,department,designation,device,"export-data-by-search","xlsx");
                 }
 			})
 			
@@ -688,17 +706,20 @@
                 
                 if("excel" == type){
                 	$("#excel-button").html('').append('<button  value ="excel" type="button" class="btn add-btn" disabled><i class="las la-download"></i> Export To Excel  <span class="spinner-border spinner-border-sm"></span></button>');
-                	exportData("","","","","","export-data","xlsx");
+                	exportData("","","","","","","","","export-data","xlsx");
                 }
 			})
 			
-			function  exportData(sDate,eDate,employeeId,employeeName,employeeType,excelButtonClass,flag) {
+			function  exportData(sDate,eDate,employeeId,employeeName,employeeType,department,designation,device,excelButtonClass,flag) {
                 var data = {
 					"sDate":sDate,
 					"eDate":eDate,
                		"employeeId":employeeId,
                		"employeeName" : employeeName,
                		"employeeType":employeeType,
+               		"department":department,
+	           		"designation":designation,
+	           		"device":device,
 	           		"flag":flag
                 }; 
     	            

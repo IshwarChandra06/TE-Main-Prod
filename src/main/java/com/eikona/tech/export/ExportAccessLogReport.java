@@ -43,7 +43,7 @@ public class ExportAccessLogReport {
 	private TransactionRepository transactionRepository;
 
 	public void fileExportBySearchValue(HttpServletResponse response,String sDate,
-			String eDate, String employeeId, String employeeName, String employeeType,String flag) throws Exception {
+			String eDate, String employeeId, String employeeName, String employeeType,String department, String designation, String device, String flag) throws Exception {
        List<Transaction> transList = getListOfEvent(sDate,eDate, employeeId, employeeName, employeeType);
 		
 		excelGenerator(response, transList);
@@ -68,8 +68,11 @@ public class ExportAccessLogReport {
 		Specification<Transaction> empIdSpec = generalSpecification.stringSpecification(employeeId, TransactionConstants.EMP_ID);
 		Specification<Transaction> empNameSpec = generalSpecification.stringSpecification(employeeName, ApplicationConstants.NAME);
 		Specification<Transaction> employeeTypeSpec = generalSpecification.stringSpecification(employeeType, "employeeType");
+		Specification<Transaction> deptSpec = generalSpecification.stringSpecification(employeeId, TransactionConstants.DEPARTMENT);
+		Specification<Transaction> desigSpec = generalSpecification.stringSpecification(employeeName, TransactionConstants.DESIGNATION);
+		Specification<Transaction> deviceSpec = generalSpecification.stringSpecification(employeeType,TransactionConstants.DEVICE);
 		
-		List<Transaction> transList =transactionRepository.findAll(dateSpec.and(empIdSpec).and(empNameSpec).and(employeeTypeSpec));
+		List<Transaction> transList =transactionRepository.findAll(dateSpec.and(empIdSpec).and(empNameSpec).and(employeeTypeSpec).and(deviceSpec).and(desigSpec).and(deptSpec));
 		return transList;
 	}
 	private void excelGenerator(HttpServletResponse response, List<Transaction> transList) throws Exception {

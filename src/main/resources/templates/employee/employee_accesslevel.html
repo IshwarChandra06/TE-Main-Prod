@@ -40,20 +40,20 @@
 											<table class="table">
 												<thead>
 													<tr>
-														<th>Select</th>
-														<th>Access Level</th>
-														<th>Zone</th>
-														<th>Building Name</th>
-														<th>Plant Name</th>
+														<td style="width:100px"><b>Select</b></td>
+														<td style="width:200px"><b>Access Level</b></td>
+														<td style="width:150px"><b>Zone</b></td>
+														<td style="width:150px"><b>Building</b></td>
+														<td style="width:100px"><b>Plant</b></td>
 													</tr>
 												</thead>
 												<tbody>
 													<tr th:each="accLevel : ${listAccesslevel}">
-														<td><input type="checkbox" th:field="*{accessLevel}" th:value="${accLevel.id}"></td>
-														<td th:text="${accLevel.name}" th:field="*{accessLevel}" th:value="${accLevel.id}"></td>
-														<td  th:text="${accLevel?.zone?.name}"></td>
-														<td  th:text="${accLevel?.building?.name}"></td>
-														<td  th:text="${accLevel?.building?.plant?.name}"></td>
+														<td style="width:50px"><input type="checkbox" th:field="*{accessLevel}" th:value="${accLevel.id}"></td>
+														<td style="width:190px" class="text-center" th:text="${accLevel.name}" th:field="*{accessLevel}" th:value="${accLevel.id}"></td>
+														<td style="width:200px"class="text-center"  th:text="${accLevel?.zone?.name}"></td>
+														<td  style="width:100px"class="text-center" th:text="${accLevel?.building?.name}"></td>
+														<td  style="width:170px" class="text-center" th:text="${accLevel?.building?.plant?.name}"></td>
 													</tr>
 												</tbody>
 											</table>

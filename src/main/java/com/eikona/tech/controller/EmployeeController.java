@@ -139,6 +139,7 @@ public class EmployeeController {
 				    bindingResult.rejectValue("employeeId", "error.employeeId", "Employee id is already exist!");
 				    return "employee/employee_new";
 				}
+				employee.setStatus("Active");
 				employee=employeeService.save(employee);
 				if (null != file && !file.getOriginalFilename().isEmpty()) {
 					imageProcessingUtil.saveEmployeeImageWhileEnrolling(file,employee);
@@ -157,6 +158,14 @@ public class EmployeeController {
 				employee.setCreatedDate(employeeObj.getCreatedDate());
 				employee.setJoinDate(employeeObj.getJoinDate());
 				employee.setEndDate(employeeObj.getEndDate());
+				employee.setStartDate(employeeObj.getStartDate());
+				employee.setCardIssueDate(employeeObj.getCardIssueDate());
+				employee.setStatus(employeeObj.getStatus());
+				employee.setSource(employeeObj.getSource());
+				employee.setRelUserId(employeeObj.getRelUserId());
+				employee.setLanyardColor(employeeObj.getLanyardColor());
+				employee.setAccessLevel(employeeObj.getAccessLevel());
+				employee.setMetalExceptions(employeeObj.getMetalExceptions());
 				employee=employeeService.save(employee);
 				if (null != file && !file.getOriginalFilename().isEmpty()) {
 					imageProcessingUtil.saveEmployeeImageWhileEnrolling(file,employee);
