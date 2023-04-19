@@ -62,7 +62,7 @@ public class ExportEmailLog {
 		}
 		
 		Specification<EmailLogs> dateSpec = generalSpecificationEmailLog.dateSpecification(startDate, endDate, ApplicationConstants.DATE);
-		Specification<EmailLogs> mailIdSpc = generalSpecificationEmailLog.stringSpecification(mailId, "managerEmailId");
+		Specification<EmailLogs> mailIdSpc = generalSpecificationEmailLog.stringSpecification(mailId, "toEmailId");
 		Specification<EmailLogs> typeSpec = generalSpecificationEmailLog.stringSpecification(type, "type");
 		
 		List<EmailLogs> emailLoglist = emailLogsRepository.findAll(mailIdSpc.and(dateSpec).and(typeSpec));
@@ -120,7 +120,7 @@ public class ExportEmailLog {
 			cell.setCellStyle(cellStyle);
 			
 			cell = row.createCell(columnCount++);
-			cell.setCellValue(emailLog.getManagerEmailId());
+			cell.setCellValue(emailLog.getToEmailId());
 			cell.setCellStyle(cellStyle);
 			
 			cell = row.createCell(columnCount++);

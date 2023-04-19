@@ -74,7 +74,7 @@ public class EmailLogServiceImpl implements EmailLogService{
 
 		Pageable pageable = PageRequest.of(pageno - NumberConstants.ONE, NumberConstants.TEN, sort);
 		Specification<EmailLogs> dateSpec = generalSpecificationEmailLog.dateSpecification(startDate, endDate, ApplicationConstants.DATE);
-		Specification<EmailLogs> mailIdSpc = generalSpecificationEmailLog.stringSpecification(mailId, "managerEmailId");
+		Specification<EmailLogs> mailIdSpc = generalSpecificationEmailLog.stringSpecification(mailId, "toEmailId");
 		Specification<EmailLogs> typeSpec = generalSpecificationEmailLog.stringSpecification(type, "type");
 		
     	Page<EmailLogs> page = emailLogsRepository.findAll(mailIdSpc.and(dateSpec).and(typeSpec),pageable);

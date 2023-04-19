@@ -21,8 +21,8 @@ public class EmailLogs extends Auditable<String> implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
-	@Column(name = "manager_email_id")
-	private String managerEmailId;
+	@Column(name = "to_email_id")
+	private String toEmailId;
 	
 	@Column(name = "date")
 	private Date date;
@@ -38,12 +38,12 @@ public class EmailLogs extends Auditable<String> implements Serializable {
 		this.id = id;
 	}
 
-	public String getManagerEmailId() {
-		return managerEmailId;
+	public String getToEmailId() {
+		return toEmailId;
 	}
 
-	public void setManagerEmailId(String managerEmailId) {
-		this.managerEmailId = managerEmailId;
+	public void setToEmailId(String toEmailId) {
+		this.toEmailId = toEmailId;
 	}
 
 	public Date getDate() {

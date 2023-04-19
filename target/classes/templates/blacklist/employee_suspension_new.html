@@ -65,9 +65,9 @@
 									<td>
 							</tr>
 							 <tr>
-								<td>Reason For Suspension:</td>
+								<td>Reason For Suspension<font color="red">*</font>:</td>
 								<td> 
-							   		<textarea type="text" th:field="*{reason}" class="form-control" placeholder="Enter valid reason for suspension"></textarea>
+							   		<textarea type="text" th:field="*{reason}" class="form-control" placeholder="Enter valid reason for suspension" required></textarea>
 								</td>
 								<td>Order By:<td>  
 									<input type="text" th:field="*{orderBy}" class="form-control"  placeholder="Enter Manager Name"></td>

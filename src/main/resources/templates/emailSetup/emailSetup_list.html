@@ -273,6 +273,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				if(result.data.length == 0) {
 					table_header = '<th><b>Id</b></th>'+
 						'<th><b>Subject</b></th>'+
+						'<th><b>Name</b></th>'+
 						'<th><b>To</b></th>'+
 						'<th><b>Cc</b></th>';
 						
@@ -283,6 +284,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 		   			'</th><th>'+
 		   			'<button  value="'+result.page_number+'-subject-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Subject</b></button>'+
 		   			'</th><th>'+		
+						'<button  value="'+result.page_number+'-name-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Name</b></button>'+	
+					'</th><th>'+	
 						'<button  value="'+result.page_number+'-to-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>To</b></button>'+	
 					'</th><th>'+		
 						'<button  value="'+result.page_number+'-cc-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Cc</b></button>'+	
@@ -300,6 +303,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                	 		'<td>' + customer.id + '</td>' ;
               	 	if(null != customer.subject){
               	 		table_data += '<td>' + customer.subject + '</td>';
+              	 	} else{
+              	 		table_data += '<td></td>';
+              	 	}
+              	 	if(null != customer.name){
+              	 		table_data += '<td>' + customer.name + '</td>';
               	 	} else{
               	 		table_data += '<td></td>';
               	 	}

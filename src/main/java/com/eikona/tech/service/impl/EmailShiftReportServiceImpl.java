@@ -123,7 +123,7 @@ public class EmailShiftReportServiceImpl {
 				sendEmail(hostelSubject, fileName,wardenEmail);
 				
 				emailLogs.setDate(new Date());
-				emailLogs.setManagerEmailId(wardenEmail);
+				emailLogs.setToEmailId(wardenEmail);
 				emailLogs.setType("Shift Report For Hostel Warden");
 				emailLogList.add(emailLogs);
 			} catch (Exception e) {
@@ -144,7 +144,7 @@ public class EmailShiftReportServiceImpl {
 				sendEmail(managerSubject, fileName,managerEmail);
 				
 				emailLogs.setDate(new Date());
-				emailLogs.setManagerEmailId(managerEmail);
+				emailLogs.setToEmailId(managerEmail);
 				emailLogs.setType("Shift Report For Manager");
 				emailLogList.add(emailLogs);
 			} catch (Exception e) {

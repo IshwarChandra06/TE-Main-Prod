@@ -22,6 +22,10 @@ public class EmailSetup extends Auditable<String> implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
+	@Column(name = "name")
+	private String name;
+	
+	
 	@Column(name = "subject")
 //	@NotBlank(message="Email Subject is Mandatory")
 	private String subject;
@@ -74,7 +78,13 @@ public class EmailSetup extends Auditable<String> implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

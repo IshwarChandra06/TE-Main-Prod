@@ -52,18 +52,21 @@ public class DeviceDashboardController {
 			List<Device> onlineDeviceList = new ArrayList<>();
 			List<Device> offlineDeviceList = new ArrayList<>();
 			for(Device device:deviceList) {
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String dateStr = format.format(new Date());
-				Date date = format.parse(dateStr);
-				Date lastonline = device.getLastOnline();
-				
-				long mileseconds = date.getTime() - lastonline.getTime();
-				
-				if(mileseconds<=900000){
-					onlineDeviceList.add(device);
-				}else if(mileseconds>900000) {
-					offlineDeviceList.add(device);
+				if(null!=device.getLastOnline()) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String dateStr = format.format(new Date());
+					Date date = format.parse(dateStr);
+					Date lastonline = device.getLastOnline();
+					
+					long mileseconds = date.getTime() - lastonline.getTime();
+					
+					if(mileseconds<=900000){
+						onlineDeviceList.add(device);
+					}else if(mileseconds>900000) {
+						offlineDeviceList.add(device);
+					}
 				}
+				
 			}
 			long totalDeviceInstalled= deviceList.size();
 			long totalOnlineDevice = onlineDeviceList.size();
@@ -97,15 +100,18 @@ public class DeviceDashboardController {
 				List<Device> deviceList=deviceRepository.findByBuildingAndIsDeletedFalseCustom(building.getName());
 				List<Device> onlineDeviceList = new ArrayList<>();
 					for(Device device:deviceList) {
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						String dateStr = format.format(new Date());
-						Date date = format.parse(dateStr);
-						Date lastonline = device.getLastOnline();
-						
-						long mileseconds = date.getTime() - lastonline.getTime();
-						if(mileseconds<=900000){
-							onlineDeviceList.add(device);
+						if(null!=device.getLastOnline()) {
+							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+							String dateStr = format.format(new Date());
+							Date date = format.parse(dateStr);
+							Date lastonline = device.getLastOnline();
+							
+							long mileseconds = date.getTime() - lastonline.getTime();
+							if(mileseconds<=900000){
+								onlineDeviceList.add(device);
+							}
 						}
+						
 					}
 				deviceDto.setBuilding(building.getName());
 				deviceDto.setOnlineDevice(onlineDeviceList.size());

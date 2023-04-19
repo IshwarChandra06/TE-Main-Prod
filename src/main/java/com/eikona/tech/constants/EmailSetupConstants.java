@@ -35,7 +35,7 @@ public class EmailSetupConstants {
 			"Physical Security Team";
 	
 	public static final String BLACK_LISTING = "Dear %s,\n\n"+
-			"Profile of EMP ID %s, Name XXXXXX is successfully Blacklisted in the application dated %s with\n"+
+			"Profile of EMP ID %s, Name %s is successfully Blacklisted in the application dated %s with\n"+
 			"remarks %s.\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+

@@ -48,13 +48,20 @@
 <!-- 										<p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="alert alert-danger"></p>  -->
 										<input type="text" th:field="*{subject}" placeholder="Enter Email Subject" maxlength="50" class="form-control">
 									</div>
+									
+									<div class="form-group">
+										<label><b>Name:</b></label>
+										<input type="text"
+											th:field="*{name}" placeholder="Enter Person Name" maxlength="200" class="form-control">
+									</div>
+									
 									<div class="form-group">
 										<label><b>To:</b></label>
 										<input type="text"
 											th:field="*{to}" placeholder="Enter Email Address" maxlength="200" class="form-control">
 									</div>
 									<div class="form-group">
-										<label><b>CC:</b></label> <input type="text"
+										<label><b>Cc:</b></label> <input type="text"
 											th:field="*{cc}" maxlength="200" placeholder="Enter Email Address" class="form-control">
 									</div>
 									<div class="text-right">

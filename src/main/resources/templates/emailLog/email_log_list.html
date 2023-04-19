@@ -11,7 +11,7 @@
     <title>MATA</title>
     
     <!-- Favicon -->
-      <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+      <link rel="shortcut icon" type="image/x-icon" href="/assets/img/mata_logo.png">
 
 	<!-- Bootstrap CSS -->
       <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
@@ -366,7 +366,7 @@
 		   			'</th><th>'+		
 						'<button  value="'+result.page_number+'-date-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Date</b></button>'+	
 					'</th><th>'+
-		   			'<button  value="'+result.page_number+'-managerEmailId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Mail Id</b></button>'+
+		   			'<button  value="'+result.page_number+'-toEmailId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Mail Id</b></button>'+
 		   			'</th><th>'+
 		   			'<button  value="'+result.page_number+'-type-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Subject</b></button>'+
 		   			'</th>';
@@ -387,8 +387,8 @@
               	 		table_data += '<td></td>';
               	 	}
            			
-           			if(null != customer.managerEmailId){
-              	 		table_data += '<td>' + customer.managerEmailId + '</td>';
+           			if(null != customer.toEmailId){
+              	 		table_data += '<td>' + customer.toEmailId + '</td>';
               	 	} else{
               	 		table_data += '<td></td>';
               	 	}
