@@ -345,31 +345,31 @@ public class ExportEmployeeMasterData {
 		cell.setCellValue(HeaderConstants.MANAGER_EMAIL);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.SEVENTEEN);
+		cell = row.createCell(NumberConstants.EIGHTEEN);
 		cell.setCellValue(HeaderConstants.DEPARTMENT_HOD);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.EIGHTEEN);
+		cell = row.createCell(NumberConstants.NINETEEN);
 		cell.setCellValue(HeaderConstants.HOSTEL_NAME);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.NINETEEN);
+		cell = row.createCell(NumberConstants.TWENTY);
 		cell.setCellValue(HeaderConstants.HOSTEL_WARDEN_NAME);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.TWENTY);
+		cell = row.createCell(NumberConstants.TWENTY_ONE);
 		cell.setCellValue(HeaderConstants.HOSTEL_WARDEN_EMAIL);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.TWENTY_ONE);
+		cell = row.createCell(NumberConstants.TWENTY_TWO);
 		cell.setCellValue(HeaderConstants.HOSTEL_WARDEN_MOBILE);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.TWENTY_TWO);
+		cell = row.createCell(NumberConstants.TWENTY_THREE);
 		cell.setCellValue(HeaderConstants.BUS_NO);
 		cell.setCellStyle(cellStyle);
 		
-		cell = row.createCell(NumberConstants.TWENTY_THREE);
+		cell = row.createCell(NumberConstants.TWENTY_FOUR);
 		cell.setCellValue(HeaderConstants.NODAL_POINT);
 		cell.setCellStyle(cellStyle);
 		

@@ -110,6 +110,41 @@ public class ExportEmployeeShiftInfo {
 		workBook.write(outputStream);
 		fileOut.close();
 		workBook.close();
+		
+
+	}
+	
+	public String excelGenerator(List<EmployeeShiftInfo> employeeShiftList)
+			throws ParseException, IOException {
+
+		DateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_INDIA_SPLIT_BY_SPACE);
+		String currentDateTime = dateFormat.format(new Date());
+		String filename = EmployeeConstants.EMPLOYEE_SHIFT + currentDateTime + ApplicationConstants.EXTENSION_EXCEL;
+		Workbook workBook = new XSSFWorkbook();
+		Sheet sheet = workBook.createSheet();
+
+		int rowCount = NumberConstants.ZERO;
+		Row row = sheet.createRow(rowCount++);
+
+		Font font = workBook.createFont();
+		font.setBold(true);
+
+		CellStyle cellStyle = setBorderStyle(workBook, BorderStyle.THICK, font);
+
+		setShiftAssigedExcelHeader(row, cellStyle);
+
+		font = workBook.createFont();
+		font.setBold(false);
+		cellStyle = setBorderStyle(workBook, BorderStyle.THIN, font);
+
+		setShiftAssignedExcelData(employeeShiftList, sheet, rowCount, cellStyle);
+
+		FileOutputStream fileOut = new FileOutputStream(filename);
+		workBook.write(fileOut);
+		fileOut.close();
+		workBook.close();
+		
+		return filename;
 
 	}
 	
@@ -176,6 +211,13 @@ public class ExportEmployeeShiftInfo {
 			cell.setCellStyle(cellStyle);
 			
 			cell = row.createCell(columnCount++);
+			if (null != employeeShift.getWorkScheduleExternalCode())
+				cell.setCellValue(employeeShift.getWorkScheduleExternalCode());
+			else
+				cell.setCellValue(ApplicationConstants.DELIMITER_SPACE);
+			cell.setCellStyle(cellStyle);
+			
+			cell = row.createCell(columnCount++);
 			if (null != employeeShift.getStartTime())
 				cell.setCellValue(sdf.format(employeeShift.getStartTime()));
 			else
@@ -219,10 +261,14 @@ public class ExportEmployeeShiftInfo {
 		cell.setCellStyle(cellStyle);
 		
 		cell = row.createCell(NumberConstants.SIX);
-		cell.setCellValue(HeaderConstants.SHIFT_IN_TIME);
+		cell.setCellValue(HeaderConstants.WORK_SCHEDULE_EXTERNAL_CODE);
 		cell.setCellStyle(cellStyle);
 		
 		cell = row.createCell(NumberConstants.SEVEN);
+		cell.setCellValue(HeaderConstants.SHIFT_IN_TIME);
+		cell.setCellStyle(cellStyle);
+		
+		cell = row.createCell(NumberConstants.EIGHT);
 		cell.setCellValue(HeaderConstants.SHIFT_OUT_TIME);
 		cell.setCellStyle(cellStyle);
 	}

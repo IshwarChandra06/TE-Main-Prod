@@ -55,4 +55,10 @@ public class EmailSetupConstants {
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";
+	
+	public static final String EMPLOYEE_SHIFT_INFO = "Dear Sir/Madam,\n\n"+
+			"Please find the attachment regarding the employee shift info from %s to %s\n\n"+
+			"This is a system generated report.\n\n\n"+
+			"Regards,\n"+
+			"Physical Security Team";
 }

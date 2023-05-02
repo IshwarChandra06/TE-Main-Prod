@@ -1,5 +1,7 @@
 package com.eikona.tech.constants;
 
+import java.util.Date;
+
 public final class HeaderConstants {
 	public static final String  EMPLOYEE_ID ="Employee Id";
 	public static final String  FIRST_NAME ="First Name";
@@ -74,4 +76,5 @@ public final class HeaderConstants {
 	public static final String IP_ADDRESS = "IP Address";
 	public static final String TIME = "Time";
 	public static final String DEPARTMENT_HOD = "Department HOD";
+	public static final String WORK_SCHEDULE_EXTERNAL_CODE = "Work Schedule External Code";
 }

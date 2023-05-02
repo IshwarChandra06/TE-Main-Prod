@@ -64,7 +64,7 @@ public class TemporaryTimeInfoServiceImpl {
 	@Value("${sap.login.password}")
 	private String password;
 	
-	@Scheduled(cron = "0 0 0/8 * * ?")
+	@Scheduled(cron = "0 30 9 * * SAT")
 	public void syncTemporaryTimeInfoListFromSAP() {
 		try {
 			int top = NumberConstants.HUNDRED;
@@ -283,17 +283,17 @@ public class TemporaryTimeInfoServiceImpl {
 
 	private JSONArray getTemporaryTimeInfoResponseFromSap(int top, int skip) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US_SEPARATED_BY_T);
-//		String startTime=null;
-//		String endTime=null;
-//			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//			String dateStr = format.format(new Date());
-//			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
-//			startTime=dateFormat.format(startDate)+"Z";
-//			
-//			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr), 23, 59, 59);
-//			endTime=dateFormat.format(endDate)+"Z";
-		String startTime="2023-04-17T00:00:00.000Z";
-		String endTime="2023-04-23T23:59:59.000Z";
+		String startTime=null;
+		String endTime=null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			String dateStr = format.format(new Date());
+			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
+			startTime=dateFormat.format(startDate)+"Z";
+			
+			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),6, 23, 59, 59);
+			endTime=dateFormat.format(endDate)+"Z";
+//		String startTime="2023-04-22T00:00:00.000Z";
+//		String endTime="2023-04-30T23:59:59.000Z";
 		
 		JSONArray resultsArray = new JSONArray();
 		

@@ -26,6 +26,9 @@ public interface EmployeeShiftInfoRepository  extends DataTablesRepository<Emplo
 			+ "and es.employee.employeeId=:employeeId")
 	List<EmployeeShiftInfo> findDetailsByDateCustom(String employeeId, Date startDate, Date endDate);
 
+	@Query("select es from com.eikona.tech.entity.EmployeeShiftInfo es where es.date>=:startDate and es.date<=:endDate and es.employee is not null")
+	List<EmployeeShiftInfo> findByDateCustom(Date startDate, Date endDate);
+
 
 
 

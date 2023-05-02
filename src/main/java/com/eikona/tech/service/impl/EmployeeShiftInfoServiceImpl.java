@@ -29,6 +29,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.ApplicationConstants;
+import com.eikona.tech.constants.EmailSetupConstants;
 import com.eikona.tech.constants.EmployeeConstants;
 import com.eikona.tech.constants.NumberConstants;
 import com.eikona.tech.constants.SAPServerConstants;
@@ -37,12 +38,18 @@ import com.eikona.tech.dto.PaginationDto;
 import com.eikona.tech.dto.SearchRequestDto;
 import com.eikona.tech.entity.AccessLevel;
 import com.eikona.tech.entity.Blacklist;
+import com.eikona.tech.entity.EmailLogs;
+import com.eikona.tech.entity.EmailSetup;
 import com.eikona.tech.entity.Employee;
 import com.eikona.tech.entity.EmployeeShiftInfo;
 import com.eikona.tech.entity.LastSyncStatus;
+import com.eikona.tech.export.ExportEmployeeShiftInfo;
 import com.eikona.tech.repository.BlacklistRepository;
+import com.eikona.tech.repository.EmailLogsRepository;
+import com.eikona.tech.repository.EmailSetupRepository;
 import com.eikona.tech.repository.EmployeeShiftInfoRepository;
 import com.eikona.tech.repository.LastSyncStatusRepository;
+import com.eikona.tech.service.EmailSetupService;
 import com.eikona.tech.service.EmployeeShiftInfoService;
 import com.eikona.tech.util.BioSecurityServerUtil;
 import com.eikona.tech.util.CalendarUtil;
@@ -60,6 +67,18 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 	
 	@Autowired
 	private LastSyncStatusRepository lastSyncStatusRepository;
+	
+	@Autowired
+	private EmailSetupRepository emailSetupRepository;
+	
+	@Autowired
+	private EmailLogsRepository emailLogsRepository;
+	
+	@Autowired
+	private ExportEmployeeShiftInfo exportEmployeeShiftInfo;
+	
+	@Autowired
+	private EmailSetupService emailSetupService;
 
 	@Autowired
 	private RequestExecutionUtil requestExecutionUtil;
@@ -676,4 +695,30 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 			
 			}
 
+//	@Scheduled(fixedDelay = 5000)
+	@Scheduled(cron = "0 30 14 * * SAT")
+	public void sendMailOfEmployeeShiftInfo() {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			String dateStr = format.format(new Date());
+			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
+			
+			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),6, 23, 59, 59);
+			
+			List<EmployeeShiftInfo> employeeShiftList=employeeShiftInfoRepository.findByDateCustom(startDate, endDate);
+			String fileName=exportEmployeeShiftInfo.excelGenerator(employeeShiftList);
+			String contentBody=EmailSetupConstants.EMPLOYEE_SHIFT_INFO.formatted(dateStr,format.format(endDate));
+			EmailSetup emailSetup =  emailSetupRepository.findById(1l).get();
+			emailSetupService.sendEmailAsAttachment(fileName, emailSetup, contentBody);
+			
+			EmailLogs emailLogs = new EmailLogs();
+			emailLogs.setDate(new Date());
+			emailLogs.setType(emailSetup.getSubject());
+			emailLogs.setToEmailId(emailSetup.getTo());
+			emailLogsRepository.save(emailLogs);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
