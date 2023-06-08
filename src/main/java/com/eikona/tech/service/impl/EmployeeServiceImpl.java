@@ -34,15 +34,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eikona.tech.constants.ApplicationConstants;
+import com.eikona.tech.constants.EmailSetupConstants;
 import com.eikona.tech.constants.EmployeeConstants;
 import com.eikona.tech.constants.NumberConstants;
 import com.eikona.tech.constants.SAPServerConstants;
 import com.eikona.tech.dto.PaginationDto;
 import com.eikona.tech.dto.SearchRequestDto;
 import com.eikona.tech.entity.AccessLevel;
+import com.eikona.tech.entity.EmailLogs;
+import com.eikona.tech.entity.EmailSetup;
 import com.eikona.tech.entity.Employee;
 import com.eikona.tech.entity.Image;
 import com.eikona.tech.entity.LastSyncStatus;
+import com.eikona.tech.repository.EmailLogsRepository;
+import com.eikona.tech.repository.EmailSetupRepository;
 import com.eikona.tech.repository.EmployeeRepository;
 import com.eikona.tech.repository.ImageRepository;
 import com.eikona.tech.repository.LastSyncStatusRepository;
@@ -99,6 +104,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private ExcelEmployeeImport excelEmployeeImport;
+	
+	@Autowired
+	private EmailSetupRepository emailSetupRepository;
+	
+	@Autowired
+	private EmailSetupServiceImpl emailSetupServiceImpl;
+	
+	@Autowired
+	private EmailLogsRepository emailLogsRepository;
 
 	@Override
 	public List<Employee> getAll() {
@@ -684,10 +698,97 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void saveEmployeeAccessLevelAssociation(Employee employee, Long id, Principal principal) {
+		
 		Employee employeeObj = getById(id);
+		
+		checkAccessLevelAndSendEmail(employee, employeeObj);
+		
 		employeeObj.setAccessLevel(employee.getAccessLevel());
+		
 		employeeRepository.save(employeeObj);
 		
+	}
+
+	private void checkAccessLevelAndSendEmail(Employee employee, Employee employeeObj) {
+		
+		SimpleDateFormat sdf= new SimpleDateFormat(ApplicationConstants.DATE_FORMAT_OF_US);
+		
+		EmailSetup emailSetupAdd =  emailSetupRepository.findById(3l).get();
+		if("Active".equalsIgnoreCase(emailSetupAdd.getStatus())){
+			List<String> oldAccessLevelList = new ArrayList<>();
+			
+			for(AccessLevel acc: employeeObj.getAccessLevel()) 
+				oldAccessLevelList.add(acc.getName());
+			
+			List<String> addList = new ArrayList<>();
+			for(AccessLevel acc: employee.getAccessLevel()) {
+				if(!oldAccessLevelList.contains(acc.getName())) 
+					addList.add(acc.getName());
+			}
+			
+			sendEmail(employeeObj, sdf, addList, "Add");
+			
+		}
+		
+		EmailSetup emailSetupRemove =  emailSetupRepository.findById(4l).get();
+		if("Active".equalsIgnoreCase(emailSetupRemove.getStatus())){
+			List<String> newAccessLevelList = new ArrayList<>();
+			
+			for(AccessLevel acc: employee.getAccessLevel()) 
+				newAccessLevelList.add(acc.getName());
+			
+			List<String> revokeList = new ArrayList<>();
+			for(AccessLevel oldAcc: employee.getAccessLevel()) {
+				if(!newAccessLevelList.contains(oldAcc.getName())) 
+					revokeList.add(oldAcc.getName());
+			}
+			
+			sendEmail(employeeObj, sdf, revokeList, "Remove");
+		}
+		
+	}
+
+	private void sendEmail(Employee employee, SimpleDateFormat sdf, List<String> accessLevelList, String flag) {
+		
+		if("Add".equalsIgnoreCase(flag)){
+			if(!accessLevelList.isEmpty()) {
+				EmailSetup emailSetup =  emailSetupRepository.findById(3l).get();
+				String acclevelName="";
+				for(int i=0;i<accessLevelList.size();i++) {
+					acclevelName+=(i+1)+". "+accessLevelList.get(i)+"\n";
+				}
+				String body = EmailSetupConstants.GIVING_ACCESS.formatted(emailSetup.getName(),employee.getEmployeeId(),
+						employee.getFirstName()+" "+employee.getLastName(),sdf.format(new Date()),acclevelName);
+				saveEmailLog(emailSetup, body);
+			}
+		}
+		
+		if("Remove".equalsIgnoreCase(flag)){
+			if(!accessLevelList.isEmpty()) {
+				EmailSetup emailSetup =  emailSetupRepository.findById(4l).get();
+				String acclevelName="";
+				for(int i=0;i<accessLevelList.size();i++) {
+					acclevelName+=(i+1)+". "+accessLevelList.get(i)+"\n";
+				}
+				String body = EmailSetupConstants.REVOKE_ACCESS.formatted(emailSetup.getName(),employee.getEmployeeId(),
+						employee.getFirstName()+" "+employee.getLastName(),sdf.format(new Date()),acclevelName);
+				saveEmailLog(emailSetup, body);
+			}
+		}
+	}
+
+	private void saveEmailLog(EmailSetup emailSetup, String body) {
+		try {
+			emailSetupServiceImpl.sendEmail(emailSetup, body);
+			
+			EmailLogs emailLogs = new EmailLogs();
+			emailLogs.setDate(new Date());
+			emailLogs.setType(emailSetup.getSubject());
+			emailLogs.setToEmailId(emailSetup.getTo());
+			emailLogsRepository.save(emailLogs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -995,20 +1096,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	
 	}
-	//@Scheduled(cron = "0 30 1 * * ?")
-	public void removeAccessLevelFromSeparatedEmployee() {
-		List<Employee> employeeList=employeeRepository.findAllByStatus("Inactive");
-		List<AccessLevel> accLevel=new ArrayList<AccessLevel>();
-		for(Employee employee:employeeList) {
-			employee.setAccessLevel(accLevel);
-			employeeRepository.save(employee);
-			try {
-				 bioSecurityServerUtil.addEmployeeToBioSecurity(employee);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-	}
+	
 	
 }

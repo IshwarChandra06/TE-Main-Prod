@@ -64,6 +64,16 @@
 										<label><b>Cc:</b></label> <input type="text"
 											th:field="*{cc}" maxlength="200" placeholder="Enter Email Address" class="form-control">
 									</div>
+									
+									<div class="form-group">
+										<label><b>Status:</b></label> 
+										<select name="plant" th:field="*{status}" class="form-control">
+											<option th:value="Active">Active</option>
+											<option th:value="InActive">InActive</option>
+										</select>
+									</div>
+									
+									
 									<div class="text-right">
 										<button type="submit" class="btn btn-primary">Submit</button>
 									    <a class="btn btn-danger" title="Submit Btn"  th:href="@{/email-setup}">Cancel</a>

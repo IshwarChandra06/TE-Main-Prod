@@ -88,21 +88,21 @@ public class BlacklistServiceImpl implements BlacklistService {
 		if("Blacklisted".equalsIgnoreCase(blacklist.getStatus())) {
 			List<AccessLevel> accLevel=new ArrayList<AccessLevel>();
 			emp.setAccessLevel(accLevel);
-			EmailSetup emailSetup =  emailSetupRepository.findById(6l).get();
-			
-			String body = EmailSetupConstants.BLACK_LISTING.formatted(emailSetup.getName(), emp.getEmployeeId(),
-					emp.getFirstName()+" "+emp.getLastName(),blacklist.getStartDateStr(), blacklist.getReason());
-			try {
-				emailSetupServiceImpl.sendEmail(emailSetup, body);
-				
-				EmailLogs emailLogs = new EmailLogs();
-				emailLogs.setDate(new Date());
-				emailLogs.setType(emailSetup.getSubject());
-				emailLogs.setToEmailId(emailSetup.getTo());
-				emailLogsRepository.save(emailLogs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			EmailSetup emailSetup =  emailSetupRepository.findById(6l).get();
+//			
+//			String body = EmailSetupConstants.BLACK_LISTING.formatted(emailSetup.getName(), emp.getEmployeeId(),
+//					emp.getFirstName()+" "+emp.getLastName(),blacklist.getStartDateStr(), blacklist.getReason());
+//			try {
+//				emailSetupServiceImpl.sendEmail(emailSetup, body);
+//				
+//				EmailLogs emailLogs = new EmailLogs();
+//				emailLogs.setDate(new Date());				
+//				emailLogs.setType(emailSetup.getSubject());
+//				emailLogs.setToEmailId(emailSetup.getTo());
+//				emailLogsRepository.save(emailLogs);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 			
 		}
 		if(null!=blacklist.getId()) {
@@ -115,22 +115,23 @@ public class BlacklistServiceImpl implements BlacklistService {
 				blacklistRepository.save(blacklist);
 				emp.setStatus("Active");
 			}
-		}else if("Suspended".equalsIgnoreCase(blacklist.getStatus())) {
-			EmailSetup emailSetup =  emailSetupRepository.findById(7l).get();
-			
-			String body = EmailSetupConstants.SUSPENSION.formatted(emailSetup.getName(), emp.getEmployeeId(),
-					emp.getFirstName()+" "+emp.getLastName(),blacklist.getStartDateStr(),blacklist.getEndDateStr(), blacklist.getReason());
-			try {
-				emailSetupServiceImpl.sendEmail(emailSetup, body);
-				EmailLogs emailLogs = new EmailLogs();
-				emailLogs.setDate(new Date());
-				emailLogs.setType(emailSetup.getSubject());
-				emailLogs.setToEmailId(emailSetup.getTo());
-				emailLogsRepository.save(emailLogs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
+//		else if("Suspended".equalsIgnoreCase(blacklist.getStatus())) {
+//			EmailSetup emailSetup =  emailSetupRepository.findById(7l).get();
+//			
+//			String body = EmailSetupConstants.SUSPENSION.formatted(emailSetup.getName(), emp.getEmployeeId(),
+//					emp.getFirstName()+" "+emp.getLastName(),blacklist.getStartDateStr(),blacklist.getEndDateStr(), blacklist.getReason());
+//			try {
+//				emailSetupServiceImpl.sendEmail(emailSetup, body);
+//				EmailLogs emailLogs = new EmailLogs();
+//				emailLogs.setDate(new Date());
+//				emailLogs.setType(emailSetup.getSubject());
+//				emailLogs.setToEmailId(emailSetup.getTo());
+//				emailLogsRepository.save(emailLogs);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		employeeService.save(emp);
 		return blacklistRepository.save(blacklist);
 	}

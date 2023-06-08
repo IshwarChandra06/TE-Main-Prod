@@ -2,8 +2,8 @@ package com.eikona.tech.constants;
 
 public class EmailSetupConstants {
 	
-	public static final String MONTHLY_ACCESS_REPORT  = "Dear %s,\n\n"+
-			"Please find the Location name %s Monthly Access Report for the month of %s.\n"+
+	public static final String MONTHLY_ACCESS_REPORT  = "Dear Sir/Madam,\n\n"+
+			"Please find the Monthly Access Report of all employee for the month of %s.\n"+
 			"This is submitted for your review and actions in case of any abnormality observed.\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
@@ -17,33 +17,31 @@ public class EmailSetupConstants {
 			"Physical Security Team";
 	
 	public static final String GIVING_ACCESS = "Dear %s,\n\n"+
-			"The following Access are successfully assigned to EMP ID %s , Name %s dated %s.\n%s\n\n"+
+			"The following Access of location name is successfully assigned to EMP ID %s, Name %s dated %s.\n%s\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";
 	
 	public static final String REVOKE_ACCESS = "Dear %s,\n\n"+
-			"The following Access are successfully revoked from EMP ID %s , Name %s dated %s.\n%s\n\n"+
+			"The following Access of location name is successfully revoked from EMP ID %s, Name %s dated %s.\n%s\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";
 	
-	public static final String PROFILE_CREATION = "Dear %s,\n\n"+
-			"Profile of EMP ID %s, Name %s is successfully created in the application dated %s.\n\n"+
+	public static final String PROFILE_CREATION = "Dear Sir/Madam,\n\n"+
+			"Please find the attachment regarding the creation of employee profiles in the application dated %s.\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";
 	
-	public static final String BLACK_LISTING = "Dear %s,\n\n"+
-			"Profile of EMP ID %s, Name %s is successfully Blacklisted in the application dated %s with\n"+
-			"remarks %s.\n\n"+
+	public static final String BLACK_LISTING = "Dear Sir/Madam,\n\n"+
+			"Please find the attachment regarding the blacklisted of employee profiles in the application dated %s.\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";
 	
-	public static final String SUSPENSION = "Dear %s,\n\n"+
-			"Profile of EMP ID %s, Name %s is successfully Suspended in the application from %s to\n"+
-			"%s with remarks %s.\n\n"+
+	public static final String SUSPENSION =  "Dear Sir/Madam,\n\n"+
+			"Please find the attachment regarding the suspended of employee profiles in the application dated %s.\n\n"+
 			"This is a system generated report.\n\n\n"+
 			"Regards,\n"+
 			"Physical Security Team";

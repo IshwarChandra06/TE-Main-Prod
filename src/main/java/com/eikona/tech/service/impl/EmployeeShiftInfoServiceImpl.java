@@ -271,7 +271,7 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 		String monthStr=String.valueOf(monthInt);
 		String yearMonthDate=dateParts[0]+"-"+monthStr;
 		
-		if((null!=employee) && (yearMonthDate.equalsIgnoreCase(yearMonth))) {
+		if((null!=employee) && (yearMonthDate.equalsIgnoreCase(yearMonth))) { 
 			employeeShift.setEmployee(employee);
 			employeeShift.setWorkScheduleExternalCode((String) dayWiseCurrentObj.get(SAPServerConstants.WORK_SCHEDULE_EXTERNAL_CODE));
 			employeeShift.setDayModel((String) dayWiseCurrentObj.get(SAPServerConstants.DAY_MODEL));
@@ -332,6 +332,9 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 	public void saveEmployeeShiftInfoInDbFromSap(List<EmployeeShiftInfo> employeeList) {
 		List<EmployeeShiftInfo> savingList = new ArrayList<EmployeeShiftInfo>();
 		for (EmployeeShiftInfo employeeShift : employeeList) {
+			EmployeeShiftInfo empShift = employeeShiftInfoRepository
+					.findByEmployeeIdAndDateStrCustom(employeeShift.getEmployee().getEmployeeId(), employeeShift.getDateStr());
+			if (null == empShift)
 				savingList.add(employeeShift);
 		}
 		 employeeShiftInfoRepository.saveAll(savingList);
@@ -696,7 +699,7 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 			}
 
 //	@Scheduled(fixedDelay = 5000)
-	@Scheduled(cron = "0 30 14 * * SAT")
+//	@Scheduled(cron = "0 30 14 * * SAT")
 	public void sendMailOfEmployeeShiftInfo() {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

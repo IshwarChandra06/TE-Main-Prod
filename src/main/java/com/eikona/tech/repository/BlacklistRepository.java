@@ -23,4 +23,7 @@ public interface BlacklistRepository extends DataTablesRepository<Blacklist, Lon
 	@Query("select count(e) from com.eikona.tech.entity.Blacklist e where ((e.startDate>=:startDate and e.startDate<=:endDate) or (e.endDate>=:startDate and e.endDate<=:endDate)) and e.employee.employeeId=:employeeId and e.status='Suspended'")
 	Long findByDateAndEmpIdCustom(String employeeId, Date startDate, Date endDate);
 
+	@Query("select e from com.eikona.tech.entity.Blacklist e where e.createdDate>=:sDate and e.createdDate<=:eDate and e.status =:status")
+	List<Blacklist> findByCreatedDateAndStatusCustom(Date sDate, Date eDate, String status);
+
 }

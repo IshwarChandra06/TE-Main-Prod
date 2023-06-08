@@ -275,10 +275,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						'<th><b>Subject</b></th>'+
 						'<th><b>Name</b></th>'+
 						'<th><b>To</b></th>'+
-						'<th><b>Cc</b></th>';
+						'<th><b>Cc</b></th>'+
+						'<th><b>Status</b></th>';
 						
 					if(showUpdate || showDelete)
-						table_header +='<th>Actions</th>';
+						table_header +='<th><b>Actions</b></th>';
 				}else {
 					table_header = '<th><button  value="'+result.page_number+'-id-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Id</b></button>'+
 		   			'</th><th>'+
@@ -289,9 +290,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 						'<button  value="'+result.page_number+'-to-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>To</b></button>'+	
 					'</th><th>'+		
 						'<button  value="'+result.page_number+'-cc-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Cc</b></button>'+	
-					'</th>';
+					'</th><th><b>Status</b></button></th>';
 					if(showUpdate || showDelete)
-						table_header +='<th>Actions</th>';
+						table_header +='<th><b>Actions</b></th>';
 				}
 				return table_header;
 			}
@@ -321,6 +322,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
               	 	} else{
               	 		table_data += '<td></td>';
               	 	}
+              	 	
+              	 	table_data +='<td>' + customer.status + '</td>';
+              	 	
               	 	if(showUpdate)
            				table_data +='<td> <a href="/email-setup/edit/'+customer.id+'" class="btn btn-primary"><i class="las la-edit"></i></a>';
            			if(showDelete)	

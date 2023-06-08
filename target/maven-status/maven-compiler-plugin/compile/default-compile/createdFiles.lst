@@ -6,6 +6,7 @@ com\eikona\tech\repository\CardTrackingRepository.class
 com\eikona\tech\constants\PlantConstants.class
 com\eikona\tech\controller\ActiveEmployeeController.class
 com\eikona\tech\repository\ZoneRepository.class
+com\eikona\tech\service\impl\EmailSetupServiceImpl$1.class
 com\eikona\tech\export\ExportDevice.class
 com\eikona\tech\dto\SearchRequestDto.class
 com\eikona\tech\controller\DeviceHealthStatusController.class
@@ -26,10 +27,12 @@ com\eikona\tech\constants\HeaderConstants.class
 com\eikona\tech\service\impl\BlacklistServiceImpl.class
 com\eikona\tech\security\MyUserDetails.class
 com\eikona\tech\controller\PlantController.class
+com\eikona\tech\service\impl\EmailSetupServiceImpl.class
 com\eikona\tech\util\ImageProcessingUtil.class
 com\eikona\tech\repository\MetalExceptionRepository.class
 com\eikona\tech\controller\JwtAuthenticationController.class
 com\eikona\tech\controller\ZoneController.class
+com\eikona\tech\controller\EmailSetupController.class
 com\eikona\tech\controller\EmployeeController.class
 com\eikona\tech\entity\Auditable.class
 com\eikona\tech\entity\LastSyncStatus.class
@@ -58,6 +61,7 @@ com\eikona\tech\entity\Device.class
 com\eikona\tech\constants\ApplicationConstants.class
 com\eikona\tech\controller\BlacklistController.class
 com\eikona\tech\entity\Transaction.class
+com\eikona\tech\service\EmailSetupService.class
 com\eikona\tech\export\ExportAccessLogReport.class
 com\eikona\tech\service\impl\CardTrackingServiceImpl.class
 com\eikona\tech\controller\PrivilegeController.class
@@ -67,7 +71,6 @@ com\eikona\tech\service\EmployeeShiftInfoService.class
 com\eikona\tech\service\impl\DeviceServiceImpl.class
 com\eikona\tech\constants\RoleConstants.class
 com\eikona\tech\constants\NumberConstants.class
-com\eikona\tech\service\impl\ShiftReportServiceImpl$1.class
 com\eikona\tech\export\ExportEmailLog.class
 com\eikona\tech\export\ExportMetalExceptionCsvUtil.class
 com\eikona\tech\export\ExportEmployeeShiftInfo.class
@@ -91,7 +94,6 @@ com\eikona\tech\service\impl\ActiveEmployeeServiceImpl.class
 com\eikona\tech\service\impl\WorkStatusReportServiceImpl.class
 com\eikona\tech\service\UserService.class
 com\eikona\tech\service\DeviceService.class
-com\eikona\tech\service\impl\ShiftReportServiceImpl.class
 com\eikona\tech\dto\PaginatedDto.class
 com\eikona\tech\batch\writer\PersonSyncToBiosecurityWriter.class
 com\eikona\tech\constants\UserConstants.class
@@ -118,8 +120,10 @@ com\eikona\tech\export\ExportCardTrackingUtil.class
 com\eikona\tech\entity\Building.class
 com\eikona\tech\repository\DailyAttendanceRepository.class
 com\eikona\tech\repository\PrivilegeRepository.class
+com\eikona\tech\service\impl\EmailShiftReportServiceImpl$1.class
 com\eikona\tech\entity\Shift.class
 com\eikona\tech\entity\AccessLevel.class
+com\eikona\tech\service\impl\EmailSetupServiceImpl$2.class
 com\eikona\tech\repository\EmployeeTypeRepository.class
 com\eikona\tech\security\JwtRequestFilter.class
 com\eikona\tech\repository\DeviceHealthStatusRepository.class
@@ -127,6 +131,7 @@ com\eikona\tech\export\ExportMetalException.class
 com\eikona\tech\controller\LanyardController.class
 com\eikona\tech\entity\Lanyard.class
 com\eikona\tech\dto\PaginationDto.class
+com\eikona\tech\repository\EmailSetupRepository.class
 com\eikona\tech\util\BioSecurityServerUtil.class
 com\eikona\tech\repository\DeviceRepository.class
 com\eikona\tech\export\ExportLanyardManagement.class
@@ -174,12 +179,14 @@ com\eikona\tech\repository\LastSyncStatusRepository.class
 com\eikona\tech\constants\BioSecurityConstants.class
 com\eikona\tech\dto\CountDto.class
 com\eikona\tech\entity\EmployeeType.class
+com\eikona\tech\service\impl\EmailShiftReportServiceImpl.class
 com\eikona\tech\entity\TemporaryTimeInfo.class
 com\eikona\tech\repository\ShiftRepository.class
 com\eikona\tech\util\PingDeviceIpUtil.class
 com\eikona\tech\service\TransactionService.class
 com\eikona\tech\service\EmailLogService.class
 com\eikona\tech\config\audit\JpaAuditingConfiguration.class
+com\eikona\tech\entity\EmailSetup.class
 com\eikona\tech\service\impl\AccessLevelServiceImpl.class
 com\eikona\tech\constants\EmployeeConstants.class
 com\eikona\tech\constants\CardTrackingConstants.class
@@ -189,6 +196,7 @@ com\eikona\tech\config\security\SecurityConfig$RestConfiguration.class
 com\eikona\tech\controller\DeviceController.class
 com\eikona\tech\service\impl\UserServiceImpl.class
 com\eikona\tech\controller\EmailLogController.class
+com\eikona\tech\constants\EmailSetupConstants.class
 com\eikona\tech\repository\BuildingRepository.class
 com\eikona\tech\export\ExportMetalExceptionPdfUtil.class
 com\eikona\tech\entity\MetalException.class

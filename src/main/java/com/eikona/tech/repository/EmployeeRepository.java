@@ -17,6 +17,9 @@ import com.eikona.tech.entity.Employee;
 public interface EmployeeRepository extends DataTablesRepository<Employee, Long> {
 
 	List<Employee> findAllByIsDeletedFalse();
+	
+	@Query("select e from com.eikona.tech.entity.Employee e where e.status='Active' and e.cardId IS EMPTY")
+	List<Employee> findAllByIsDeletedFalseAndCardIdEmptyCustom();
 
 	@Query("select e from com.eikona.tech.entity.Employee e where e.department like 'HR%' or e.department like 'IT%'")
 	List<Employee> getHundredEmployee();
@@ -46,6 +49,11 @@ public interface EmployeeRepository extends DataTablesRepository<Employee, Long>
 	List<String> getEmpIdAndIsDeletedFalseCustom();
 
 	List<Employee> findAllByIsDeletedFalseAndStatus(String status);
+	
+	@Query("select emp from com.eikona.tech.entity.Employee as emp where emp.isDeleted=false and emp.createdDate>= :sDate and emp.createdDate<= :eDate")
+	List<Employee> findByCreatedDateCustom(Date sDate, Date eDate);
+
+	List<Employee> findAllByStatusAndIsDeletedFalse(String string);
 
 	 
 

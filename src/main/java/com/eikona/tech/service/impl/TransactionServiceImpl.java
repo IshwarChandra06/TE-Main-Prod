@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.ApplicationConstants;
@@ -131,7 +132,6 @@ public class TransactionServiceImpl implements TransactionService{
 		}
 	}
 //	@Scheduled(cron="0 0 0/1 * * ?")
-//	@Scheduled(fixedDelay = 50000)
 	public void syncTransactionFromZKDatabase() {
 		Date currTime=new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
@@ -162,6 +162,7 @@ public class TransactionServiceImpl implements TransactionService{
 					String punchDateStr=resultSet.getString("event_time");
 					trans.setPunchDate(datetimeFormat.parse(punchDateStr));
 					trans.setPunchTime(timeFormat.parse(punchDateStr));
+					trans.setPunchTimeStr(timeFormat.format(trans.getPunchTime()));
 					trans.setArea(resultSet.getString("area_name"));
 					trans.setDeviceId(resultSet.getString("dev_sn"));
 					trans.setDeviceName(resultSet.getString("dev_alias"));

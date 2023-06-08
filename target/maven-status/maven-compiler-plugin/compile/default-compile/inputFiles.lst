@@ -23,6 +23,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entit
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\PrivilegeController.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\Device.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repository\AccessLevelRepository.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\constants\EmailSetupConstants.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\EmailLogService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\DeviceHealthStatus.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\dto\MonthlyReportDto.java
@@ -40,6 +41,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\servi
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\dto\CountDto.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\AccessLevelController.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\BuildingServiceImpl.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\EmailShiftReportServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\export\ExportLanyardManagement.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\export\ExportMetalExceptionPdfUtil.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\MetalExceptionController.java
@@ -50,6 +52,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\expor
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repository\TransactionRepository.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\ActiveEmployeeServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\util\BioSecurityServerUtil.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\EmailSetup.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\Employee.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\EmployeeShiftInfoServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\config\security\SecurityConfig.java
@@ -97,6 +100,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\secur
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\ZoneController.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\TransactionService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\EmailLogs.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repository\EmailSetupRepository.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\constants\NumberConstants.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\EmployeeAccessLevelReportServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\DailyReport.java
@@ -119,6 +123,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\const
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\LostAndDamageCardCardTrackingServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\User.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\UserRestController.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\EmailSetupServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\config\security\WebMvcConfig.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\constants\MessageConstants.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\Lanyard.java
@@ -163,6 +168,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entit
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\LanyardServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\Plant.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\TemporaryTimeInfo.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\EmailSetupController.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\TransactionServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\entity\MetalException.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\AccessLevelDoorServiceImpl.java
@@ -179,7 +185,6 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repos
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\export\ExportSuspensionBlacklist.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\DeviceService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repository\PrivilegeRepository.java
-E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\ShiftReportServiceImpl.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\dto\EmployeeShiftInfoDto.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\EmployeeShiftInfoService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\AccessLevelService.java
@@ -187,6 +192,7 @@ E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\repos
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\dto\MonthlyShiftDto.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\EmployeeTypeService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\impl\RoleServiceImpl.java
+E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\service\EmailSetupService.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\constants\DefaultConstants.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\constants\RoleConstants.java
 E:\Workspace\Spring\Development\TE-Main-Prod\src\main\java\com\eikona\tech\controller\CardTrackingController.java

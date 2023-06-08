@@ -119,6 +119,40 @@ public class ExportEmployeeMasterData {
 
 	}
 	
+	public String excelGenerator(List<Employee> employeeList)throws ParseException, IOException {
+
+		DateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_INDIA_SPLIT_BY_SPACE);
+		String currentDateTime = dateFormat.format(new Date());
+		String filename = EmployeeConstants.EMPLOYEE_MASTER_DATA + currentDateTime + ApplicationConstants.EXTENSION_EXCEL;
+		Workbook workBook = new XSSFWorkbook();
+		Sheet sheet = workBook.createSheet();
+
+		int rowCount = NumberConstants.ZERO;
+		Row row = sheet.createRow(rowCount++);
+
+		Font font = workBook.createFont();
+		font.setBold(true);
+
+		CellStyle cellStyle = setBorderStyle(workBook, BorderStyle.THICK, font);
+
+		setHeaderForExcel(row, cellStyle);
+
+		font = workBook.createFont();
+		font.setBold(false);
+		cellStyle = setBorderStyle(workBook, BorderStyle.THIN, font);
+		
+		//set data for excel
+		setExcelDataCellWise(employeeList, sheet, rowCount, cellStyle);
+
+		FileOutputStream fileOut = new FileOutputStream(filename);
+		workBook.write(fileOut);
+		fileOut.close();
+		workBook.close();
+		
+		return filename;
+
+	}
+	
 	public CellStyle setBorderStyle(Workbook workBook, BorderStyle borderStyle, Font font) {
 		CellStyle cellStyle = workBook.createCellStyle();
 		cellStyle.setBorderTop(borderStyle);

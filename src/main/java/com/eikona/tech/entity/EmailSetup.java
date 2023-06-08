@@ -36,6 +36,9 @@ public class EmailSetup extends Auditable<String> implements Serializable {
 	@Column(name = "send_cc")
 	private String cc;
 	
+	@Column(name = "status")
+	private String status;
+	
 	@Column(name = "is_deleted")
 	private boolean isDeleted;
 
@@ -87,4 +90,11 @@ public class EmailSetup extends Auditable<String> implements Serializable {
 		this.name = name;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
