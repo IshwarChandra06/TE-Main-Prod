@@ -1,5 +1,9 @@
 package com.eikona.tech;
 
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -16,9 +20,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages ="com.eikona.tech.repository" , repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class)
 public class TeMainProdApplication {
+	
+	@PostConstruct
+	public void init(){
+		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TeMainProdApplication.class, args);
+		
 	}
+	
 
 }

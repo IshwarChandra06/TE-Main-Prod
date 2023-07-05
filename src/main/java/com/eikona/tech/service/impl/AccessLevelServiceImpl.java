@@ -50,7 +50,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
 	@Autowired
 	private GeneralSpecificationUtil<AccessLevel> generalSpecification;
 	
-	@Scheduled(cron="0 0 19 * * *")
+	@Scheduled(cron="0 0 4 * * *")
 	public void syncAndSaveAccessLevel() {
 		try {
 			List<AccessLevel> accessLevelList =syncAccessLevel();

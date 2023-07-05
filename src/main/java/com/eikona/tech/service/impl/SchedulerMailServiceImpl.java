@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.EmailSetupConstants;
@@ -60,7 +59,7 @@ public class SchedulerMailServiceImpl {
 //	@Scheduled(cron="0 0 1 * * *" )
 //	@Scheduled(fixedDelay = 50000)
 	public void sendMailOnProfileCreation() {
-		EmailSetup emailSetup =  emailSetupRepository.findById(1l).get();
+		EmailSetup emailSetup =  emailSetupRepository.findById(5l).get();
 		
 		if("Active".equalsIgnoreCase(emailSetup.getStatus())) {
 			try {
@@ -177,7 +176,7 @@ public class SchedulerMailServiceImpl {
 
 //	@Scheduled(cron = "0 0 0 1 * *")
 	public void sendMailOfMonthlyAccessReport() {
-		EmailSetup emailSetup =  emailSetupRepository.findById(9l).get();
+		EmailSetup emailSetup =  emailSetupRepository.findById(8l).get();
 		
 		if("Active".equalsIgnoreCase(emailSetup.getStatus())) {
 			try {

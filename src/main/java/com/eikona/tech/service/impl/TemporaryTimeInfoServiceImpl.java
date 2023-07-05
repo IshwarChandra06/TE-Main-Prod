@@ -64,7 +64,7 @@ public class TemporaryTimeInfoServiceImpl {
 	@Value("${sap.login.password}")
 	private String password;
 	
-	@Scheduled(cron = "0 30 9 * * SAT")
+	@Scheduled(cron="0 0 19 * * *")
 	public void syncTemporaryTimeInfoListFromSAP() {
 		try {
 			int top = NumberConstants.HUNDRED;
@@ -290,10 +290,10 @@ public class TemporaryTimeInfoServiceImpl {
 			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
 			startTime=dateFormat.format(startDate)+"Z";
 			
-			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),6, 23, 59, 59);
+			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),8, 23, 59, 59);
 			endTime=dateFormat.format(endDate)+"Z";
-//		String startTime="2023-04-22T00:00:00.000Z";
-//		String endTime="2023-04-30T23:59:59.000Z";
+//		String startTime="2023-06-11T00:00:00.000Z";
+//		String endTime="2023-06-18T23:59:59.000Z";
 		
 		JSONArray resultsArray = new JSONArray();
 		

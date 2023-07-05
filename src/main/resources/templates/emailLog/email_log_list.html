@@ -70,7 +70,7 @@
 						 	<label ><b>Add Filter:</b></label>
 					        <select id="people" name="people" multiple>
 								<option value="date" >Date</option>
-								<option value="mailId" >Mail Id</option>
+								<option value="mailId" >To</option>
 								<option value="subject" >Subject</option>
 					        </select>
 						</div>
@@ -359,14 +359,14 @@
 				if(result.data.length == 0) {
 					table_header = '<th><b>Id</b></th>'+
 					   '<th><b>Date</b></th>'+
-					    '<th><b>Mail Id</b></th>'+
+					    '<th><b>To</b></th>'+
 						'<th><b>Subject</b></th>';
 				}else {
 					table_header = '<th><button  value="'+result.page_number+'-id-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Id</b></button>'+
 		   			'</th><th>'+		
 						'<button  value="'+result.page_number+'-date-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Date</b></button>'+	
 					'</th><th>'+
-		   			'<button  value="'+result.page_number+'-toEmailId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Mail Id</b></button>'+
+		   			'<button  value="'+result.page_number+'-toEmailId-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>To</b></button>'+
 		   			'</th><th>'+
 		   			'<button  value="'+result.page_number+'-type-'+result.sortDir+'" type="button" class="btn btn-link '+flag+'"><b>Subject</b></button>'+
 		   			'</th>';

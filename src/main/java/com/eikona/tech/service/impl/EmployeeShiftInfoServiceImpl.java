@@ -139,7 +139,7 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 			e.printStackTrace();
 		}
 	}
-	@Scheduled(cron = "0 0 0/8 * * ?")
+	@Scheduled(cron="0 0 1 * * *")
 	public void updateEmployeeShiftInfoListFromSAP() {
 	try {
 		int top = NumberConstants.HUNDRED;
@@ -698,27 +698,63 @@ public class EmployeeShiftInfoServiceImpl implements EmployeeShiftInfoService {
 			
 			}
 
-//	@Scheduled(fixedDelay = 5000)
-//	@Scheduled(cron = "0 30 14 * * SAT")
-	public void sendMailOfEmployeeShiftInfo() {
+	@Scheduled(cron = "0 0 22 * * WED")
+	public void sendMailOfEmployeeShiftInfoAtWednesday() {
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			String dateStr = format.format(new Date());
-			Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr), 00, 00, 00);
 			
-			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),6, 23, 59, 59);
-			
-			List<EmployeeShiftInfo> employeeShiftList=employeeShiftInfoRepository.findByDateCustom(startDate, endDate);
-			String fileName=exportEmployeeShiftInfo.excelGenerator(employeeShiftList);
-			String contentBody=EmailSetupConstants.EMPLOYEE_SHIFT_INFO.formatted(dateStr,format.format(endDate));
 			EmailSetup emailSetup =  emailSetupRepository.findById(1l).get();
-			emailSetupService.sendEmailAsAttachment(fileName, emailSetup, contentBody);
+			if("Active".equalsIgnoreCase(emailSetup.getStatus())) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String dateStr = format.format(new Date());
+				Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr),-2, 00, 00, 00);
+				
+				Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),4, 23, 59, 59);
+				List<EmployeeShiftInfo> employeeShiftList=employeeShiftInfoRepository.findByDateCustom(startDate, endDate);
+				String fileName=exportEmployeeShiftInfo.excelGenerator(employeeShiftList);
+				String contentBody=EmailSetupConstants.EMPLOYEE_SHIFT_INFO.formatted(format.format(startDate),format.format(endDate));
+				
+				emailSetup.setSubject("SF Employee Shift Info ("+format.format(startDate)+" to "+format.format(endDate)+")");
+				emailSetupService.sendEmailAsAttachment(fileName, emailSetup, contentBody);
+				
+				EmailLogs emailLogs = new EmailLogs();
+				emailLogs.setDate(new Date());
+				emailLogs.setType(emailSetup.getSubject());
+				emailLogs.setToEmailId(emailSetup.getTo());
+				emailLogsRepository.save(emailLogs);
+				
+			}
 			
-			EmailLogs emailLogs = new EmailLogs();
-			emailLogs.setDate(new Date());
-			emailLogs.setType(emailSetup.getSubject());
-			emailLogs.setToEmailId(emailSetup.getTo());
-			emailLogsRepository.save(emailLogs);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Scheduled(cron = "0 0 22 * * FRI")
+	public void sendMailOfEmployeeShiftInfoAtFriday() {
+		try {
+			EmailSetup emailSetup =  emailSetupRepository.findById(1l).get();
+			if("Active".equalsIgnoreCase(emailSetup.getStatus())) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String dateStr = format.format(new Date());
+				Date startDate=calendarUtil.getConvertedDate(format.parse(dateStr),3, 00, 00, 00);
+				
+				Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),9, 23, 59, 59);
+				
+				List<EmployeeShiftInfo> employeeShiftList=employeeShiftInfoRepository.findByDateCustom(startDate, endDate);
+				String fileName=exportEmployeeShiftInfo.excelGenerator(employeeShiftList);
+				String contentBody=EmailSetupConstants.EMPLOYEE_SHIFT_INFO.formatted(format.format(startDate),format.format(endDate));
+				
+				emailSetup.setSubject("SF Employee Shift Info ("+format.format(startDate)+" to "+format.format(endDate)+")");
+				emailSetupService.sendEmailAsAttachment(fileName, emailSetup, contentBody);
+				
+				EmailLogs emailLogs = new EmailLogs();
+				emailLogs.setDate(new Date());
+				emailLogs.setType(emailSetup.getSubject());
+				emailLogs.setToEmailId(emailSetup.getTo());
+				emailLogsRepository.save(emailLogs);
+			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

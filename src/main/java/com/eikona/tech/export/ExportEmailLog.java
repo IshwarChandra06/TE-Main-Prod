@@ -138,11 +138,11 @@ public class ExportEmailLog {
 		cell.setCellStyle(cellStyle);
 		
 		cell = row.createCell(NumberConstants.ONE);
-		cell.setCellValue("To Mail Id");
+		cell.setCellValue("To");
 		cell.setCellStyle(cellStyle);
 		
 		cell = row.createCell(NumberConstants.TWO);
-		cell.setCellValue("Type");
+		cell.setCellValue("Subject");
 		cell.setCellStyle(cellStyle);
 		
 	}
