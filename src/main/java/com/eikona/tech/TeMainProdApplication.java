@@ -14,7 +14,6 @@ import org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFa
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableBatchProcessing
 @ComponentScan(basePackages = "com.eikona.tech")
 @EntityScan(basePackages = "com.eikona.tech.entity")
 @EnableAutoConfiguration
@@ -30,6 +29,4 @@ public class TeMainProdApplication {
 		SpringApplication.run(TeMainProdApplication.class, args);
 		
 	}
-	
-
 }

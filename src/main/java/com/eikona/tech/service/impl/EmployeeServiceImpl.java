@@ -152,6 +152,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.employeeRepository.save(employee);
 
 	}
+	
 	public void syncEmployeeListFromSap() {
 		try {
 			int top = NumberConstants.HUNDRED;
@@ -187,6 +188,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			e.printStackTrace();
 		}
 	}
+	
 	@Scheduled(cron = "0 0 0/6 * * ?")
 	public void updateEmployeeListFromSapByDateTime() {
 		try {
@@ -459,6 +461,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				emp.setContactNo(employee.getContactNo());
 				emp.setEmailId(employee.getEmailId());
 				emp.setRelUserId(employee.getRelUserId());
+				emp.setStatus(employee.getStatus());
 				savingList.add(emp);
 			}
 		}
@@ -497,6 +500,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				emp.setContactNo(employee.getContactNo());
 				emp.setEmailId(employee.getEmailId());
 				emp.setRelUserId(employee.getRelUserId());
+				emp.setStatus(employee.getStatus());
 				savingList.add(emp);
 			}
 		}
@@ -713,7 +717,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		SimpleDateFormat sdf= new SimpleDateFormat(ApplicationConstants.DATE_FORMAT_OF_US);
 		
-		EmailSetup emailSetupAdd =  emailSetupRepository.findById(3l).get();
+		EmailSetup emailSetupAdd =  emailSetupRepository.findById(8l).get();
 		if("Active".equalsIgnoreCase(emailSetupAdd.getStatus())){
 			List<String> oldAccessLevelList = new ArrayList<>();
 			
@@ -726,11 +730,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 					addList.add(acc.getName());
 			}
 			
-			sendEmail(employeeObj, sdf, addList, "Add");
+			sendEmail(employeeObj, sdf, addList,emailSetupAdd, "Add");
 			
 		}
 		
-		EmailSetup emailSetupRemove =  emailSetupRepository.findById(4l).get();
+		EmailSetup emailSetupRemove =  emailSetupRepository.findById(9l).get();
 		if("Active".equalsIgnoreCase(emailSetupRemove.getStatus())){
 			List<String> newAccessLevelList = new ArrayList<>();
 			
@@ -743,16 +747,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 					revokeList.add(oldAcc.getName());
 			}
 			
-			sendEmail(employeeObj, sdf, revokeList, "Remove");
+			sendEmail(employeeObj, sdf, revokeList,emailSetupRemove, "Remove");
 		}
 		
 	}
 
-	private void sendEmail(Employee employee, SimpleDateFormat sdf, List<String> accessLevelList, String flag) {
+	private void sendEmail(Employee employee, SimpleDateFormat sdf, List<String> accessLevelList,EmailSetup emailSetup, String flag) {
 		
 		if("Add".equalsIgnoreCase(flag)){
 			if(!accessLevelList.isEmpty()) {
-				EmailSetup emailSetup =  emailSetupRepository.findById(3l).get();
 				String acclevelName="";
 				for(int i=0;i<accessLevelList.size();i++) {
 					acclevelName+=(i+1)+". "+accessLevelList.get(i)+"\n";
@@ -765,7 +768,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		if("Remove".equalsIgnoreCase(flag)){
 			if(!accessLevelList.isEmpty()) {
-				EmailSetup emailSetup =  emailSetupRepository.findById(4l).get();
 				String acclevelName="";
 				for(int i=0;i<accessLevelList.size();i++) {
 					acclevelName+=(i+1)+". "+accessLevelList.get(i)+"\n";

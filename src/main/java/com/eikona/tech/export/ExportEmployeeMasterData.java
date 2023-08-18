@@ -119,11 +119,11 @@ public class ExportEmployeeMasterData {
 
 	}
 	
-	public String excelGenerator(List<Employee> employeeList)throws ParseException, IOException {
+	public String excelGenerator(List<Employee> employeeList,String name)throws ParseException, IOException {
 
 		DateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_INDIA_SPLIT_BY_SPACE);
 		String currentDateTime = dateFormat.format(new Date());
-		String filename = EmployeeConstants.EMPLOYEE_MASTER_DATA + currentDateTime + ApplicationConstants.EXTENSION_EXCEL;
+		String filename = name + currentDateTime + ApplicationConstants.EXTENSION_EXCEL;
 		Workbook workBook = new XSSFWorkbook();
 		Sheet sheet = workBook.createSheet();
 

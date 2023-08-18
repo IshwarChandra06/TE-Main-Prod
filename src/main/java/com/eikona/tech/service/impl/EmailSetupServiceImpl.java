@@ -129,7 +129,6 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 	
 	@Override
 	public void sendEmail(EmailSetup emailSetup,String contentBody) throws Exception {
-		try {
 			final String body =contentBody;
 			final String fromEmail = fromMail;
 			final String pass = password;
@@ -153,17 +152,6 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 			Transport.send(msg);
 			
 			System.out.println("Email Sent Successfully!!");
-	    }
-		catch (AddressException e) {
-            throw new AddressException(EmailScheduleConstants.INCORRECT_EMAIL_ADDRESS);
-
-        } catch (MessagingException e) {
-            throw new MessagingException(EmailScheduleConstants.AUTHENTICATION_FAILED);
-
-        } 
-		catch (Exception e) {
-            throw  new Exception(EmailScheduleConstants.ERROR_IN_METHOD + e.getMessage());
-        }
 	}
 	private  void setMimeMessage(EmailSetup emailSetup, final String body, MimeMessage msg) throws MessagingException, AddressException {
 			
@@ -191,7 +179,6 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 	
 	@Override
 	public void sendEmailAsAttachment( String fileName,EmailSetup emailSetup,String contentBody) throws Exception {
-		try {
 			final String body =contentBody;
 			final String fromEmail = fromMail;
 			final String pass = password;
@@ -215,17 +202,6 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 			Transport.send(msg);
 			
 			System.out.println("Email Sent Successfully!!");
-	    }
-		catch (AddressException e) {
-            throw new AddressException(EmailScheduleConstants.INCORRECT_EMAIL_ADDRESS);
-
-        } catch (MessagingException e) {
-            throw new MessagingException(EmailScheduleConstants.AUTHENTICATION_FAILED);
-
-        } 
-		catch (Exception e) {
-            throw  new Exception(EmailScheduleConstants.ERROR_IN_METHOD + e.getMessage());
-        }
 	}
 	private void setMimeMessageAttachment(String fileName, EmailSetup emailSetup, String body, MimeMessage msg)  throws MessagingException, AddressException {
 		
@@ -267,17 +243,84 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailSetup.getTo(), false));
 	}
+	@Override
+	public void sendEmailAsDualAttachment(String createdProfileFileName, String inactiveProfileFileName,
+			EmailSetup emailSetup, String contentBody) throws Exception{
+			final String body =contentBody;
+			final String fromEmail = fromMail;
+			final String pass = password;
+			
+			Properties properties = setEmailProperties();
+			
+	        //create Authenticator object to pass in Session.getInstance argument
+			Authenticator auth = new Authenticator() {
+				//override the getPasswordAuthentication method
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(fromEmail, pass);
+				}
+			};
+			Session session = Session.getInstance(properties, auth);
+			MimeMessage msg = new MimeMessage(session);
+			
+			setMimeMessageDualAttachment(createdProfileFileName,inactiveProfileFileName,emailSetup,body,msg);
+			
+			System.out.println("Message is ready");
+			
+			Transport.send(msg);
+			
+			System.out.println("Email Sent Successfully!!");
+	}
+  private void setMimeMessageDualAttachment(String createdProfileFileName, String inactiveProfileFileName, EmailSetup emailSetup, String body, MimeMessage msg)  throws Exception {
+		
+		
+		//set message headers
+		msg.addHeader(ApplicationConstants.HEADER_CONTENT_TYPE, EmailScheduleConstants.TEXT_OR_HTML);
+		msg.addHeader(EmailScheduleConstants.FORMAT, EmailScheduleConstants.FLOWED);
+		msg.addHeader(EmailScheduleConstants.CONTENT_TRANSFER_ENCODING, EmailScheduleConstants.EIGHT_BIT);
+		msg.setFrom(new InternetAddress(fromMail));
+		
+		msg.setReplyTo(InternetAddress.parse(fromMail, false));
+		
+		// Set Subject: header field
+		msg.setSubject(emailSetup.getSubject());
 
+		// Create the message part 
+		BodyPart messageBodyPart = new MimeBodyPart();
 
+		// Fill the message
+		messageBodyPart.setText(body);
+
+		// Create a multipar message
+		Multipart multipart = new MimeMultipart();
+
+		// Set text message part
+		multipart.addBodyPart(messageBodyPart);
+
+		// Part two is attachment
+		if(!createdProfileFileName.isEmpty())
+		  addAttachment(multipart,createdProfileFileName);
+		if(!inactiveProfileFileName.isEmpty())
+		  addAttachment(multipart,inactiveProfileFileName);
+
+		// Send the complete message parts
+		msg.setContent(multipart);
+
+		msg.setSentDate(new Date());
+
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailSetup.getTo(), false));
+	}
+  
+  private static void addAttachment(Multipart multipart, String filename) throws Exception
+  {
+      DataSource source = new FileDataSource(filename);
+      BodyPart messageBodyPart = new MimeBodyPart();        
+      messageBodyPart.setDataHandler(new DataHandler(source));
+      String nameOfFile=filename.substring( filename.lastIndexOf('/')+1, filename.length() );
+      messageBodyPart.setFileName(nameOfFile);
+      multipart.addBodyPart(messageBodyPart);
+  }
 	private static Properties setEmailProperties() {
 		Properties properties = new Properties();
-//		properties.put("mail.smtp.host", "smtp.gmail.com");
-//		properties.put("mail.smtp.port", "465");
-//		properties.put("mail.smtp.auth", "true");
-//		properties.put("mail.smtp.starttls.enable", "true");
-//		properties.put("mail.smtp.starttls.required", "true");
-//		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-//		properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.starttls.enable", "true");
@@ -286,4 +329,6 @@ public class EmailSetupServiceImpl implements EmailSetupService{
 		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 		return properties;
 	}
+
+	
 }

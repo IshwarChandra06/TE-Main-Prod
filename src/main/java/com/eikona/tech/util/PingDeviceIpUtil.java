@@ -27,11 +27,11 @@ public class PingDeviceIpUtil {
 	@Autowired
 	private DeviceHealthStatusRepository deviceHealthStatusRepository;
 
-//	@Scheduled(cron = "0 0/30 * * * ?")
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void checkDevicePingStatus() throws UnknownHostException {
 		SimpleDateFormat format = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT_OF_US);
 		try {
-			List<Device> deviceList = deviceRepository.findAllByIsDeletedFalse();
+			List<Device> deviceList = deviceRepository.findAllByIsDeletedFalseWithIPAddressNotNullCustom();
 
 			for (Device device : deviceList) {
 				DeviceHealthStatus deviceHealthStatus = new DeviceHealthStatus();
@@ -39,7 +39,7 @@ public class PingDeviceIpUtil {
 
 				InetAddress geek = InetAddress.getByName(device.getIpAddress());
 
-				if (geek.isReachable(5000)) {
+				if (geek.isReachable(10000)) {
 					System.out.println(device.getName() + " is reachable");
 
 					device.setLastOnline(format.parse(dateStr));

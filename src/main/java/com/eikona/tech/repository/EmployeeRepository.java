@@ -55,6 +55,9 @@ public interface EmployeeRepository extends DataTablesRepository<Employee, Long>
 
 	List<Employee> findAllByStatusAndIsDeletedFalse(String string);
 
+	 @Query("select e from com.eikona.tech.entity.Employee e where e.lastModifiedDate>=:sdate and e.lastModifiedDate<=:edate and e.isDeleted=false and e.status=:status")
+	List<Employee> findAllByStatusAndLastUpdatedTimeCustom(Date sdate, Date edate, String status);
+
 	 
 
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +20,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.ApplicationConstants;
@@ -32,11 +36,19 @@ import com.eikona.tech.constants.EmployeeConstants;
 import com.eikona.tech.constants.HeaderConstants;
 import com.eikona.tech.constants.NumberConstants;
 import com.eikona.tech.dto.PaginationDto;
+import com.eikona.tech.entity.AccessLevel;
+import com.eikona.tech.entity.Audit;
 import com.eikona.tech.entity.Employee;
+import com.eikona.tech.entity.LastSyncStatus;
+import com.eikona.tech.repository.AccessLevelRepository;
+import com.eikona.tech.repository.AuditRepository;
 import com.eikona.tech.repository.EmployeeRepository;
+import com.eikona.tech.repository.LastSyncStatusRepository;
+import com.eikona.tech.util.BioSecurityServerUtil;
 import com.eikona.tech.util.GeneralSpecificationUtil;
 
 @Service
+@EnableScheduling
 public class InactiveEmployeeServiceImpl {
 	
 	@Autowired
@@ -44,6 +56,18 @@ public class InactiveEmployeeServiceImpl {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private BioSecurityServerUtil bioSecurityServerUtil;
+	
+	@Autowired
+	private AccessLevelRepository accessLevelRepository;
+	
+	@Autowired
+	private LastSyncStatusRepository lastSyncStatusRepository;
+	
+	@Autowired
+	private AuditRepository auditRepository;
 
 	public PaginationDto<Employee> searchByField(String firstName, String lastName,String empId,String department,String designation,
 			String employeeType,String cardNo, int pageno, String sortField, String sortDir) {
@@ -259,5 +283,87 @@ public class InactiveEmployeeServiceImpl {
 		cell.setCellValue(HeaderConstants.STATUS);
 		cell.setCellStyle(cellStyle);
 	}
+	
+	public void removeAccessLevelOfInactiveEmployeeFromSF(){
+		try {
+			Date currentDate= new Date();
+			List<Employee> employeeList=employeeRepository.findAllByStatus("Inactive");
+			AccessLevel acclevel=accessLevelRepository.findByName("No Door");
+			List<AccessLevel> accLevelList=new ArrayList<AccessLevel>();
+			accLevelList.add(acclevel);
+			List<Audit> auditList=new ArrayList<Audit>();
+			for(Employee employee:employeeList) {
+				
+					setNoAccessLevelToInactiveEmployee(accLevelList, auditList, employee);
+					
+					auditRepository.saveAll(auditList);
+					
+					LastSyncStatus lastSyncStatus = setLastSyncStatus(currentDate,"Push Inactive Employee To BS");
+					lastSyncStatusRepository.save(lastSyncStatus);
+			  }
+		}
+		 catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	
+	@Scheduled(cron = "0 0 0/8 * * ?")
+	public void lastUpdatedInactiveEmployeeFromSF(){
+		try {
+			Date currentDate= new Date();
+			LastSyncStatus lastSync = lastSyncStatusRepository.findByActivity("Push Inactive Employee To BS");
+			List<Employee> employeeList=employeeRepository.findAllByStatusAndLastUpdatedTimeCustom(lastSync.getLastSyncTime(),currentDate,"Inactive");
+			AccessLevel acclevel=accessLevelRepository.findByName("No Door");
+			List<AccessLevel> accLevelList=new ArrayList<AccessLevel>();
+			accLevelList.add(acclevel);
+			List<Audit> auditList=new ArrayList<Audit>();
+			for(Employee employee:employeeList) {
+				
+				setNoAccessLevelToInactiveEmployee(accLevelList, auditList, employee);
+				
+				auditRepository.saveAll(auditList);
+				
+					LastSyncStatus lastSyncStatus = setLastSyncStatus(currentDate,"Push Inactive Employee To BS");
+					lastSyncStatusRepository.save(lastSyncStatus);
+			  }
+		}
+		 catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void setNoAccessLevelToInactiveEmployee(List<AccessLevel> accLevelList, List<Audit> auditList,
+			Employee employee) throws Exception {
+		JSONObject dataObject= bioSecurityServerUtil.getEmployeeFromBioSecurity(employee.getEmployeeId());
+		employee.setAccessLevel(accLevelList);
+		if(null!=dataObject) {
+			System.out.println(employee.getEmployeeId());
+			String cardNo=(String) dataObject.get("cardNo");
+			employee.setCardId(cardNo);
+			employeeRepository.save(employee);
+			String msg=bioSecurityServerUtil.addEmployeeToBioSecurity(employee);
+			if("success".equalsIgnoreCase(msg)) {
+				Audit audit= new Audit();
+				audit.setDate(new Date());
+				audit.setEmployeeId(employee.getEmployeeId());
+				audit.setFirstName(employee.getFirstName());
+				audit.setLastName(employee.getLastName());
+				audit.setType("Update");
+				audit.setActivity("Remove Access From Inactive Employee");
+				auditList.add(audit);
+			}
+		}
+	}
+	private LastSyncStatus setLastSyncStatus(Date currentDate,String activity) {
+		LastSyncStatus lastSyncStatus = lastSyncStatusRepository.findByActivity(activity);
+		if(null!=lastSyncStatus)
+			lastSyncStatus.setLastSyncTime(currentDate);
+		else {
+			    lastSyncStatus = new LastSyncStatus();
+				lastSyncStatus.setActivity(activity);
+				lastSyncStatus.setLastSyncTime(currentDate);
+		}
+		return lastSyncStatus;
+	}
 }

@@ -29,6 +29,9 @@ public class EmailLogs extends Auditable<String> implements Serializable {
 	
 	@Column(name = "type")
 	private String type;
+	
+	@Column(name = "status")
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -60,6 +63,14 @@ public class EmailLogs extends Auditable<String> implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	

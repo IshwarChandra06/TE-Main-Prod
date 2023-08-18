@@ -127,6 +127,10 @@ public class ExportEmailLog {
 			cell.setCellValue(emailLog.getType());
 			cell.setCellStyle(cellStyle);
 			
+			cell = row.createCell(columnCount++);
+			cell.setCellValue(emailLog.getStatus());
+			cell.setCellStyle(cellStyle);
+			
 		}
 		
 	}
@@ -143,6 +147,10 @@ public class ExportEmailLog {
 		
 		cell = row.createCell(NumberConstants.TWO);
 		cell.setCellValue("Subject");
+		cell.setCellStyle(cellStyle);
+		
+		cell = row.createCell(NumberConstants.THREE);
+		cell.setCellValue("Status");
 		cell.setCellStyle(cellStyle);
 		
 	}

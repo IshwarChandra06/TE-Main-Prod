@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eikona.tech.constants.ApplicationConstants;
@@ -50,21 +51,21 @@ public class DeviceServiceImpl implements DeviceService {
 	@Value("${biosecurity.api.accesstoken}")
     private String accesstoken;
 	
-//	@Scheduled(cron = "0 15 2 * * *")
-	public void syncAndSaveDoor() {
+	@Scheduled(cron = "0 15 2 * * *")
+	public void syncAndSaveDevice() {
 		try {
-			List<Device> deviceList =syncDoor();
+			List<Device> deviceList =syncDevice();
 				deviceRepository.saveAll(deviceList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public List<Device> syncDoor() {
+	public List<Device> syncDevice() {
 		List<Device> deviceList = new ArrayList<Device>();
 		try {
 			String myurl=ApplicationConstants.HTTP_COLON_DOUBLE_SLASH+host+ ApplicationConstants.DELIMITER_COLON
-					+ port +BioSecurityConstants.DOOR_SYNC_API+accesstoken;
+					+ port +BioSecurityConstants.DEVICE_SYNC_API+accesstoken;
 		    HttpGet request = new HttpGet(myurl);
 		
 		    String responeData =requestExecutionUtil.executeHttpGetRequest(request);
@@ -84,16 +85,16 @@ public class DeviceServiceImpl implements DeviceService {
 		for(int i=NumberConstants.ZERO; i<responseArray.size(); i++) {
 			JSONObject currentObj = (JSONObject) responseArray.get(i);
 			
-			 Device device =deviceRepository.findByDoorId((String)currentObj.get(ApplicationConstants.ID));
+			 Device device =deviceRepository.findByDeviceId((String)currentObj.get(ApplicationConstants.ID));
 			if(null!=device) {
 				device.setName((String)currentObj.get(ApplicationConstants.NAME));
-				device.setDeviceId((String)currentObj.get(ApplicationConstants.DEVICE_ID));
+				device.setDeviceId((String)currentObj.get(ApplicationConstants.ID));
 			}
 			else {
 				device = new Device();
-				device.setDoorId((String)currentObj.get(ApplicationConstants.ID));
+				device.setSerialNo((String)currentObj.get(BioSecurityConstants.SN));
 				device.setName((String)currentObj.get(ApplicationConstants.NAME));
-				device.setDeviceId((String)currentObj.get(ApplicationConstants.DEVICE_ID));
+				device.setDeviceId((String)currentObj.get(ApplicationConstants.ID));
 			}
 			
 				deviceList.add(device);

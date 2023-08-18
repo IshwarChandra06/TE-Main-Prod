@@ -143,7 +143,7 @@ public class Device extends Auditable<String> implements Serializable {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "Red";
 		}
 	}
 

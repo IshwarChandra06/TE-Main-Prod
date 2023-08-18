@@ -10,7 +10,7 @@ public final class EmployeeConstants {
 	public static final String  DESIGNATION ="designation";
 	public static final String  DEPARTMENT ="department";
 	public static final String  EMPLOYEE ="employee";
-	public static final String EMPLOYEE_MASTER_DATA = "EMPLOYEE_MASTER_DATA";
+	public static final String EMPLOYEE_MASTER_DATA = "EMPLOYEE_MASTER_DATA_";
 	public static final String DATE = "date";
 	public static final String SHIFT = "shift";
 	public static final String EMPLOYEE_SHIFT = "Employee_Shift_Info_";

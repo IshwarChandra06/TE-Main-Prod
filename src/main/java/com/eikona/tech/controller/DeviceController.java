@@ -110,7 +110,7 @@ public class DeviceController {
 	@PreAuthorize("hasAuthority('device_view')")
 	public @ResponseBody void syncAccessLevel() {
 		try {
-			deviceServiceImpl.syncAndSaveDoor();
+			deviceServiceImpl.syncAndSaveDevice();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

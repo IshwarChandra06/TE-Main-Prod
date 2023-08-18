@@ -292,6 +292,8 @@ public class TemporaryTimeInfoServiceImpl {
 			
 			Date endDate=calendarUtil.getConvertedDate(format.parse(dateStr),8, 23, 59, 59);
 			endTime=dateFormat.format(endDate)+"Z";
+			
+			
 //		String startTime="2023-06-11T00:00:00.000Z";
 //		String endTime="2023-06-18T23:59:59.000Z";
 		

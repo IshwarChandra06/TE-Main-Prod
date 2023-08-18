@@ -20,7 +20,9 @@ import org.springframework.stereotype.Component;
 
 import com.eikona.tech.constants.ApplicationConstants;
 import com.eikona.tech.constants.BioSecurityConstants;
+import com.eikona.tech.entity.AccessLevel;
 import com.eikona.tech.entity.Employee;
+import com.eikona.tech.repository.AccessLevelRepository;
 
 
 @Component
@@ -52,6 +54,9 @@ public class BioSecurityServerUtil {
 
 	@Autowired
 	private RequestExecutionUtil requestExecutionUtil;
+	
+	@Autowired
+	private AccessLevelRepository accessLevelRepository;
 	
 	public ResultSet jdbcConnection(String query) {
 		
@@ -108,6 +113,8 @@ public class BioSecurityServerUtil {
 		}
 
 	}
+	
+	
 
 	public String addEmployeeToBioSecurity(Employee employee) throws Exception {
 		

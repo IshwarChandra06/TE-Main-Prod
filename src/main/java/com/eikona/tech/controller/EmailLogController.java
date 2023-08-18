@@ -43,7 +43,7 @@ public class EmailLogController {
 	}
 	
 	@RequestMapping(value="/email-log/export-to-file",method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('device_export')")
+	@PreAuthorize("hasAuthority('email_log_export')")
 	public void exportToFile(HttpServletResponse response,String sDate,String eDate, String mailId,String type,String flag) {
 		 response.setContentType("application/octet-stream");
 			DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");

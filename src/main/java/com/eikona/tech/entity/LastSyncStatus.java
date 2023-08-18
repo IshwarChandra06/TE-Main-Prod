@@ -26,6 +26,7 @@ public class LastSyncStatus extends Auditable<String> implements Serializable {
 	
 	@Column(name = "last_sync_time")
 	private Date lastSyncTime;
+	
 
 	public Long getId() {
 		return id;

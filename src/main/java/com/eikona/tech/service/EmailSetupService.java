@@ -33,4 +33,7 @@ public interface EmailSetupService {
 	void sendEmailAsAttachment( String fileName,EmailSetup emailSetup,String contentBody) throws Exception;
 	
 	void sendEmail(EmailSetup emailSetup,String contentBody) throws Exception;
+	
+	void sendEmailAsDualAttachment(String createdProfileFileName, String inactiveProfileFileName, EmailSetup emailSetup,
+			String contentBody) throws Exception;
 }

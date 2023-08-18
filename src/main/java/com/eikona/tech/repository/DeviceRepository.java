@@ -19,10 +19,15 @@ public interface DeviceRepository extends DataTablesRepository<Device, Long>{
 
 	List<Device> findAllByIsDeletedFalse();
 	
+	@Query("select d from com.eikona.tech.entity.Device d where d.isDeleted=false and d.ipAddress is not null")
+	List<Device> findAllByIsDeletedFalseWithIPAddressNotNullCustom();
+	
 	@Query("select d from com.eikona.tech.entity.Device d where d.isDeleted=false and d.accessLevel is not null and d.accessLevel.building is not null order by d.accessLevel.building.plant.name")
 	List<Device> findAllByIsDeletedFalseOrderByPlantCustom();
 
 	Device findBySerialNoAndIsDeletedFalse(String serialNo);
+
+	Device findByDeviceId(String string);
 	
 
 }
